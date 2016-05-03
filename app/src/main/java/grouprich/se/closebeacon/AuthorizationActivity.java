@@ -14,6 +14,6 @@ public class AuthorizationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_authorization);
 
         buttonAuth = (Button)findViewById(R.id.button_auth);
-        buttonAuth.setOnClickListener();
+        //buttonAuth.setOnClickListener();
     }
 }
