@@ -7,6 +7,17 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="grouprich.se.closebeacon.AuthorizationActivity">
+    tools:context="grouprich.se.closebeacon.AuthorizationActivity"
+    android:background="#ffffff">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:id="@+id/button_auth"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="126dp"
+        android:background="#59441a"
+        android:textColor="#f6eeee" />
 </RelativeLayout>
