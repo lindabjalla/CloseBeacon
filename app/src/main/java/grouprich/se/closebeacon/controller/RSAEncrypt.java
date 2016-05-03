@@ -3,25 +3,40 @@ package grouprich.se.closebeacon.controller;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
 
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
+
 public class RSAEncrypt {
 
     private final static String RSA = "RSA";
-    public static PublicKey publicKey;
-    public static PrivateKey privateKey;
+    private byte[] encryptedBytes;
+    private PublicKey publicRSA;
+    private String encrypted;
 
-    public static void generateKey() throws Exception{
-        KeyPairGenerator generator = KeyPairGenerator.getInstance(RSA);
+    private String encrypt(final String plain) throws Exception {
 
-        generator.initialize(512, new SecureRandom());
+        Cipher cipher = Cipher.getInstance(RSA);
+        cipher.init(Cipher.ENCRYPT_MODE, publicRSA);
+        encryptedBytes = cipher.doFinal(plain.getBytes());
+        encrypted = new String(encryptedBytes);
 
-        KeyPair keyPair = generator.generateKeyPair();
-        publicKey = keyPair.getPublic();
-        privateKey = keyPair.getPrivate();
+        return encrypted;
     }
+
+    public String descrypt(final String result)
+    {
+        
+    }
+
+
+
+
+
 
 
 }
