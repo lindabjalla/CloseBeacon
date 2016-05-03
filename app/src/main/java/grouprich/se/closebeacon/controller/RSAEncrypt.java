@@ -30,7 +30,7 @@ public class RSAEncrypt {
 
     public String descrypt(final String result)
     {
-        
+        return null;
     }
 
 
