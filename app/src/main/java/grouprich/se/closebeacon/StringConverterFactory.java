@@ -11,6 +11,7 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 
 public class StringConverterFactory extends Converter.Factory {
+
     @Override
     public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
         if (String.class.equals(type)) {
