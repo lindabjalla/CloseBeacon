@@ -6,6 +6,6 @@ import retrofit2.http.Path;
 
 public interface BeaconService {
 
-    @GET("{php}")
-    Call<String> getPublicKey(@Path("php") String php);
+    @GET("{publicKey}")
+    Call<String> getPublicKey(@Path("publicKey") String publicKey);
 }
