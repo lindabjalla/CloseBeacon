@@ -4,6 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.security.GeneralSecurityException;
+import java.security.PublicKey;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -15,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
 
     private Retrofit retrofit;
-    private String publicKey;
+    private PublicKey publicKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,12 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 Log.d(TAG, "***************** " + response.body());
 
-                publicKey = response.body().replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", "");
+                String keyInString = response.body().replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", "");
+                try {
+                    publicKey = KeyConverter.stringToPublicKey(keyInString);
+                } catch (GeneralSecurityException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
