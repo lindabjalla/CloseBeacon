@@ -1,7 +1,9 @@
-package grouprich.se.closebeacon;
+package grouprich.se.closebeacon.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import grouprich.se.closebeacon.R;
 
 public class ActivationActivity extends AppCompatActivity {
 

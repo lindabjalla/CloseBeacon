@@ -1,4 +1,4 @@
-package grouprich.se.closebeacon;
+package grouprich.se.closebeacon.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,10 @@ import android.util.Log;
 import java.security.GeneralSecurityException;
 import java.security.PublicKey;
 
+import grouprich.se.closebeacon.BeaconService;
+import grouprich.se.closebeacon.KeyConverter;
+import grouprich.se.closebeacon.R;
+import grouprich.se.closebeacon.StringConverterFactory;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

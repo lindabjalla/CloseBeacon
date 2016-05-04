@@ -26,14 +26,14 @@ public class RSAEncrypt {
     }
 
     public byte[] encodeBase64Authcode(String authorizationCode) {
-        StringBuilder authCodeResquest = new StringBuilder();
-        String protokollVersion = "0001";
+        StringBuilder authCodeRequest = new StringBuilder();
+        String protocolVersion = "0001";
 
-        authCodeResquest.append(protokollVersion);
-        authCodeResquest.append(authorizationCode);
-        authCodeResquest.append(randomNumbers());
+        authCodeRequest.append(protocolVersion);
+        authCodeRequest.append(authorizationCode);
+        authCodeRequest.append(randomNumbers());
 
-        byte[] authCode = authCodeResquest.toString().getBytes();
+        byte[] authCode = authCodeRequest.toString().getBytes();
 
         return Base64.encode(authCode, Base64.DEFAULT);
     }
