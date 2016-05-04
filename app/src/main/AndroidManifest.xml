@@ -26,10 +26,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".AuthorizationActivity" />
-        <activity
-            android:name=".BeaconScanActivity"
-            android:label="@string/title_activity_beacon_scan"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ActivationActivity"></activity>
     </application>
 
