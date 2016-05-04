@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CloseBeacon</string>
+    <string name="app_name">CLOSE BEACON</string>
     <string name="title_activity_beacon_scan">BeaconScanActivity</string>
     <string name="serial_number_title">SERIAL NUMBER</string>
     <string name="proximity_uuid_header">PROXIMITY UUID</string>
