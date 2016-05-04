@@ -8,13 +8,11 @@ import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.ParcelUuid;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -54,7 +52,7 @@ public class BeaconScanActivity extends ListActivity {
                             for (ParcelUuid uuid : uuidArray) {
                                 uuidList.add(uuid.toString());
                             }
-                            
+
                             if(uuidList.contains("19721006-2004-2007-2014-acc0cbeac000")){
                                devices.add(device);
                             }
