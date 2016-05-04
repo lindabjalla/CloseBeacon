@@ -2,8 +2,10 @@ package grouprich.se.closebeacon.controller;
 
 
 import android.util.Base64;
+
 import java.security.PublicKey;
 import java.util.Random;
+
 import javax.crypto.Cipher;
 
 public class RSAEncrypt {
@@ -13,7 +15,7 @@ public class RSAEncrypt {
     private PublicKey publicRSA;
     private String encrypted;
 
-    public String encrypt(PublicKey publicKey, byte [] authorizationRequest) throws Exception {
+    public String encrypt(PublicKey publicKey, byte[] authorizationRequest) throws Exception {
 
         Cipher cipher = Cipher.getInstance(RSA);
         cipher.init(Cipher.ENCRYPT_MODE, publicRSA);
@@ -23,7 +25,7 @@ public class RSAEncrypt {
         return encrypted;
     }
 
-    public byte [] encodeBase64Authcode(String authorizationCode){
+    public byte[] encodeBase64Authcode(String authorizationCode) {
         StringBuilder authCodeResquest = new StringBuilder();
         String protokollVersion = "0001";
 
@@ -31,7 +33,7 @@ public class RSAEncrypt {
         authCodeResquest.append(authorizationCode);
         authCodeResquest.append(randomNumbers());
 
-        byte [] authCode = authCodeResquest.toString().getBytes();
+        byte[] authCode = authCodeResquest.toString().getBytes();
 
         return Base64.encode(authCode, Base64.DEFAULT);
     }
@@ -39,7 +41,7 @@ public class RSAEncrypt {
     private String randomNumbers() {
         Random random = new Random();
         StringBuilder number = new StringBuilder();
-        for(int i = 0; i< 4; i++){
+        for (int i = 0; i < 4; i++) {
             number.append(random.nextInt(9));
         }
         return number.toString();
