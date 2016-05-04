@@ -8,6 +8,4 @@ public interface BeaconService {
 
     @GET("{publicKey}")
     Call<String> getPublicKey(@Path("publicKey") String publicKey);
-
-
 }
