@@ -28,10 +28,7 @@ public class RSAEncrypt {
         return encrypted;
     }
 
-    public String descrypt(final String result)
-    {
-        return null;
-    }
+
 
 
 

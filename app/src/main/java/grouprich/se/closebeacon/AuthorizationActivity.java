@@ -12,7 +12,6 @@ public class AuthorizationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
-
         buttonAuth = (Button)findViewById(R.id.button_auth);
         //buttonAuth.setOnClickListener();
     }

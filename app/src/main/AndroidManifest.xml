@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
-    <!-- Available to BLE-capable devices only -->
     <uses-feature
         android:name="android.hardware.bluetooth_le"
         android:required="true" />
@@ -26,13 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ScanActivity" />
-        <activity
-            android:name=".ConfigurationActivity"
-            android:label="@string/title_activity_configuration"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".UUIDActivity" />
-        <activity android:name=".ActiveBeaconActivity" />
         <activity android:name=".AuthorizationActivity"></activity>
     </application>
 
