@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorEggshell"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="grouprich.se.closebeacon.ActivationActivity">
+
+    <RelativeLayout
+        android:id="@+id/serial_number_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorVintageBlue"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/serial_number_header_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/serial_number_title"
+            android:textColor="@color/colorEggshell"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/serial_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/serial_number_header"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/serial_number_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:textColor="@color/colorCharcoalGray"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:text="208-118-080-128-010-131" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/proximity_uuid_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/serial_number"
+        android:background="@color/colorVintageBlue"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/proximity_uuid_header_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/proximity_uuid_header"
+            android:textColor="@color/colorEggshell"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/proximity_uuid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/proximity_uuid_header"
+        android:padding="10dp">
+
+        <EditText
+            android:id="@+id/proximity_uuid_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:ems="36"
+            android:gravity="center"
+            android:textColor="@color/colorCharcoalGray"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:text="12345678-1234-1234-1234-123456789012" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/buttons_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/proximity_uuid"
+        android:padding="10dp">
+
+        <Button
+            android:id="@+id/generate_uuid_button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/button_shape"
+            android:onClick="generateUuid"
+            android:padding="10dp"
+            android:text="@string/generate_uuid"
+            android:textAllCaps="false"
+            android:textColor="@color/colorEggshell"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/select_uuid_button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/button_shape"
+            android:onClick="selectUuid"
+            android:padding="10dp"
+            android:text="@string/select_uuid"
+            android:textAllCaps="false"
+            android:textColor="@color/colorEggshell"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/major_minor_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttons_layout"
+        android:background="@color/colorVintageBlue"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/major_minor_header_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/major_minor_header_text"
+            android:textColor="@color/colorEggshell"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/major"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/major_minor_header">
+
+        <TextView
+            android:id="@+id/major_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:gravity="start"
+            android:padding="10dp"
+            android:text="@string/major"
+            android:textColor="@color/colorCharcoalGray"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/major_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/major_text"
+            android:layout_toRightOf="@+id/major_text"
+            android:ems="2"
+            android:gravity="center"
+            android:inputType="number"
+            android:textStyle="bold"
+            tools:text="20" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/minor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/major">
+
+        <TextView
+            android:id="@+id/minor_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorEggshell"
+            android:padding="10dp"
+            android:text="@string/minor"
+            android:textColor="@color/colorCharcoalGray"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/minor_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/minor_text"
+            android:layout_toRightOf="@+id/minor_text"
+            android:ems="2"
+            android:gravity="center"
+            android:inputType="number"
+            android:textStyle="bold"
+            tools:text="20" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/activate_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/minor"
+        android:layout_centerHorizontal="true"
+        android:padding="12dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button_shape"
+            android:padding="16dp"
+            android:text="@string/activate"
+            android:textColor="@color/colorCharcoalGray"
+            android:textSize="25sp"
+            android:onClick="activateBeacon"/>
+    </RelativeLayout>
+
+</RelativeLayout>
