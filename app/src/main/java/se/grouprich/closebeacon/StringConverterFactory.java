@@ -1,4 +1,4 @@
-package grouprich.se.closebeacon;
+package se.grouprich.closebeacon;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -14,11 +14,14 @@ public class StringConverterFactory extends Converter.Factory {
 
     @Override
     public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
+
         if (String.class.equals(type)) {
+
             return new Converter<ResponseBody, Object>() {
 
                 @Override
                 public Object convert(ResponseBody responseBody) throws IOException {
+
                     return responseBody.string();
                 }
             };
@@ -30,10 +33,12 @@ public class StringConverterFactory extends Converter.Factory {
     public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations,
                                                           Annotation[] methodAnnotations, Retrofit retrofit) {
         if (String.class.equals(type)) {
+
             return new Converter<String, RequestBody>() {
 
                 @Override
                 public RequestBody convert(String value) throws IOException {
+
                     return RequestBody.create(MediaType.parse("text/plain"), value);
                 }
             };

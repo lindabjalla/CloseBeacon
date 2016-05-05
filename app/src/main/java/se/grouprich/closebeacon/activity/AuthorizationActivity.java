@@ -1,4 +1,4 @@
-package grouprich.se.closebeacon.activity;
+package se.grouprich.closebeacon.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import grouprich.se.closebeacon.R;
-import grouprich.se.closebeacon.controller.RSAEncrypt;
+import se.grouprich.closebeacon.R;
+import se.grouprich.closebeacon.controller.RSAEncrypt;
 
 public class AuthorizationActivity extends AppCompatActivity {
 

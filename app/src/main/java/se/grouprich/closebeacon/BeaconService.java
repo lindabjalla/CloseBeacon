@@ -1,4 +1,4 @@
-package grouprich.se.closebeacon;
+package se.grouprich.closebeacon;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

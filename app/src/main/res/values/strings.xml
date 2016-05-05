@@ -9,4 +9,6 @@
     <string name="major">Major</string>
     <string name="minor">Minor</string>
     <string name="activate">ACTIVATE</string>
+    <string name="dialog_no_uuid">UUID must be generated before selecting.</string>
+    <string name="ok">OK</string>
 </resources>
