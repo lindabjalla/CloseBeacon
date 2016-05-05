@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import grouprich.se.closebeacon.R;
+import se.grouprich.closebeacon.R;
 import se.grouprich.closebeacon.controller.RSAEncrypt;
 
 public class AuthorizationActivity extends AppCompatActivity {
