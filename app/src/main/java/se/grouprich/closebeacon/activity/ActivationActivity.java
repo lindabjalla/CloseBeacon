@@ -20,9 +20,11 @@ public class ActivationActivity extends AppCompatActivity {
 
     public static final String UUID_LIST_KEY = "se.grouprich.closebeacon.UUID_LIST_KEY";
 
+    private String serialNumber;
     private Context context = this;
     private List<String> uuidList = new ArrayList<>();
     private BeaconConfiguration beaconConfiguration;
+    private TextView serialNumberText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,9 @@ public class ActivationActivity extends AppCompatActivity {
                 textView.setText(selectedUuid);
             }
         }
+
+        serialNumberText = (TextView) findViewById(R.id.serial_number_text);
+        serialNumberText.setText(serialNumber);
 
         Button generateUuidButton = (Button) findViewById(R.id.generate_uuid_button);
         Button selectUuidButton = (Button) findViewById(R.id.select_uuid_button);
@@ -110,7 +115,7 @@ public class ActivationActivity extends AppCompatActivity {
                         minor = minorTextView.getText().toString();
                     }
 
-                    beaconConfiguration = new BeaconConfiguration(uuid, major, minor);
+                    beaconConfiguration = new BeaconConfiguration(serialNumber, uuid, major, minor);
                 }
             });
         }
