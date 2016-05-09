@@ -11,24 +11,34 @@
     android:background="#ffffff">
 
     <Button
+        android:id="@+id/button_auth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="AUTHORIZE"
-        android:id="@+id/button_auth"
-        android:layout_marginTop="154dp"
-        android:background="#59441a"
-        android:textColor="#f6eeee"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:padding="16dp"/>
+        android:layout_marginTop="64dp"
+        android:background="#7d7c79"
+        android:textColor="#f9d998"
+        android:layout_below="@+id/editText_auth_code"
+        android:layout_toRightOf="@+id/textView"
+        android:layout_toEndOf="@+id/textView" />
 
     <EditText
+        android:id="@+id/editText_auth_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Enter your authorization code"
-        android:id="@+id/text_authCode"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="66dp" />
+        android:inputType="text" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Authorization code:"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="#121010"
+        android:visibility="visible"
+        android:textStyle="bold"/>
 </RelativeLayout>
