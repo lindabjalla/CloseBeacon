@@ -46,7 +46,7 @@ public class AuthorizationActivity extends AppCompatActivity {
         if (publicKey != null) {
 
             buttonAuth = (Button) findViewById(R.id.button_auth);
-            textAuthCode = (EditText) findViewById(R.id.text_authCode);
+            textAuthCode = (EditText) findViewById(R.id.editText_auth_code);
             dialog = new InvalidAuthCodeDialog(context);
 
             buttonAuth.setOnClickListener(new View.OnClickListener() {
