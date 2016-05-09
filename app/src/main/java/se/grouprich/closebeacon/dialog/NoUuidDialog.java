@@ -1,6 +1,5 @@
-package se.grouprich.closebeacon;
+package se.grouprich.closebeacon.dialog;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -8,9 +7,10 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 
+import se.grouprich.closebeacon.R;
+
 public final class NoUuidDialog extends Dialog implements android.view.View.OnClickListener{
 
-    private Dialog dialog;
     private Button ok;
 
     public NoUuidDialog(Context context) {

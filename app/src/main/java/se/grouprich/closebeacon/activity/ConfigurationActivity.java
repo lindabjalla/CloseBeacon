@@ -12,16 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import se.grouprich.closebeacon.BeaconConfiguration;
+import se.grouprich.closebeacon.model.BeaconConfiguration;
 import se.grouprich.closebeacon.NoUuidDialog;
 import se.grouprich.closebeacon.R;
 
-public class ActivationActivity extends AppCompatActivity {
+public class ConfigurationActivity extends AppCompatActivity {
 
     public static final String UUID_LIST_KEY = "se.grouprich.closebeacon.UUID_LIST_KEY";
 
+    private String serialNumber;
     private Context context = this;
-    private List<String> uuidList = new ArrayList<>();
+    private List<UUID> uuidList = new ArrayList<>();
     private BeaconConfiguration beaconConfiguration;
 
     @Override
@@ -43,6 +44,13 @@ public class ActivationActivity extends AppCompatActivity {
             }
         }
 
+        TextView serialNumberText = (TextView) findViewById(R.id.serial_number_text);
+
+        if (serialNumberText != null) {
+
+            serialNumberText.setText(serialNumber);
+        }
+
         Button generateUuidButton = (Button) findViewById(R.id.generate_uuid_button);
         Button selectUuidButton = (Button) findViewById(R.id.select_uuid_button);
         Button activateButton = (Button) findViewById(R.id.activate_button);
@@ -54,7 +62,7 @@ public class ActivationActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    String uuid = UUID.randomUUID().toString();
+                    UUID uuid = UUID.randomUUID();
                     uuidList.add(uuid);
                 }
             });
@@ -75,7 +83,7 @@ public class ActivationActivity extends AppCompatActivity {
                     } else {
 
                         Intent intent = new Intent(context, ShowUuidActivity.class);
-                        intent.putStringArrayListExtra(UUID_LIST_KEY, (ArrayList<String>) uuidList);
+                        intent.putExtra(UUID_LIST_KEY, (ArrayList<UUID>) uuidList);
                         startActivity(new Intent(context, ShowUuidActivity.class));
                     }
                 }
@@ -89,7 +97,8 @@ public class ActivationActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    String uuid = null;
+                    UUID uuid = null;
+                    String uuidString = null;
                     String major = null;
                     String minor = null;
 
@@ -99,7 +108,7 @@ public class ActivationActivity extends AppCompatActivity {
 
                     if (uuidTextView != null) {
 
-                        uuid = uuidTextView.getText().toString();
+                        uuidString = uuidTextView.getText().toString();
                     }
                     if (majorTextView != null) {
 
@@ -110,7 +119,15 @@ public class ActivationActivity extends AppCompatActivity {
                         minor = minorTextView.getText().toString();
                     }
 
-                    beaconConfiguration = new BeaconConfiguration(uuid, major, minor);
+                    for (UUID aUuid : uuidList) {
+
+                        if(aUuid.toString().equals(uuidString)){
+
+                            uuid = aUuid;
+                        }
+                    }
+
+                    beaconConfiguration = new BeaconConfiguration(serialNumber, uuid, major, minor);
                 }
             });
         }
