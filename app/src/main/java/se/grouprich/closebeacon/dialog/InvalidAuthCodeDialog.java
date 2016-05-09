@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import se.grouprich.closebeacon.R;
 
-public final class NoUuidDialog extends Dialog implements android.view.View.OnClickListener {
+public class InvalidAuthCodeDialog extends Dialog implements android.view.View.OnClickListener {
 
-    public NoUuidDialog(Context context) {
+    public InvalidAuthCodeDialog(Context context) {
 
         super(context);
     }
@@ -25,7 +25,7 @@ public final class NoUuidDialog extends Dialog implements android.view.View.OnCl
         setContentView(R.layout.dialog);
 
         TextView textView = (TextView) findViewById(R.id.dialog_text);
-        textView.setText(R.string.dialog_no_uuid);
+        textView.setText(R.string.dialog_invalid_auth_code);
 
         Button ok = (Button) findViewById(R.id.button_ok);
         ok.setOnClickListener(this);

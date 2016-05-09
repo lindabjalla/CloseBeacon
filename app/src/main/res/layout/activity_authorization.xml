@@ -13,20 +13,22 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Authorization"
+        android:text="AUTHORIZE"
         android:id="@+id/button_auth"
         android:layout_marginTop="154dp"
         android:background="#59441a"
         android:textColor="#f6eeee"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:padding="16dp"/>
 
-    <TextView
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter your authorization code"
+        android:hint="Enter your authorization code"
         android:id="@+id/text_authCode"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="66dp" />
+
 </RelativeLayout>

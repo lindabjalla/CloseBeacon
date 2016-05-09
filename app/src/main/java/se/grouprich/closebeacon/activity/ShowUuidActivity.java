@@ -32,7 +32,7 @@ public class ShowUuidActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
 
         Intent intent = getIntent();
-        List<String> uuidList = intent.getStringArrayListExtra(ActivationActivity.UUID_LIST_KEY);
+        List<String> uuidList = intent.getStringArrayListExtra(ConfigurationActivity.UUID_STRING_LIST_KEY);
 
         adapter = new UuidAdapter(this, uuidList);
 
@@ -45,7 +45,7 @@ public class ShowUuidActivity extends AppCompatActivity {
 
                 TextView textView = (TextView) view.findViewById(R.id.uuid_text);
                 String uuid = textView.getText().toString();
-                Intent intent = new Intent(context, ActivationActivity.class);
+                Intent intent = new Intent(context, ConfigurationActivity.class);
                 intent.putExtra(SELECTED_UUID_KEY, uuid);
                 startActivity(intent);
             }

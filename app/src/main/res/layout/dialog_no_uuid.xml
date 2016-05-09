@@ -2,22 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center"
     android:padding="16dp"
     android:background="@color/colorApricot"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/no_uuid_dialog_text"
+        android:id="@+id/dialog_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:text="@string/dialog_no_uuid"
+        tools:text="@string/dialog_invalid_auth_code"
         android:textColor="@color/colorCharcoalGray"
-        android:textSize="15dp"
+        android:textSize="15sp"
         android:textStyle="bold"/>
-
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
             android:layout_height="30dp"
             android:background="@color/colorEggshell"
             android:clickable="true"
-            android:text="@string/ok"
+            android:text="@string/button_ok"
             android:textColor="@color/colorCharcoalGray"
             android:textStyle="bold" />
 

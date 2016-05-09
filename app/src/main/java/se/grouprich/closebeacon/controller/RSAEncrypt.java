@@ -8,12 +8,18 @@ import java.util.Random;
 
 import javax.crypto.Cipher;
 
-public class RSAEncrypt {
+public final class RSAEncrypt {
 
     private final static String RSA = "RSA";
     private byte[] encryptedBytes;
     private PublicKey publicRSA;
     private String encrypted;
+    private byte[] authorizationRequest;
+
+    public RSAEncrypt(PublicKey publicRSA) {
+
+        this.publicRSA = publicRSA;
+    }
 
     public String encrypt(PublicKey publicKey, byte[] authorizationRequest) throws Exception {
 
@@ -26,6 +32,7 @@ public class RSAEncrypt {
     }
 
     public byte[] encodeBase64Authcode(String authorizationCode) {
+
         StringBuilder authCodeRequest = new StringBuilder();
         String protocolVersion = "0001";
 
@@ -39,11 +46,15 @@ public class RSAEncrypt {
     }
 
     private String randomNumbers() {
+
         Random random = new Random();
         StringBuilder number = new StringBuilder();
+
         for (int i = 0; i < 4; i++) {
+
             number.append(random.nextInt(9));
         }
+
         return number.toString();
     }
 }
