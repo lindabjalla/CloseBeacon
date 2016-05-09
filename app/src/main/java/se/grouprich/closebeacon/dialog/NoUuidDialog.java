@@ -22,7 +22,7 @@ public final class NoUuidDialog extends Dialog implements android.view.View.OnCl
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.dialog);
+        setContentView(R.layout.dialog_no_uuid);
 
         TextView textView = (TextView) findViewById(R.id.dialog_text);
         textView.setText(R.string.dialog_no_uuid);
