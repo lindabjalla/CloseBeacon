@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import se.grouprich.closebeacon.R;
@@ -12,7 +13,7 @@ import se.grouprich.closebeacon.controller.RSAEncrypt;
 public class AuthorizationActivity extends AppCompatActivity {
 
     private Button buttonAuth;
-    private TextView textAuthCode;
+    private EditText editText_authCode;
     private String authorizationCode;
     private String authorizationRequest;
 
@@ -21,13 +22,13 @@ public class AuthorizationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
         buttonAuth = (Button) findViewById(R.id.button_auth);
-        textAuthCode = (TextView) findViewById(R.id.text_authCode);
+        editText_authCode = (EditText) findViewById(R.id.editText_auth_code);
         buttonAuth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                authorizationCode.equals(textAuthCode.getText());
+                authorizationCode.equals(editText_authCode.getText());
                 if (authorizationCode.isEmpty()) {
-                    textAuthCode.setText("Your field is empty");
+                    editText_authCode.setText("Your field is empty");
                 } else {
                     RSAEncrypt encryptRequest = new RSAEncrypt();
 
