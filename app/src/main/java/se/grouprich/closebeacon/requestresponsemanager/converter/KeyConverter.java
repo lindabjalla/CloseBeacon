@@ -1,4 +1,4 @@
-package se.grouprich.closebeacon.httprequestresponsemanager.converter;
+package se.grouprich.closebeacon.requestresponsemanager.converter;
 
 import android.util.Base64;
 

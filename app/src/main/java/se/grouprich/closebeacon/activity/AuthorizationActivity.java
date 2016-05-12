@@ -19,9 +19,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import se.grouprich.closebeacon.R;
 import se.grouprich.closebeacon.dialog.InvalidAuthCodeDialog;
-import se.grouprich.closebeacon.httprequestresponsemanager.RequestBuilder;
-import se.grouprich.closebeacon.httprequestresponsemanager.bytearraybuilder.AuthorizationByteArrayBuilder;
-import se.grouprich.closebeacon.httprequestresponsemanager.converter.SHA1Converter;
+import se.grouprich.closebeacon.requestresponsemanager.RequestBuilder;
+import se.grouprich.closebeacon.requestresponsemanager.bytearraybuilder.AuthorizationByteArrayBuilder;
+import se.grouprich.closebeacon.requestresponsemanager.converter.SHA1Converter;
 import se.grouprich.closebeacon.retrofit.RetrofitManager;
 
 public class AuthorizationActivity extends AppCompatActivity {

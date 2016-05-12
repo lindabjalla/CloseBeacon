@@ -16,7 +16,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import se.grouprich.closebeacon.BeaconService;
 import se.grouprich.closebeacon.R;
-import se.grouprich.closebeacon.httprequestresponsemanager.converter.KeyConverter;
+import se.grouprich.closebeacon.requestresponsemanager.converter.KeyConverter;
 import se.grouprich.closebeacon.retrofit.StringConverterFactory;
 
 public class MainActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package se.grouprich.closebeacon.httprequestresponsemanager.bytearraybuilder;
+package se.grouprich.closebeacon.requestresponsemanager.bytearraybuilder;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
