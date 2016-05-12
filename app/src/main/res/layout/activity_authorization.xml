@@ -19,8 +19,8 @@
         android:background="#7d7c79"
         android:padding="16dp"
         android:textAllCaps="false"
-        android:text="Authorize"
-        android:textSize="18sp"
+        android:text="AUTHORIZE"
+        android:textSize="24sp"
         android:textColor="#f9d998" />
 
     <EditText
@@ -49,7 +49,7 @@
             android:layout_centerHorizontal="true"
             android:text="AUTHORIZATION"
             android:textColor="#121010"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             android:visibility="visible" />
     </RelativeLayout>

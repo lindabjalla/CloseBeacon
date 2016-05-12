@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import se.grouprich.closebeacon.R;
-import se.grouprich.closebeacon.UuidAdapter;
+import se.grouprich.closebeacon.adapter.UuidAdapter;
 
 public class ShowUuidActivity extends AppCompatActivity {
 

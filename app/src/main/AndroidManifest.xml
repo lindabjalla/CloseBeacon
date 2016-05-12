@@ -27,7 +27,7 @@
         </activity>
         <activity android:name="se.grouprich.closebeacon.activity.AuthorizationActivity" />
         <activity android:name=".activity.ConfigurationActivity" />
-        <activity android:name="se.grouprich.closebeacon.activity.ShowUuidActivity"></activity>
+        <activity android:name="se.grouprich.closebeacon.activity.ShowUuidActivity"/>
     </application>
 
 </manifest>

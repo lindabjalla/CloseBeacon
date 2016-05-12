@@ -1,4 +1,4 @@
-package se.grouprich.closebeacon;
+package se.grouprich.closebeacon.adapter;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+
+import se.grouprich.closebeacon.R;
 
 public class UuidAdapter extends RecyclerView.Adapter<UuidAdapter.UuidViewHolder> {
 
@@ -24,7 +26,7 @@ public class UuidAdapter extends RecyclerView.Adapter<UuidAdapter.UuidViewHolder
     @Override
     public UuidViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.uuid_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_uuid, parent, false);
         return new UuidViewHolder(view);
     }
 

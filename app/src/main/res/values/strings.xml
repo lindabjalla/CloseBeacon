@@ -12,4 +12,17 @@
     <string name="dialog_no_uuid">UUID must be generated before selecting.</string>
     <string name="button_ok">OK</string>
     <string name="dialog_invalid_auth_code">Invalid authorization code.</string>
+    <string name="ble_not_supported">BLE is not supported</string>
+    <string name="error_bluetooth_not_supported">Bluetooth not supported.</string>
+    <string name="unknown_device">Unknown device</string>
+    <string name="edit_major">Please edit major</string>
+    <string name="edit_minor">Please edit minor</string>
+    <string name="label_minor">Minor:</string>
+    <string name="label_device_address">Device address:</string>
+    <string name="label_major">Major:</string>
+    <string name="label_device_rssi">RSSI:</string>
+    <string name="label_device_name">Name:</string>
+    <string name="label_device_uuids">UUIDS:</string>
+    <string name="label_device_serialnumber">Serial NR:</string>
+    <string name="configuration">CONFIGURATION</string>
 </resources>

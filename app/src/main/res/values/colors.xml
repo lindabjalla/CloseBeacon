@@ -8,4 +8,7 @@
     <color name="colorCharcoalGray">#4e454a</color>
     <color name="colorAquaGreen">#73bfbf</color>
     <color name="colorVintageBlue">#99C4C0</color>
+    <color name="colorLineLight">#FFCC80</color>
+    <color name="colorLineMedium">#FFB74D</color>
+    <color name="colorBackground">#FFE0B2</color>
 </resources>
