@@ -51,7 +51,7 @@ public class ScanActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
     private List<Beacon> beacons;
-    private final String UUIDS =  "[19721006-2004-2007-2014-acc0cbeac000]";
+    private final String closeBeaconUUID =  "[19721006-2004-2007-2014-acc0cbeac000]";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,12 +147,9 @@ public class ScanActivity extends AppCompatActivity {
                 mLEScanner.stopScan(mScanCallback);
             }
         }
-
     }
 
-
     private ScanCallback mScanCallback = new ScanCallback() {
-
 
         @Override
         public void onScanResult(int callbackType, ScanResult result) {
@@ -166,8 +163,7 @@ public class ScanActivity extends AppCompatActivity {
 
             String uuidsFromScan = String.valueOf(result.getScanRecord().getServiceUuids());
 
-
-            if((uuidsFromScan != null) && (UUIDS.equals(uuidsFromScan)) &&
+            if((uuidsFromScan != null) && (closeBeaconUUID.equals(uuidsFromScan)) &&
                     checkMacAddress(String.valueOf(result.getDevice().getAddress()))) {
                 Beacon iBeacon = new Beacon(String.valueOf(result.getDevice().getName()),
                         String.valueOf(result.getDevice().getAddress()),
@@ -284,8 +280,6 @@ public class ScanActivity extends AppCompatActivity {
         }
         return true;
     }
-
-
 
     public void addBeacon(Beacon iBeacon)
     {

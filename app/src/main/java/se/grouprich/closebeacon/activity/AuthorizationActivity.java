@@ -119,9 +119,8 @@ public class AuthorizationActivity extends AppCompatActivity {
                                     SharedPreferences preferences = getSharedPreferences(MainActivity.APP_ACTIVATION_CHECK_KEY, 0);
                                     preferences.edit().putBoolean(MainActivity.APP_IS_ACTIVATED_KEY, true).apply();
 
-                                    //TODO: avkommentera när ScanActivity har lagt till
-//                                    Intent intent = new Intent(this, ScanActivity.class);
-//                                    startActivity(intent);
+                                    Intent intent = new Intent(context, ScanActivity.class);
+                                    startActivity(intent);
 
                                 } else {
 

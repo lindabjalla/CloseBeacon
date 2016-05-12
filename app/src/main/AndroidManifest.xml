@@ -28,6 +28,8 @@
         <activity android:name="se.grouprich.closebeacon.activity.AuthorizationActivity" />
         <activity android:name=".activity.ConfigurationActivity" />
         <activity android:name="se.grouprich.closebeacon.activity.ShowUuidActivity"/>
+        <activity android:name=".activity.ScanActivity"/>
+        <activity android:name=".activity.DeviceDetailsActivity"/>
     </application>
 
 </manifest>

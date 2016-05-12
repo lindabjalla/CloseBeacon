@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences preferences = getSharedPreferences(APP_ACTIVATION_CHECK_KEY, 0);
 
-        preferences.edit().putBoolean(APP_IS_ACTIVATED_KEY, false).apply(); // bara för test
+//        preferences.edit().putBoolean(APP_IS_ACTIVATED_KEY, false).apply(); // bara för test
 
         System.out.println(preferences.getBoolean(APP_IS_ACTIVATED_KEY, false));
         if (!preferences.getBoolean(APP_IS_ACTIVATED_KEY, false)) {
@@ -66,10 +66,6 @@ public class MainActivity extends AppCompatActivity {
                         publicKey = KeyConverter.stringToPublicKey(keyString);
                         System.out.println(publicKey.toString());
 
-                    } catch (GeneralSecurityException e) {
-
-                        e.printStackTrace();
-
                     } catch (Exception e) {
 
                         e.printStackTrace();
@@ -89,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
 
             // TODO: Avkommenteras när ScanActivity läggs till
-//            Intent intent = new Intent(this, ScanActivity.class);
-//            startActivity(intent);
+            Intent intent = new Intent(this, ScanActivity.class);
+            startActivity(intent);
         }
     }
 }
