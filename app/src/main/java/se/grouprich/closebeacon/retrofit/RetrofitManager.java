@@ -2,7 +2,6 @@ package se.grouprich.closebeacon.retrofit;
 
 import retrofit2.Retrofit;
 import se.grouprich.closebeacon.BeaconService;
-import se.grouprich.closebeacon.StringConverterFactory;
 
 public final class RetrofitManager {
 

@@ -7,9 +7,7 @@ import java.security.PublicKey;
 
 import javax.crypto.Cipher;
 
-public abstract class RequestBuilder {
-
-    protected int protocolVersion = 1;
+public final class RequestBuilder {
 
     private static byte[] encryptRequest(PublicKey publicKey, byte[] request) throws Exception {
 
@@ -21,14 +19,12 @@ public abstract class RequestBuilder {
 
     private static String encodeRequest(byte[] encryptedRequest) throws UnsupportedEncodingException {
 
-//        final String encodedRequest = Base64.encodeToString(encryptedRequest, Base64.DEFAULT);
         return Base64.encodeToString(encryptedRequest, Base64.DEFAULT);
-//        return URLEncoder.encode(encodedRequest, "UTF-8");
     }
 
     public static String buildRequest(PublicKey publicKey, byte[] byteArray) throws Exception {
 
-        final byte[] encreptedByteArray = encryptRequest(publicKey, byteArray);
-        return encodeRequest(encreptedByteArray);
+        final byte[] encryptedByteArray = encryptRequest(publicKey, byteArray);
+        return encodeRequest(encryptedByteArray);
     }
 }

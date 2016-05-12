@@ -27,4 +27,49 @@ public class BeaconActivationRequest {
         this.minorNumber = minorNumber;
         this.proximityUuid = proximityUuid;
     }
+
+    public int getProtocolVersion() {
+
+        return protocolVersion;
+    }
+
+    public String getAuthCode() {
+
+        return authCode;
+    }
+
+    public byte[] getMacAddress() {
+
+        return macAddress;
+    }
+
+    public byte[] getAdminKey() {
+
+        return adminKey;
+    }
+
+    public byte[] getMobileKey() {
+
+        return mobileKey;
+    }
+
+    public byte getBeaconType() {
+
+        return beaconType;
+    }
+
+    public String getMajorNumber() {
+
+        return majorNumber;
+    }
+
+    public String getMinorNumber() {
+
+        return minorNumber;
+    }
+
+    public UUID getProximityUuid() {
+
+        return proximityUuid;
+    }
 }

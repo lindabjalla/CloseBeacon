@@ -3,7 +3,6 @@ package se.grouprich.closebeacon.httprequestresponsemanager.bytearraybuilder;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.security.SecureRandom;
-import java.util.Arrays;
 import java.util.Random;
 
 public final class AuthorizationByteArrayBuilder {

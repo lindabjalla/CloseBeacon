@@ -3,7 +3,6 @@ package se.grouprich.closebeacon.retrofit;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;

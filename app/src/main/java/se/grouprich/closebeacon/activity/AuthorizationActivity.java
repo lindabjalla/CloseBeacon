@@ -11,15 +11,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import se.grouprich.closebeacon.R;
-import se.grouprich.closebeacon.RequestBuilder;
-import se.grouprich.closebeacon.RetrofitBuilder;
 import se.grouprich.closebeacon.dialog.InvalidAuthCodeDialog;
+import se.grouprich.closebeacon.httprequestresponsemanager.RequestBuilder;
+import se.grouprich.closebeacon.httprequestresponsemanager.bytearraybuilder.AuthorizationByteArrayBuilder;
+import se.grouprich.closebeacon.httprequestresponsemanager.converter.SHA1Converter;
+import se.grouprich.closebeacon.retrofit.RetrofitManager;
 
 public class AuthorizationActivity extends AppCompatActivity {
 
@@ -27,12 +30,12 @@ public class AuthorizationActivity extends AppCompatActivity {
 
     private Button buttonAuth;
     private TextView textAuthCode;
-    private String authorizationCode;
-    private String authorizationRequest;
-    private String response;
+    private String authenticationCode;
     private PublicKey publicKey;
     private Context context = this;
     private InvalidAuthCodeDialog dialog;
+    private String responseOk;
+    private String responseUnknown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,8 @@ public class AuthorizationActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         publicKey = (PublicKey) intent.getSerializableExtra(MainActivity.PUBLIC_KEY_KEY);
+
+        System.out.println(publicKey.toString());
 
         if (publicKey != null) {
 
@@ -54,37 +59,48 @@ public class AuthorizationActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    authorizationCode = textAuthCode.getText().toString();
+                    authenticationCode = textAuthCode.getText().toString();
 
-                    if (authorizationCode.length() != 12) {
+                    if (authenticationCode.length() != 12) {
 
                         dialog.show();
-//                        textAuthCode.setText("Your field is empty");
 
                     } else {
 
-//                        RSAEncrypt encryptRequest = new RSAEncrypt(publicKey);
+                        AuthorizationByteArrayBuilder requestBuilder = new AuthorizationByteArrayBuilder();
+                        final byte[] authRequestByteArray = requestBuilder.buildAuthRequestByteArray(authenticationCode);
+                        final byte[] authCodePlusOkByteArray = requestBuilder.buildResponseOkByteArray(authRequestByteArray);
+                        final byte[] authCodePlusUnknownByteArray = requestBuilder.buildResponseUnknownByteArray(authRequestByteArray);
 
-                        // authorizationRequest.equals(encryptRequest.encrypt(,encryptRequest.encodeBase64Authcode(authorizationCode)));
+                        Log.d("authReq", authRequestByteArray.toString());
 
-                        RequestBuilder requestBuilder = new RequestBuilder();
-                        final byte[] requestBytes = requestBuilder.buildAuthorizationRequest(authorizationCode);
-
-                        byte[] encryptedRequestBytes = new byte[0];
                         try {
 
-                            encryptedRequestBytes = requestBuilder.encryptRequest(publicKey, requestBytes);
+                            responseOk = SHA1Converter.convertToSHA1(authCodePlusOkByteArray);
+                            responseUnknown = SHA1Converter.convertToSHA1(authCodePlusUnknownByteArray);
+
+                        } catch (NoSuchAlgorithmException e) {
+
+                            e.printStackTrace();
+                        }
+
+                        Log.d("authCodePlusOk", responseOk);
+                        Log.d("authCodePlusUnknown", responseUnknown);
+
+                        String authorizationRequest = null;
+
+                        try {
+
+                            authorizationRequest = RequestBuilder.buildRequest(publicKey, authRequestByteArray);
 
                         } catch (Exception e) {
 
                             e.printStackTrace();
                         }
 
-                        final String authorizationRequest = requestBuilder.encodeRequest(encryptedRequestBytes);
+                        Log.d("authReq", authorizationRequest);
 
-                        System.out.println(authorizationRequest);
-
-                        RetrofitBuilder retrofitBuilder = new RetrofitBuilder();
+                        RetrofitManager retrofitBuilder = new RetrofitManager();
                         Call<String> result = retrofitBuilder.getBeaconService().getAuthorizationResponse(authorizationRequest);
 
                         result.enqueue(new Callback<String>() {
@@ -92,9 +108,13 @@ public class AuthorizationActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
 
+                                Log.d("url", call.request().url().toString());
+
                                 Log.d(TAG, "***************** " + response.body());
 
-                                if (response.equals("OK")) {
+                                Log.d("responseOk", responseOk);
+
+                                if (response.body().replaceFirst("=", "").equals(responseOk)) {
 
                                     SharedPreferences preferences = getSharedPreferences(MainActivity.APP_ACTIVATION_CHECK_KEY, 0);
                                     preferences.edit().putBoolean(MainActivity.APP_IS_ACTIVATED_KEY, true).apply();

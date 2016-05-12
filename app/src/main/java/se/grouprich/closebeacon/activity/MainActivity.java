@@ -15,9 +15,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import se.grouprich.closebeacon.BeaconService;
-import se.grouprich.closebeacon.KeyConverter;
 import se.grouprich.closebeacon.R;
-import se.grouprich.closebeacon.StringConverterFactory;
+import se.grouprich.closebeacon.httprequestresponsemanager.converter.KeyConverter;
+import se.grouprich.closebeacon.retrofit.StringConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences preferences = getSharedPreferences(APP_ACTIVATION_CHECK_KEY, 0);
 
+        preferences.edit().putBoolean(APP_IS_ACTIVATED_KEY, false).apply(); // bara för test
+
         System.out.println(preferences.getBoolean(APP_IS_ACTIVATED_KEY, false));
         if (!preferences.getBoolean(APP_IS_ACTIVATED_KEY, false)) {
 
@@ -56,14 +58,19 @@ public class MainActivity extends AppCompatActivity {
                 public void onResponse(Call<String> call, Response<String> response) {
                     Log.d(TAG, "***************** " + response.body());
 
-                    String keyString = response.body().replace("-----BEGIN PUBLIC KEY-----\n", "").replace("-----END PUBLIC KEY-----\n", "");
+                    String keyString = response.body().replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", "");
                     System.out.println(keyString);
 
                     try {
 
                         publicKey = KeyConverter.stringToPublicKey(keyString);
+                        System.out.println(publicKey.toString());
 
                     } catch (GeneralSecurityException e) {
+
+                        e.printStackTrace();
+
+                    } catch (Exception e) {
 
                         e.printStackTrace();
                     }
