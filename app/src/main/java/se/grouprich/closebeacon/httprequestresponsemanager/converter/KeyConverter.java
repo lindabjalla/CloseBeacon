@@ -1,4 +1,4 @@
-package se.grouprich.closebeacon;
+package se.grouprich.closebeacon.httprequestresponsemanager.converter;
 
 import android.util.Base64;
 
@@ -11,8 +11,8 @@ public final class KeyConverter {
 
     public static PublicKey stringToPublicKey(String keyString) throws GeneralSecurityException {
 
-        byte decodedKey[] = Base64.decode(keyString, Base64.DEFAULT);
-        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(decodedKey);
+        byte[] decodedPublicKey = Base64.decode(keyString, Base64.DEFAULT);
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(decodedPublicKey);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
 
         return keyFactory.generatePublic(keySpec);

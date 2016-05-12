@@ -10,5 +10,6 @@
     <string name="minor">Minor</string>
     <string name="activate">ACTIVATE</string>
     <string name="dialog_no_uuid">UUID must be generated before selecting.</string>
-    <string name="ok">OK</string>
+    <string name="button_ok">OK</string>
+    <string name="dialog_invalid_auth_code">Invalid authorization code.</string>
 </resources>

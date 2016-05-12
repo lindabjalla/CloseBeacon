@@ -54,7 +54,7 @@ public class UuidAdapter extends RecyclerView.Adapter<UuidAdapter.UuidViewHolder
         this.onItemClickListener = onItemClickListener;
     }
 
-    public final class UuidViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public final class UuidViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public final TextView uuidView;
 
@@ -73,6 +73,6 @@ public class UuidAdapter extends RecyclerView.Adapter<UuidAdapter.UuidViewHolder
 
     public interface OnItemClickListener {
 
-        void onItemClick(View view , int position);
+        void onItemClick(View view, int position);
     }
 }

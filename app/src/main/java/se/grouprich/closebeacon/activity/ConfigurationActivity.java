@@ -6,41 +6,43 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import se.grouprich.closebeacon.model.BeaconConfiguration;
-import se.grouprich.closebeacon.NoUuidDialog;
 import se.grouprich.closebeacon.R;
+import se.grouprich.closebeacon.dialog.NoUuidDialog;
+import se.grouprich.closebeacon.model.BeaconConfiguration;
 
 public class ConfigurationActivity extends AppCompatActivity {
 
-    public static final String UUID_LIST_KEY = "se.grouprich.closebeacon.UUID_LIST_KEY";
+    public static final String UUID_STRING_LIST_KEY = "se.grouprich.closebeacon.UUID_LIST_KEY";
 
     private String serialNumber;
     private Context context = this;
     private List<UUID> uuidList = new ArrayList<>();
+    private ArrayList<String> uuidStringList = new ArrayList<>();
     private BeaconConfiguration beaconConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_activation);
+        setContentView(R.layout.activity_configuration);
 
         Intent intent = getIntent();
         String selectedUuid = intent.getStringExtra("SELECTED_UUID_KEY");
 
         if (selectedUuid != null) {
 
-            TextView textView = (TextView) findViewById(R.id.proximity_uuid_text);
+            EditText editText = (EditText) findViewById(R.id.proximity_uuid_text);
 
-            if (textView != null) {
+            if (editText != null) {
 
-                textView.setText(selectedUuid);
+                editText.setText(selectedUuid);
             }
         }
 
@@ -64,6 +66,7 @@ public class ConfigurationActivity extends AppCompatActivity {
 
                     UUID uuid = UUID.randomUUID();
                     uuidList.add(uuid);
+                    uuidStringList.add(uuid.toString());
                 }
             });
         }
@@ -77,14 +80,14 @@ public class ConfigurationActivity extends AppCompatActivity {
 
                     if (uuidList.isEmpty()) {
 
-                        NoUuidDialog noUuidDialog = new NoUuidDialog(context);
-                        noUuidDialog.show();
+                        NoUuidDialog dialog = new NoUuidDialog(context);
+                        dialog.show();
 
                     } else {
 
                         Intent intent = new Intent(context, ShowUuidActivity.class);
-                        intent.putExtra(UUID_LIST_KEY, (ArrayList<UUID>) uuidList);
-                        startActivity(new Intent(context, ShowUuidActivity.class));
+                        intent.putStringArrayListExtra(UUID_STRING_LIST_KEY, uuidStringList);
+                        startActivity(intent);
                     }
                 }
             });
@@ -102,26 +105,26 @@ public class ConfigurationActivity extends AppCompatActivity {
                     String major = null;
                     String minor = null;
 
-                    TextView uuidTextView = (TextView) findViewById(R.id.proximity_uuid_text);
-                    TextView majorTextView = (TextView) findViewById(R.id.major_input);
-                    TextView minorTextView = (TextView) findViewById(R.id.minor_input);
+                    EditText uuidText = (EditText) findViewById(R.id.proximity_uuid_text);
+                    EditText majorText = (EditText) findViewById(R.id.major_input);
+                    EditText minorText = (EditText) findViewById(R.id.minor_input);
 
-                    if (uuidTextView != null) {
+                    if (uuidText != null) {
 
-                        uuidString = uuidTextView.getText().toString();
+                        uuidString = uuidText.getText().toString();
                     }
-                    if (majorTextView != null) {
+                    if (majorText != null) {
 
-                        major = majorTextView.getText().toString();
+                        major = majorText.getText().toString();
                     }
-                    if (minorTextView != null) {
+                    if (minorText != null) {
 
-                        minor = minorTextView.getText().toString();
+                        minor = minorText.getText().toString();
                     }
 
                     for (UUID aUuid : uuidList) {
 
-                        if(aUuid.toString().equals(uuidString)){
+                        if (aUuid.toString().equals(uuidString)) {
 
                             uuid = aUuid;
                         }

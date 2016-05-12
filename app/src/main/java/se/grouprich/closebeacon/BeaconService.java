@@ -2,10 +2,13 @@ package se.grouprich.closebeacon;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface BeaconService {
 
-    @GET("{publicKey}")
-    Call<String> getPublicKey(@Path("publicKey") String publicKey);
+    @GET("getpubkey.php")
+    Call<String> getPublicKey();
+
+    @GET("auth_user.php")
+    Call<String> getAuthorizationResponse(@Query("enc") String authorizationRequest);
 }

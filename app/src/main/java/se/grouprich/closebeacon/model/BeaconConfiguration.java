@@ -1,13 +1,15 @@
 package se.grouprich.closebeacon.model;
 
+import java.util.UUID;
+
 public final class BeaconConfiguration {
 
     private String serialNumber;
-    private String uuid;
+    private UUID uuid;
     private String major;
     private String minor;
 
-    public BeaconConfiguration(String serialNumber, String uuid, String major, String minor) {
+    public BeaconConfiguration(String serialNumber, UUID uuid, String major, String minor) {
 
         this.serialNumber = serialNumber;
         this.uuid = uuid;

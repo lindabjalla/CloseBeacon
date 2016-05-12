@@ -12,9 +12,6 @@ import se.grouprich.closebeacon.R;
 
 public class InvalidAuthCodeDialog extends Dialog implements android.view.View.OnClickListener {
 
-    private TextView textView;
-    private Button ok;
-
     public InvalidAuthCodeDialog(Context context) {
 
         super(context);
@@ -26,14 +23,17 @@ public class InvalidAuthCodeDialog extends Dialog implements android.view.View.O
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog);
-        textView = (TextView) findViewById(R.id.dialog_text);
-        textView.setText();
-        ok = (Button)findViewById(R.id.button_ok);
+
+        TextView textView = (TextView) findViewById(R.id.dialog_text);
+        textView.setText(R.string.dialog_invalid_auth_code);
+
+        Button ok = (Button) findViewById(R.id.button_ok);
         ok.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
 
+        dismiss();
     }
 }

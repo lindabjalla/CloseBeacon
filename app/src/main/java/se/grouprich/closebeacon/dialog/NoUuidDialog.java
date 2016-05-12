@@ -6,12 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 
 import se.grouprich.closebeacon.R;
 
-public final class NoUuidDialog extends Dialog implements android.view.View.OnClickListener{
-
-    private Button ok;
+public final class NoUuidDialog extends Dialog implements android.view.View.OnClickListener {
 
     public NoUuidDialog(Context context) {
 
@@ -23,8 +22,12 @@ public final class NoUuidDialog extends Dialog implements android.view.View.OnCl
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.dialog_no_uuid);
-        ok = (Button)findViewById(R.id.button_ok);
+        setContentView(R.layout.dialog);
+
+        TextView textView = (TextView) findViewById(R.id.dialog_text);
+        textView.setText(R.string.dialog_no_uuid);
+
+        Button ok = (Button) findViewById(R.id.button_ok);
         ok.setOnClickListener(this);
     }
 
