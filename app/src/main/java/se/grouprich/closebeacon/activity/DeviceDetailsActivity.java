@@ -42,8 +42,8 @@ public class DeviceDetailsActivity extends AppCompatActivity {
     private Context context = this;
     private ArrayList<String> uuidStringList;
     private Set<String> uuidStringSet;
-    private String major;
-    private String minor;
+    private String majorNumber;
+    private String minorNumber;
 
     private SharedPreferences preferences;
 
@@ -108,8 +108,8 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             serviceUuid = preferences.getString("serviceUuid", "");
             serialNumber = preferences.getString("serialNumber", "");
             proximityUuid = preferences.getString("proximityUuid", "");
-            major = preferences.getString("major", "");
-            minor = preferences.getString("minor", "");
+            majorNumber = preferences.getString("majorNumber", "");
+            minorNumber = preferences.getString("minorNumber", "");
         }
 
         textViewMacAddress.setText(macAddress);
@@ -119,8 +119,8 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         textViewSerialNumber.setText(serialNumber);
         textViewProximityUuid.setText(proximityUuid);
 
-        editTextMajor.setText(major);
-        editTextMinor.setText(minor);
+        editTextMajor.setText(majorNumber);
+        editTextMinor.setText(minorNumber);
 
         String selectedUuidString = getIntent().getStringExtra(SelectUuidActivity.SELECTED_UUID_KEY);
 
@@ -163,12 +163,12 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
                 } else {
 
-                    major = editTextMajor.getText().toString();
-                    minor = editTextMinor.getText().toString();
+                    majorNumber = editTextMajor.getText().toString();
+                    minorNumber = editTextMinor.getText().toString();
 
                     preferences.edit()
-                            .putString("major", major)
-                            .putString("minor", minor)
+                            .putString("majorNumber", majorNumber)
+                            .putString("minorNumber", minorNumber)
                             .putStringSet("uuidStringSet", DeviceDetailsActivity.this.uuidStringSet)
                             .apply();
 
@@ -185,10 +185,10 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                major = editTextMajor.getText().toString();
-                minor = editTextMinor.getText().toString();
+                majorNumber = editTextMajor.getText().toString();
+                minorNumber = editTextMinor.getText().toString();
 
-                if ((major.length() != 2) || (minor.length() != 2)) {
+                if ((majorNumber.length() != 2) || (minorNumber.length() != 2)) {
 
                     invalidMajorMinorDialog.show();
                 }

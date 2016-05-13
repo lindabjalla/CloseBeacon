@@ -41,7 +41,7 @@ public final class ActivationByteArrayBuilder {
                 .array();
     }
 
-    public byte[] parseByteFromString(String string) {
+    public static byte[] parseByteFromString(String string) {
 
         byte[] byteArray = new byte[0];
 

@@ -18,9 +18,6 @@ public class SelectUuidActivity extends AppCompatActivity {
 
     public static final String SELECTED_UUID_KEY = "se.grouprich.closebeacon.SELECTED_UUID_KEY";
 
-    private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
-    private UuidAdapter adapter;
     private Context context = this;
 
     @Override
@@ -28,15 +25,18 @@ public class SelectUuidActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_uuid);
 
-        recyclerView = (RecyclerView) findViewById(R.id.names_recycler_view);
-        layoutManager = new LinearLayoutManager(this);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.names_recycler_view);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
         Intent intent = getIntent();
         List<String> uuidList = intent.getStringArrayListExtra(DeviceDetailsActivity.UUID_STRING_LIST_KEY);
 
-        adapter = new UuidAdapter(this, uuidList);
+        UuidAdapter adapter = new UuidAdapter(this, uuidList);
 
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        if (recyclerView != null) {
+
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
+        }
     }
 }
