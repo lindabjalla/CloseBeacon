@@ -11,7 +11,7 @@
     <string name="minor">Minor</string>
     <string name="activate">ACTIVATE</string>
     <string name="dialog_no_uuid">UUID must be generated before selecting.</string>
-    <string name="dialog_uuid_generated">UUID generated!</string>
+    <string name="dialog_uuid_generated">UUID generated! Tap SELECT to select UUID.</string>
     <string name="button_ok">OK</string>
     <string name="dialog_invalid_auth_code">Invalid authorization code.</string>
     <string name="ble_not_supported">BLE is not supported</string>
@@ -27,5 +27,6 @@
     <string name="label_device_uuid">UUID:</string>
     <string name="label_device_serialnumber">Serial NR:</string>
     <string name="configuration">CONFIGURATION</string>
-    <string name="generate_proximity_uuid">Press GENERATE to generate UUID</string>
+    <string name="generate_proximity_uuid">Tap GENERATE to generate UUID</string>
+    <string name="dialog_invalid_major_minor">Major and Minor must be 2 digits</string>
 </resources>

@@ -24,7 +24,7 @@ public class InvalidAuthCodeDialog extends Dialog implements android.view.View.O
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog);
 
-        TextView textView = (TextView) findViewById(R.id.dialog_text);
+        TextView textView = (TextView) findViewById(R.id.text_dialog);
         textView.setText(R.string.dialog_invalid_auth_code);
 
         Button ok = (Button) findViewById(R.id.button_ok);

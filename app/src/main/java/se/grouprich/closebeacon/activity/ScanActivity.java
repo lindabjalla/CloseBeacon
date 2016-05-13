@@ -51,7 +51,7 @@ public class ScanActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
     private List<Beacon> beacons;
-    private final String closeBeaconUUID = "[19721006-2004-2007-2014-acc0cbeac000]";
+    private final String serviceUuid = "[19721006-2004-2007-2014-acc0cbeac000]";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,8 +114,10 @@ public class ScanActivity extends AppCompatActivity {
     protected void onDestroy() {
 
         if (mGatt == null) {
+
             return;
         }
+
         mGatt.close();
         mGatt = null;
         super.onDestroy();
@@ -125,16 +127,19 @@ public class ScanActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == REQUEST_ENABLE_BT) {
+
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Bluetooth not enabled.
                 finish();
                 return;
             }
         }
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void scanLeDevice(final boolean enable) {
+
         if (enable) {
             mHandler.postDelayed(new Runnable() {
 
@@ -188,28 +193,27 @@ public class ScanActivity extends AppCompatActivity {
 
             String uuidsFromScan = String.valueOf(result.getScanRecord().getServiceUuids());
 
-            if ((uuidsFromScan != null) && (closeBeaconUUID.equals(uuidsFromScan)) &&
+            if ((uuidsFromScan != null) && (serviceUuid.equals(uuidsFromScan)) &&
                     checkMacAddress(String.valueOf(result.getDevice().getAddress()))) {
+
                 Beacon iBeacon = new Beacon(String.valueOf(result.getDevice().getName()),
                         String.valueOf(result.getDevice().getAddress()),
                         String.valueOf(result.getRssi()),
-                        String.valueOf(result.getScanRecord().getServiceUuids()));
-
+                        String.valueOf(result.getScanRecord().getServiceUuids()).replace("[", "").replace("]", ""));
                 //addBeacon(iBeacon);
                 Log.i("**== ADDED ***", "");
                 beacons.add(iBeacon);
             }
 
             displayBeaconsList();
-
             connectToDevice(btDevice);
         }
 
         @Override
         public void onBatchScanResults(List<ScanResult> results) {
+
             for (ScanResult sr : results) {
                 Log.i("## ScanResult - Results", sr.toString());
-
             }
         }
 
@@ -302,7 +306,7 @@ public class ScanActivity extends AppCompatActivity {
             while (it.hasNext()) {
 
                 Beacon beacon = it.next();
-                String addressBeacon = String.valueOf(beacon.getAddress());
+                String addressBeacon = String.valueOf(beacon.getMacAddress());
                 boolean bool = (addressBeacon.equals(address));
 
                 if (bool) {
@@ -324,8 +328,8 @@ public class ScanActivity extends AppCompatActivity {
             while (it.hasNext()) {
 
                 Beacon beacon = it.next();
-                String addressBeacon = String.valueOf(beacon.getAddress());
-                String addressIBeacon = String.valueOf(iBeacon.getAddress());
+                String addressBeacon = String.valueOf(beacon.getMacAddress());
+                String addressIBeacon = String.valueOf(iBeacon.getMacAddress());
                 boolean bool = (addressBeacon.equals(addressIBeacon));
 
                 if (bool) {

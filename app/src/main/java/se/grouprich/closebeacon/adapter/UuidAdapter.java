@@ -2,6 +2,7 @@ package se.grouprich.closebeacon.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -76,7 +77,9 @@ public class UuidAdapter extends RecyclerView.Adapter<UuidAdapter.UuidViewHolder
 
             int position = getAdapterPosition();
             String uuid = this.uuidStringList.get(position);
+
             Intent intent = new Intent(context, DeviceDetailsActivity.class);
+
             intent.putExtra(SELECTED_UUID_KEY, uuid);
             context.startActivity(intent);
         }

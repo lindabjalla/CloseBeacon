@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -17,6 +16,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import se.grouprich.closebeacon.R;
+import se.grouprich.closebeacon.dialog.InvalidMajorMinorDialog;
 import se.grouprich.closebeacon.dialog.NoUuidDialog;
 import se.grouprich.closebeacon.dialog.UuidGeneratedDialog;
 
@@ -25,7 +25,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
     public static final String UUID_STRING_LIST_KEY = "se.grouprich.closebeacon.UUID_LIST_KEY";
     public static final String SAVED_BEACON_KEY = "se.grouprich.closebeacon.SAVED_BEACON_KEY";
 
-    private TextView textViewAddress;
+    private TextView textViewMacAddress;
     private TextView textViewName;
     private TextView textViewRSSI;
     private TextView textViewUuid;
@@ -33,8 +33,10 @@ public class DeviceDetailsActivity extends AppCompatActivity {
     private TextView textViewProximityUuid;
     private Button buttonGenerate;
     private Button buttonSelect;
+    private Button buttonActivate;
     private NoUuidDialog noUuidDialog;
     private UuidGeneratedDialog uuidGeneratedDialog;
+    private InvalidMajorMinorDialog invalidMajorMinorDialog;
     private EditText editTextMajor;
     private EditText editTextMinor;
     private Context context = this;
@@ -42,6 +44,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
     private Set<String> uuidStringSet;
     private String major;
     private String minor;
+
     private SharedPreferences preferences;
 
     @Override
@@ -49,68 +52,92 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_details);
 
-        textViewAddress = (TextView) findViewById(R.id.device_address_details);
+        textViewMacAddress = (TextView) findViewById(R.id.device_mac_address_details);
         textViewName = (TextView) findViewById(R.id.device_name_details);
         textViewRSSI = (TextView) findViewById(R.id.device_rssi_details);
         textViewUuid = (TextView) findViewById(R.id.device_uuid_detail);
         textViewSerialNumber = (TextView) findViewById(R.id.device_serialnumber_details);
         textViewProximityUuid = (TextView) findViewById(R.id.text_proximity_uuid);
+
         buttonGenerate = (Button) findViewById(R.id.button_generate);
         buttonSelect = (Button) findViewById(R.id.button_select);
+        buttonActivate = (Button) findViewById(R.id.button_activate);
+
         editTextMajor = (EditText) findViewById(R.id.edit_major);
         editTextMinor = (EditText) findViewById(R.id.edit_minor);
+
         noUuidDialog = new NoUuidDialog(this);
         uuidGeneratedDialog = new UuidGeneratedDialog(this);
+        invalidMajorMinorDialog = new InvalidMajorMinorDialog(this);
+
         uuidStringList = new ArrayList<>();
         uuidStringSet = new LinkedHashSet<>();
         preferences = getSharedPreferences(SAVED_BEACON_KEY, 0);
 
         Bundle bundle = getIntent().getExtras();
 
-        String address;
+        String macAddress;
         String name;
         String rssi;
-        String uuid;
+        String serviceUuid;
         String serialNumber;
+        String proximityUuid;
 
-        if (bundle.getString("address") != null) {
+        if (bundle.getString("macAddress") != null) {
 
-            address = bundle.getString("address");
+            macAddress = bundle.getString("macAddress");
             name = bundle.getString("name");
             rssi = bundle.getString("rssi");
-            uuid = bundle.getString("uuid");
+            serviceUuid = bundle.getString("serviceUuid");
             serialNumber = bundle.getString("serialNumber");
+            proximityUuid = bundle.getString("proximityUuid");
 
             preferences.edit()
-                    .putString("address", address)
+                    .putString("macAddress", macAddress)
                     .putString("name", name)
                     .putString("rssi", rssi)
-                    .putString("uuid", uuid)
+                    .putString("serviceUuid", serviceUuid)
                     .putString("serialNumber", serialNumber)
+                    .putString("proximityUuid", proximityUuid)
                     .apply();
         } else {
 
-            address = preferences.getString("address", "");
+            macAddress = preferences.getString("macAddress", "");
             name = preferences.getString("name", "");
             rssi = preferences.getString("rssi", "");
-            uuid = preferences.getString("uuid", "");
+            serviceUuid = preferences.getString("serviceUuid", "");
             serialNumber = preferences.getString("serialNumber", "");
+            proximityUuid = preferences.getString("proximityUuid", "");
             major = preferences.getString("major", "");
             minor = preferences.getString("minor", "");
         }
 
-        textViewAddress.setText(address);
+        textViewMacAddress.setText(macAddress);
         textViewName.setText(name);
         textViewRSSI.setText(rssi);
-        textViewUuid.setText(uuid);
+        textViewUuid.setText(serviceUuid);
         textViewSerialNumber.setText(serialNumber);
+        textViewProximityUuid.setText(proximityUuid);
+
         editTextMajor.setText(major);
         editTextMinor.setText(minor);
 
         String selectedUuidString = getIntent().getStringExtra(SelectUuidActivity.SELECTED_UUID_KEY);
-        textViewProximityUuid.setText(selectedUuidString);
 
-        uuidStringSet = preferences.getStringSet("uuidStringSet", null);
+        if (selectedUuidString != null) {
+
+            proximityUuid = selectedUuidString;
+            textViewProximityUuid.setText(selectedUuidString);
+        }
+
+        Set<String> savedUuidStringSet = preferences.getStringSet("uuidStringSet", null);
+
+        if (savedUuidStringSet != null) {
+
+            uuidStringSet.addAll(savedUuidStringSet);
+        }
+
+        uuidStringSet.add(proximityUuid);
         uuidStringList.addAll(uuidStringSet);
 
         buttonGenerate.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +148,6 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                 String uuidString = UUID.randomUUID().toString();
                 uuidStringList.add(uuidString);
                 uuidStringSet.addAll(uuidStringList);
-//                Toast.makeText(context, R.string.dialog_uuid_generated, Toast.LENGTH_SHORT).show();
                 uuidGeneratedDialog.show();
             }
         });
@@ -140,21 +166,34 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                     major = editTextMajor.getText().toString();
                     minor = editTextMinor.getText().toString();
 
-                    if (!major.isEmpty() || !minor.isEmpty()) {
-
-                        preferences.edit()
-                                .putString("major", major)
-                                .putString("minor", minor).apply();
-                    }
-
                     preferences.edit()
+                            .putString("major", major)
+                            .putString("minor", minor)
                             .putStringSet("uuidStringSet", DeviceDetailsActivity.this.uuidStringSet)
                             .apply();
 
                     Intent intent = new Intent(context, SelectUuidActivity.class);
+
                     intent.putStringArrayListExtra(UUID_STRING_LIST_KEY, uuidStringList);
                     startActivity(intent);
                 }
+            }
+        });
+
+        buttonActivate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                major = editTextMajor.getText().toString();
+                minor = editTextMinor.getText().toString();
+
+                if ((major.length() != 2) || (minor.length() != 2)) {
+
+                    invalidMajorMinorDialog.show();
+                }
+//                Beacon beacon = new Beacon();
+//                Intent intent = new Intent(context, ActivationActivity.class);
             }
         });
     }

@@ -18,18 +18,19 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="se.grouprich.closebeacon.activity.MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="se.grouprich.closebeacon.activity.AuthorizationActivity" />
+        <activity android:name=".activity.AuthorizationActivity" />
         <activity android:name=".activity.ConfigurationActivity" />
-        <activity android:name=".activity.SelectUuidActivity"/>
-        <activity android:name=".activity.ScanActivity"/>
-        <activity android:name=".activity.DeviceDetailsActivity"/>
+        <activity android:name=".activity.SelectUuidActivity" />
+        <activity android:name=".activity.ScanActivity" />
+        <activity android:name=".activity.DeviceDetailsActivity" />
+        <activity android:name=".activity.ActivationActivity"></activity>
     </application>
 
 </manifest>

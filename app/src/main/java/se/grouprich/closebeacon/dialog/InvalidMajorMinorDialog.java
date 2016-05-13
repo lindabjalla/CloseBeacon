@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import se.grouprich.closebeacon.R;
 
-public class UuidGeneratedDialog extends Dialog implements android.view.View.OnClickListener {
+public class InvalidMajorMinorDialog extends Dialog implements android.view.View.OnClickListener {
 
-    public UuidGeneratedDialog(Context context) {
+    public InvalidMajorMinorDialog(Context context) {
 
         super(context);
     }
@@ -25,7 +25,7 @@ public class UuidGeneratedDialog extends Dialog implements android.view.View.OnC
         setContentView(R.layout.dialog);
 
         TextView textView = (TextView) findViewById(R.id.text_dialog);
-        textView.setText(R.string.dialog_uuid_generated);
+        textView.setText(R.string.dialog_invalid_major_minor);
 
         Button ok = (Button) findViewById(R.id.button_ok);
         ok.setOnClickListener(this);

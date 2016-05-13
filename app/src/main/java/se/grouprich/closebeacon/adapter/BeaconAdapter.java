@@ -76,10 +76,11 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.DeviceView
             Beacon beacon = this.beacons.get(position);
             Intent intent = new Intent(this.context, DeviceDetailsActivity.class);
             intent.putExtra("name", beacon.getName());
-            intent.putExtra("address", beacon.getAddress());
+            intent.putExtra("macAddress", beacon.getMacAddress());
             intent.putExtra("rssi", beacon.getRssi());
-            intent.putExtra("uuids", beacon.getUuids());
+            intent.putExtra("serviceUuid", beacon.getServiceUuid());
             intent.putExtra("serialNumber", beacon.getSerialNumber());
+            intent.putExtra("proximityUuid", beacon.getProximityUuid());
             this.context.startActivity(intent);
         }
     }

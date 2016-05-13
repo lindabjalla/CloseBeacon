@@ -109,9 +109,7 @@ public class AuthorizationActivity extends AppCompatActivity {
                             public void onResponse(Call<String> call, Response<String> response) {
 
                                 Log.d("url", call.request().url().toString());
-
                                 Log.d(TAG, "***************** " + response.body());
-
                                 Log.d("responseOk", responseOk);
 
                                 if (response.body().replaceFirst("=", "").equals(responseOk)) {
