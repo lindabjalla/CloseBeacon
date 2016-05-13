@@ -15,7 +15,7 @@
         android:layout_gravity="center"
         android:layout_margin="10dp"
         tools:text="@string/dialog_invalid_auth_code"
-        android:textColor="@color/colorCharcoalGray"
+        android:textColor="@color/colorDimGray"
         android:textSize="15sp"
         android:textStyle="bold"/>
 
@@ -33,7 +33,7 @@
             android:background="@color/colorEggshell"
             android:clickable="true"
             android:text="@string/button_ok"
-            android:textColor="@color/colorCharcoalGray"
+            android:textColor="@color/colorDimGray"
             android:textStyle="bold" />
 
     </LinearLayout>

@@ -11,9 +11,9 @@
         android:id="@+id/uuid_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="20sp"
         tools:text="123e4567-e89b-12d3-a456-426655440000"
-        android:textColor="@color/colorCharcoalGray"
-        android:clickable="true"/>
+        android:textColor="@color/colorDimGray"
+        android:padding="16dp"/>
 
 </LinearLayout>

@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
 
-            // TODO: Avkommenteras när ScanActivity läggs till
             Intent intent = new Intent(this, ScanActivity.class);
             startActivity(intent);
         }

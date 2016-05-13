@@ -14,7 +14,7 @@ import java.util.List;
 import se.grouprich.closebeacon.R;
 import se.grouprich.closebeacon.adapter.UuidAdapter;
 
-public class ShowUuidActivity extends AppCompatActivity {
+public class SelectUuidActivity extends AppCompatActivity {
 
     public static final String SELECTED_UUID_KEY = "se.grouprich.closebeacon.SELECTED_UUID_KEY";
 
@@ -32,23 +32,11 @@ public class ShowUuidActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
 
         Intent intent = getIntent();
-        List<String> uuidList = intent.getStringArrayListExtra(ConfigurationActivity.UUID_STRING_LIST_KEY);
+        List<String> uuidList = intent.getStringArrayListExtra(DeviceDetailsActivity.UUID_STRING_LIST_KEY);
 
         adapter = new UuidAdapter(this, uuidList);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(new UuidAdapter.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(View view, int position) {
-
-                TextView textView = (TextView) view.findViewById(R.id.uuid_text);
-                String uuid = textView.getText().toString();
-                Intent intent = new Intent(context, ConfigurationActivity.class);
-                intent.putExtra(SELECTED_UUID_KEY, uuid);
-                startActivity(intent);
-            }
-        });
     }
 }

@@ -47,7 +47,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:textColor="@color/colorCharcoalGray"
+            android:textColor="@color/colorDimGray"
             android:textSize="18sp"
             android:textStyle="bold"
             tools:text="208-118-080-128-010-131" />
@@ -70,7 +70,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="@string/proximity_uuid_header"
+            android:text="@string/label_proximity_uuid"
             android:textColor="@color/colorEggshell"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -91,7 +91,7 @@
             android:layout_centerVertical="true"
             android:ems="36"
             android:gravity="center"
-            android:textColor="@color/colorCharcoalGray"
+            android:textColor="@color/colorDimGray"
             android:textSize="15sp"
             android:textStyle="bold"
             tools:text="12345678-1234-1234-1234-123456789012" />
@@ -112,7 +112,7 @@
             android:layout_alignParentLeft="true"
             android:background="@drawable/button_shape"
             android:padding="10dp"
-            android:text="@string/generate_uuid"
+            android:text="@string/generate"
             android:textAllCaps="false"
             android:textColor="@color/colorEggshell"
             android:textSize="18sp" />
@@ -125,7 +125,7 @@
             android:background="@drawable/button_shape"
             android:onClick="selectUuid"
             android:padding="10dp"
-            android:text="@string/select_uuid"
+            android:text="@string/select"
             android:textAllCaps="false"
             android:textColor="@color/colorEggshell"
             android:textSize="18sp" />
@@ -171,7 +171,7 @@
             android:gravity="start"
             android:padding="10dp"
             android:text="@string/major"
-            android:textColor="@color/colorCharcoalGray"
+            android:textColor="@color/colorDimGray"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -205,7 +205,7 @@
             android:background="@color/colorEggshell"
             android:padding="10dp"
             android:text="@string/minor"
-            android:textColor="@color/colorCharcoalGray"
+            android:textColor="@color/colorDimGray"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -241,7 +241,7 @@
             android:background="@drawable/button_shape"
             android:padding="16dp"
             android:text="@string/activate"
-            android:textColor="@color/colorCharcoalGray"
+            android:textColor="@color/colorDimGray"
             android:textSize="25sp"
             android:onClick="activateBeacon"/>
     </RelativeLayout>

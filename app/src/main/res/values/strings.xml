@@ -2,14 +2,16 @@
     <string name="app_name">CLOSE BEACON</string>
     <string name="title_activity_beacon_scan">BeaconScanActivity</string>
     <string name="serial_number_title">SERIAL NUMBER</string>
-    <string name="proximity_uuid_header">PROXIMITY UUID</string>
-    <string name="generate_uuid">Generate UUID</string>
-    <string name="select_uuid">Select UUID</string>
+    <string name="label_proximity_uuid">Proximity UUID:</string>
+    <string name="select_uuid_title">Select UUID</string>
+    <string name="generate">GENERATE</string>
+    <string name="select">SELECT</string>
     <string name="major_minor_header_text">MAJOR/MINOR</string>
     <string name="major">Major</string>
     <string name="minor">Minor</string>
     <string name="activate">ACTIVATE</string>
     <string name="dialog_no_uuid">UUID must be generated before selecting.</string>
+    <string name="dialog_uuid_generated">UUID generated!</string>
     <string name="button_ok">OK</string>
     <string name="dialog_invalid_auth_code">Invalid authorization code.</string>
     <string name="ble_not_supported">BLE is not supported</string>
@@ -22,7 +24,8 @@
     <string name="label_major">Major:</string>
     <string name="label_device_rssi">RSSI:</string>
     <string name="label_device_name">Name:</string>
-    <string name="label_device_uuids">UUIDS:</string>
+    <string name="label_device_uuid">UUID:</string>
     <string name="label_device_serialnumber">Serial NR:</string>
     <string name="configuration">CONFIGURATION</string>
+    <string name="generate_proximity_uuid">Press GENERATE to generate UUID</string>
 </resources>
