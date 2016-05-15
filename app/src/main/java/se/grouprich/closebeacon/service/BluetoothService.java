@@ -7,7 +7,6 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
@@ -22,8 +21,8 @@ import java.util.List;
 import java.util.UUID;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class BluetoothLeService extends Service {
-    private final static String TAG = BluetoothLeService.class.getSimpleName();
+public class BluetoothService extends Service {
+    private final static String TAG = BluetoothService.class.getSimpleName();
 
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
@@ -137,8 +136,8 @@ public class BluetoothLeService extends Service {
     }
 
     public class LocalBinder extends Binder {
-        public BluetoothLeService getService() {
-            return BluetoothLeService.this;
+        public BluetoothService getService() {
+            return BluetoothService.this;
         }
     }
 

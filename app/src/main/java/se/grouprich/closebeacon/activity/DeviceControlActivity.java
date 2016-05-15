@@ -28,7 +28,7 @@
 //import java.util.List;
 //
 //import se.grouprich.closebeacon.R;
-//import se.grouprich.closebeacon.service.BluetoothLeService;
+//import se.grouprich.closebeacon.retrofit.BluetoothService;
 //
 //@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 //public class DeviceControlActivity extends Activity {
@@ -42,7 +42,7 @@
 //    private String mDeviceName;
 //    private String mDeviceAddress;
 //    private ExpandableListView mGattServicesList;
-//    private BluetoothLeService mBluetoothLeService;
+//    private BluetoothService mBluetoothLeService;
 //    private ArrayList<ArrayList<BluetoothGattCharacteristic>> mGattCharacteristics =
 //            new ArrayList<ArrayList<BluetoothGattCharacteristic>>();
 //    private boolean mConnected = false;
@@ -56,7 +56,7 @@
 //
 //        @Override
 //        public void onServiceConnected(ComponentName componentName, IBinder service) {
-//            mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
+//            mBluetoothLeService = ((BluetoothService.LocalBinder) service).getService();
 //            if (!mBluetoothLeService.initialize()) {
 //                Log.e(TAG, "Unable to initialize Bluetooth");
 //                finish();
@@ -81,20 +81,20 @@
 //        @Override
 //        public void onReceive(Context context, Intent intent) {
 //            final String action = intent.getAction();
-//            if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
+//            if (BluetoothService.ACTION_GATT_CONNECTED.equals(action)) {
 //                mConnected = true;
 //                updateConnectionState(R.string.connected);
 //                invalidateOptionsMenu();
-//            } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
+//            } else if (BluetoothService.ACTION_GATT_DISCONNECTED.equals(action)) {
 //                mConnected = false;
 //                updateConnectionState(R.string.disconnected);
 //                invalidateOptionsMenu();
 //                clearUI();
-//            } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+//            } else if (BluetoothService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
 //                // Show all the supported services and characteristics on the user interface.
 //                displayGattServices(mBluetoothLeService.getSupportedGattServices());
-//            } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
-//                displayData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
+//            } else if (BluetoothService.ACTION_DATA_AVAILABLE.equals(action)) {
+//                displayData(intent.getStringExtra(BluetoothService.EXTRA_DATA));
 //            }
 //        }
 //    };
@@ -156,7 +156,7 @@
 //
 //        getActionBar().setTitle(mDeviceName);
 //        getActionBar().setDisplayHomeAsUpEnabled(true);
-//        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
+//        Intent gattServiceIntent = new Intent(this, BluetoothService.class);
 //        bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 //    }
 //
@@ -286,10 +286,10 @@
 //
 //    private static IntentFilter makeGattUpdateIntentFilter() {
 //        final IntentFilter intentFilter = new IntentFilter();
-//        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
-//        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
-//        intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
-//        intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
+//        intentFilter.addAction(BluetoothService.ACTION_GATT_CONNECTED);
+//        intentFilter.addAction(BluetoothService.ACTION_GATT_DISCONNECTED);
+//        intentFilter.addAction(BluetoothService.ACTION_GATT_SERVICES_DISCOVERED);
+//        intentFilter.addAction(BluetoothService.ACTION_DATA_AVAILABLE);
 //        return intentFilter;
 //    }
 //}
