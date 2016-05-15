@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.UUID;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class BluetoothService extends Service {
-    private final static String TAG = BluetoothService.class.getSimpleName();
+public class BluetoothLeService extends Service {
+    private final static String TAG = BluetoothLeService.class.getSimpleName();
 
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
@@ -136,8 +136,8 @@ public class BluetoothService extends Service {
     }
 
     public class LocalBinder extends Binder {
-        public BluetoothService getService() {
-            return BluetoothService.this;
+        public BluetoothLeService getService() {
+            return BluetoothLeService.this;
         }
     }
 
