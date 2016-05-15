@@ -85,7 +85,7 @@
 //
 //                    } else {
 //
-//                        Intent intent = new Intent(context, SelectUuidActivity.class);
+//                        Intent intent = new Intent(context, UuidSelectionActivity.class);
 //                        intent.putStringArrayListExtra(UUID_STRING_LIST_KEY, uuidStringList);
 //                        startActivity(intent);
 //                    }

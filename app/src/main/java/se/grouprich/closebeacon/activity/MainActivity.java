@@ -7,14 +7,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import java.security.GeneralSecurityException;
 import java.security.PublicKey;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import se.grouprich.closebeacon.BeaconService;
+import se.grouprich.closebeacon.service.BeaconService;
 import se.grouprich.closebeacon.R;
 import se.grouprich.closebeacon.requestresponsemanager.converter.KeyConverter;
 import se.grouprich.closebeacon.retrofit.StringConverterFactory;
@@ -78,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<String> call, Throwable t) {
+
                     Log.d(TAG, "Could not fetch publicKey: " + t.getMessage());
                 }
             });

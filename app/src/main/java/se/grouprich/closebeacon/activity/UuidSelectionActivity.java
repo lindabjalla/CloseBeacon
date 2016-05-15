@@ -14,7 +14,7 @@ import java.util.List;
 import se.grouprich.closebeacon.R;
 import se.grouprich.closebeacon.adapter.UuidAdapter;
 
-public class SelectUuidActivity extends AppCompatActivity {
+public class UuidSelectionActivity extends AppCompatActivity {
 
     public static final String SELECTED_UUID_KEY = "se.grouprich.closebeacon.SELECTED_UUID_KEY";
 

@@ -18,7 +18,7 @@ public final class BeaconActivationCommand {
     private byte power;
     private byte[] filling;
 
-    BeaconActivationCommand(byte[] sha1Hash, String proximityUuidString, String majorNumberString, String minorNumberString) {
+    public BeaconActivationCommand(byte[] sha1Hash, String proximityUuidString, String majorNumberString, String minorNumberString) {
 
         this.sha1Hash = sha1Hash;
         companyId = ByteBuffer.allocate(2).put((byte) 0x004C).array();

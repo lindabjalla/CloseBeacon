@@ -122,7 +122,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         editTextMajor.setText(majorNumber);
         editTextMinor.setText(minorNumber);
 
-        String selectedUuidString = getIntent().getStringExtra(SelectUuidActivity.SELECTED_UUID_KEY);
+        String selectedUuidString = getIntent().getStringExtra(UuidSelectionActivity.SELECTED_UUID_KEY);
 
         if (selectedUuidString != null) {
 
@@ -172,7 +172,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                             .putStringSet("uuidStringSet", DeviceDetailsActivity.this.uuidStringSet)
                             .apply();
 
-                    Intent intent = new Intent(context, SelectUuidActivity.class);
+                    Intent intent = new Intent(context, UuidSelectionActivity.class);
 
                     intent.putStringArrayListExtra(UUID_STRING_LIST_KEY, uuidStringList);
                     startActivity(intent);
@@ -194,6 +194,9 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                 }
 //                Beacon beacon = new Beacon();
 //                Intent intent = new Intent(context, ActivationActivity.class);
+
+                // skicka activate request och får svar från servern.
+                // gör "write" activation command till den valda beacon.
             }
         });
     }

@@ -29,4 +29,13 @@
     <string name="configuration">CONFIGURATION</string>
     <string name="generate_proximity_uuid">Tap GENERATE to generate UUID</string>
     <string name="dialog_invalid_major_minor">Major and Minor must be 2 digits</string>
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="no_data">No data</string>
+    <string name="label_data">Data:</string>
+    <string name="label_state">State:</string>
+    <string name="menu_connect">Connect</string>
+    <string name="menu_disconnect">Disconnect</string>
+    <string name="unknown_service">Unknown service</string>
+    <string name="unknown_characteristic">Unknown characteristic</string>
 </resources>

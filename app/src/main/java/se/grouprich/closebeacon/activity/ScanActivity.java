@@ -21,6 +21,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.ParcelUuid;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import se.grouprich.closebeacon.R;
 import se.grouprich.closebeacon.adapter.BeaconAdapter;
@@ -51,7 +53,7 @@ public class ScanActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
     private List<Beacon> beacons;
-    private final String serviceUuid = "[19721006-2004-2007-2014-acc0cbeac000]";
+    private final String serviceUuid = "19721006-2004-2007-2014-acc0cbeac000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,19 +193,31 @@ public class ScanActivity extends AppCompatActivity {
             Log.i("** RECORD *****  ", String.valueOf(result.getScanRecord()));
             Log.i("** RECORD *****  ", String.valueOf(result.getScanRecord().getManufacturerSpecificData()));
 
-            String uuidsFromScan = String.valueOf(result.getScanRecord().getServiceUuids());
 
-            if ((uuidsFromScan != null) && (serviceUuid.equals(uuidsFromScan)) &&
-                    checkMacAddress(String.valueOf(result.getDevice().getAddress()))) {
+//            String uuidFromScan = String.valueOf(result.getScanRecord().getServiceUuids());
 
-                Beacon iBeacon = new Beacon(String.valueOf(result.getDevice().getName()),
-                        String.valueOf(result.getDevice().getAddress()),
-                        String.valueOf(result.getRssi()),
-                        String.valueOf(result.getScanRecord().getServiceUuids()).replace("[", "").replace("]", ""));
-                //addBeacon(iBeacon);
-                Log.i("**== ADDED ***", "");
-                beacons.add(iBeacon);
+            final List<ParcelUuid> serviceUuids = result.getScanRecord().getServiceUuids();
+            final List<String> serviceUuidsString = new ArrayList<>();
+
+            for (ParcelUuid serviceUuid : serviceUuids) {
+
+                serviceUuidsString.add(serviceUuid.toString());
             }
+
+            if (serviceUuidsString.contains(serviceUuid) && checkMacAddress(String.valueOf(result.getDevice().getAddress()))){
+
+//                if ((uuidFromScan != null) && (serviceUuid.equals(uuidFromScan)) &&
+//                        checkMacAddress(String.valueOf(result.getDevice().getAddress()))) {
+
+                    Beacon iBeacon = new Beacon(String.valueOf(result.getDevice().getName()),
+                            String.valueOf(result.getDevice().getAddress()),
+                            String.valueOf(result.getRssi()),
+//                            String.valueOf(result.getScanRecord().getServiceUuids()).replace("[", "").replace("]", ""));
+                            serviceUuid);
+                    //addBeacon(iBeacon);
+                    Log.i("**== ADDED ***", "");
+                    beacons.add(iBeacon);
+                }
 
             displayBeaconsList();
             connectToDevice(btDevice);

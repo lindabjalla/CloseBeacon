@@ -27,10 +27,11 @@
         </activity>
         <activity android:name=".activity.AuthorizationActivity" />
         <activity android:name=".activity.ConfigurationActivity" />
-        <activity android:name=".activity.SelectUuidActivity" />
+        <activity android:name=".activity.UuidSelectionActivity" />
         <activity android:name=".activity.ScanActivity" />
         <activity android:name=".activity.DeviceDetailsActivity" />
-        <activity android:name=".activity.ActivationActivity"></activity>
+        <activity android:name=".activity.ActivationActivity" />
+        <activity android:name=".activity.DeviceControlActivity"></activity>
     </application>
 
 </manifest>
