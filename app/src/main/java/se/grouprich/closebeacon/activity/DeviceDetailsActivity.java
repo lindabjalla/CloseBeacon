@@ -217,7 +217,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                 final byte[] activationRequestAsByteArray = beaconActivationRequest.buildActivationRequestAsByteArray();
 
                 // ------ Loggar activationRequest byteArray value ------
-                List<String> activationRequestBytes = new ArrayList<String>();
+                List<String> activationRequestBytes = new ArrayList<>();
                 for (byte aByte : activationRequestAsByteArray) {
                     activationRequestBytes.add(String.valueOf(aByte));
                 }
@@ -269,7 +269,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
                                 sha1List.add(String.valueOf(sha1Byte));
                             }
-                            
+
                             Log.d("SHA1", sha1List.toString());
                             //----- Log ends-----
 

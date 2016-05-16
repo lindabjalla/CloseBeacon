@@ -47,51 +47,6 @@ public class BeaconActivationRequest {
                 .array();
     }
 
-    public byte[] getProtocolVersion() {
-
-        return protocolVersion;
-    }
-
-    public byte[] getAuthCode() {
-
-        return authCode;
-    }
-
-    public byte[] getMacAddress() {
-
-        return macAddress;
-    }
-
-    public byte[] getAdminKey() {
-
-        return adminKey;
-    }
-
-    public byte[] getMobileKey() {
-
-        return mobileKey;
-    }
-
-    public byte getBeaconType() {
-
-        return beaconType;
-    }
-
-    public byte[] getMajorNumber() {
-
-        return majorNumber;
-    }
-
-    public byte[] getMinorNumber() {
-
-        return minorNumber;
-    }
-
-    public byte[] getProximityUuidAsByteArray() {
-
-        return proximityUuidAsByteArray;
-    }
-
     private byte[] convertMacAddressToByteArray(String macAddress){
 
         String[] macAddressArray = macAddress.split(":");
