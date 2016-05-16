@@ -199,9 +199,12 @@ public class ScanActivity extends AppCompatActivity {
             final List<ParcelUuid> serviceUuids = result.getScanRecord().getServiceUuids();
             final List<String> serviceUuidsString = new ArrayList<>();
 
-            for (ParcelUuid serviceUuid : serviceUuids) {
+            if(serviceUuids != null) {
 
-                serviceUuidsString.add(serviceUuid.toString());
+                for (ParcelUuid serviceUuid : serviceUuids) {
+
+                    serviceUuidsString.add(serviceUuid.toString());
+                }
             }
 
             if (serviceUuidsString.contains(serviceUuid) && checkMacAddress(String.valueOf(result.getDevice().getAddress()))){

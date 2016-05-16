@@ -14,13 +14,14 @@
     <string name="dialog_uuid_generated">UUID generated! Tap SELECT to select UUID.</string>
     <string name="button_ok">OK</string>
     <string name="dialog_invalid_auth_code">Invalid authorization code.</string>
+    <string name="dialog_activation_failed">Activation failed.</string>
     <string name="ble_not_supported">BLE is not supported</string>
     <string name="error_bluetooth_not_supported">Bluetooth not supported.</string>
     <string name="unknown_device">Unknown device</string>
     <string name="edit_major">Please edit major</string>
     <string name="edit_minor">Please edit minor</string>
     <string name="label_minor">Minor:</string>
-    <string name="label_device_address">Device address:</string>
+    <string name="label_device_address">Device macAddress:</string>
     <string name="label_major">Major:</string>
     <string name="label_device_rssi">RSSI:</string>
     <string name="label_device_name">Name:</string>

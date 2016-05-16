@@ -22,11 +22,13 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String BASE_URL = "http://smartsensor.io/CBtest/";
     public static final String TAG = MainActivity.class.getSimpleName();
-    public static final String APP_ACTIVATION_CHECK_KEY = "appActivationCheck";
+    public static final String BEACON_PREFERENCES = "beaconPreferences";
     public static final String APP_IS_ACTIVATED_KEY = "appIsActivated";
-    public static final String PUBLIC_KEY_KEY = "publicKey";
+//    public static final String PUBLIC_KEY_KEY = "publicKey";
+    public static final String PUBLIC_KEY_AS_STRING_KEY = "publicKeyAsString";
 
-    private PublicKey publicKey;
+    private String publicKeyAsString;
+//    private PublicKey publicKey;
     private boolean appIsActivated;
     private Context context = this;
 
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences preferences = getSharedPreferences(APP_ACTIVATION_CHECK_KEY, 0);
+        final SharedPreferences preferences = getSharedPreferences(BEACON_PREFERENCES, 0);
 
 //        preferences.edit().putBoolean(APP_IS_ACTIVATED_KEY, false).apply(); // bara för test
 
@@ -57,21 +59,21 @@ public class MainActivity extends AppCompatActivity {
                 public void onResponse(Call<String> call, Response<String> response) {
                     Log.d(TAG, "***************** " + response.body());
 
-                    String keyString = response.body().replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", "");
-                    System.out.println(keyString);
+                    publicKeyAsString = response.body().replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", "");
 
-                    try {
+//                    try {
+//
+//                        publicKey = KeyConverter.stringToPublicKey(keyString);
+//                        System.out.println(publicKey.toString());
+//
+//                    } catch (Exception e) {
+//
+//                        e.printStackTrace();
+//                    }
 
-                        publicKey = KeyConverter.stringToPublicKey(keyString);
-                        System.out.println(publicKey.toString());
-
-                    } catch (Exception e) {
-
-                        e.printStackTrace();
-                    }
-
+                    preferences.edit().putString(PUBLIC_KEY_AS_STRING_KEY, publicKeyAsString).apply();
                     Intent intent = new Intent(context, AuthorizationActivity.class);
-                    intent.putExtra(PUBLIC_KEY_KEY, publicKey);
+//                    intent.putExtra(PUBLIC_KEY_KEY, publicKey);
                     startActivity(intent);
                 }
 

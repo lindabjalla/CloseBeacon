@@ -11,4 +11,7 @@ public interface BeaconService {
 
     @GET("auth_user.php")
     Call<String> getAuthorizationResponse(@Query("enc") String authorizationRequest);
+
+    @GET("activate_beacon.php")
+    Call<String> getActivationResponse(@Query("enc") String activationRequest);
 }

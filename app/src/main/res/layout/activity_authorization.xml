@@ -11,7 +11,7 @@
     tools:context="se.grouprich.closebeacon.activity.AuthorizationActivity">
 
     <Button
-        android:id="@+id/button_auth"
+        android:id="@+id/button_authorize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_above="@id/button_auth"
+        android:layout_above="@id/button_authorize"
         android:hint="Enter your authentication code"
         android:inputType="text"
         android:padding="20dp" />

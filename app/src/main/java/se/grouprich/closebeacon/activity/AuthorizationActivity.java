@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 
@@ -21,13 +22,14 @@ import se.grouprich.closebeacon.R;
 import se.grouprich.closebeacon.dialog.InvalidAuthCodeDialog;
 import se.grouprich.closebeacon.requestresponsemanager.RequestBuilder;
 import se.grouprich.closebeacon.requestresponsemanager.bytearraybuilder.AuthorizationByteArrayBuilder;
+import se.grouprich.closebeacon.requestresponsemanager.converter.KeyConverter;
 import se.grouprich.closebeacon.requestresponsemanager.converter.SHA1Converter;
 import se.grouprich.closebeacon.retrofit.RetrofitManager;
 
 public class AuthorizationActivity extends AppCompatActivity {
 
     public static final String TAG = AuthorizationActivity.class.getSimpleName();
-
+    public static final String AUTH_CODE_KEY = "authCodeKey";
     private Button buttonAuth;
     private TextView textAuthCode;
     private String authenticationCode;
@@ -36,6 +38,7 @@ public class AuthorizationActivity extends AppCompatActivity {
     private InvalidAuthCodeDialog dialog;
     private String responseOk;
     private String responseUnknown;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +46,23 @@ public class AuthorizationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
 
-        Intent intent = getIntent();
-        publicKey = (PublicKey) intent.getSerializableExtra(MainActivity.PUBLIC_KEY_KEY);
+       preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES, 0);
+        String publicKeyAsString = preferences.getString(MainActivity.PUBLIC_KEY_AS_STRING_KEY, null);
 
-        System.out.println(publicKey.toString());
+        try {
+
+            publicKey = KeyConverter.stringToPublicKey(publicKeyAsString);
+
+        } catch (GeneralSecurityException e) {
+
+            e.printStackTrace();
+        }
+//        Intent intent = getIntent();
+//        publicKey = (PublicKey) intent.getSerializableExtra(MainActivity.PUBLIC_KEY_KEY);
 
         if (publicKey != null) {
 
-            buttonAuth = (Button) findViewById(R.id.button_auth);
+            buttonAuth = (Button) findViewById(R.id.button_authorize);
             textAuthCode = (EditText) findViewById(R.id.editText_auth_code);
             dialog = new InvalidAuthCodeDialog(context);
 
@@ -76,8 +88,8 @@ public class AuthorizationActivity extends AppCompatActivity {
 
                         try {
 
-                            responseOk = SHA1Converter.convertToSHA1(authCodePlusOkByteArray);
-                            responseUnknown = SHA1Converter.convertToSHA1(authCodePlusUnknownByteArray);
+                            responseOk = SHA1Converter.byteArrayToSHA1(authCodePlusOkByteArray);
+                            responseUnknown = SHA1Converter.byteArrayToSHA1(authCodePlusUnknownByteArray);
 
                         } catch (NoSuchAlgorithmException e) {
 
@@ -100,8 +112,8 @@ public class AuthorizationActivity extends AppCompatActivity {
 
                         Log.d("authReq", authorizationRequest);
 
-                        RetrofitManager retrofitBuilder = new RetrofitManager();
-                        Call<String> result = retrofitBuilder.getBeaconService().getAuthorizationResponse(authorizationRequest);
+                        RetrofitManager retrofitManager = new RetrofitManager();
+                        Call<String> result = retrofitManager.getBeaconService().getAuthorizationResponse(authorizationRequest);
 
                         result.enqueue(new Callback<String>() {
 
@@ -114,8 +126,10 @@ public class AuthorizationActivity extends AppCompatActivity {
 
                                 if (response.body().replaceFirst("=", "").equals(responseOk)) {
 
-                                    SharedPreferences preferences = getSharedPreferences(MainActivity.APP_ACTIVATION_CHECK_KEY, 0);
-                                    preferences.edit().putBoolean(MainActivity.APP_IS_ACTIVATED_KEY, true).apply();
+//                                    SharedPreferences preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES, 0);
+                                    preferences.edit().putBoolean(MainActivity.APP_IS_ACTIVATED_KEY, true)
+                                            .putString(AUTH_CODE_KEY, authenticationCode)
+                                            .apply();
 
                                     Intent intent = new Intent(context, ScanActivity.class);
                                     startActivity(intent);

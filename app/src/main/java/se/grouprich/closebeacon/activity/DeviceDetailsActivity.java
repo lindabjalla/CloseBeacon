@@ -1,24 +1,38 @@
 package se.grouprich.closebeacon.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.security.GeneralSecurityException;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import se.grouprich.closebeacon.R;
+import se.grouprich.closebeacon.dialog.ActivationFailedDialog;
 import se.grouprich.closebeacon.dialog.InvalidMajorMinorDialog;
 import se.grouprich.closebeacon.dialog.NoUuidDialog;
 import se.grouprich.closebeacon.dialog.UuidGeneratedDialog;
+import se.grouprich.closebeacon.model.BeaconActivationRequest;
+import se.grouprich.closebeacon.requestresponsemanager.RequestBuilder;
+import se.grouprich.closebeacon.requestresponsemanager.converter.KeyConverter;
+import se.grouprich.closebeacon.requestresponsemanager.converter.SHA1Converter;
+import se.grouprich.closebeacon.retrofit.RetrofitManager;
 
 public class DeviceDetailsActivity extends AppCompatActivity {
 
@@ -42,8 +56,10 @@ public class DeviceDetailsActivity extends AppCompatActivity {
     private Context context = this;
     private ArrayList<String> uuidStringList;
     private Set<String> uuidStringSet;
+    private String macAddress;
     private String majorNumber;
     private String minorNumber;
+    private String proximityUuid;
 
     private SharedPreferences preferences;
 
@@ -76,12 +92,11 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 
-        String macAddress;
+//        final String macAddress;
         String name;
         String rssi;
         String serviceUuid;
         String serialNumber;
-        String proximityUuid;
 
         if (bundle.getString("macAddress") != null) {
 
@@ -192,10 +207,85 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
                     invalidMajorMinorDialog.show();
                 }
-//                Beacon beacon = new Beacon();
-//                Intent intent = new Intent(context, ActivationActivity.class);
 
                 // skicka activate request och får svar från servern.
+
+                preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES, 0);
+                String authCode = preferences.getString(AuthorizationActivity.AUTH_CODE_KEY, null);
+
+                BeaconActivationRequest beaconActivationRequest = new BeaconActivationRequest(authCode, macAddress, majorNumber, minorNumber, proximityUuid);
+                final byte[] activationRequestAsByteArray = beaconActivationRequest.buildActivationRequestAsByteArray();
+
+                // ------ Loggar activationRequest byteArray value ------
+                List<String> activationRequestBytes = new ArrayList<String>();
+                for (byte aByte : activationRequestAsByteArray) {
+                    activationRequestBytes.add(String.valueOf(aByte));
+                }
+
+                Log.d("activationRequest", activationRequestBytes.toString());
+                // ------ Log ends ------
+
+                String publicKeyAsString = preferences.getString(MainActivity.PUBLIC_KEY_AS_STRING_KEY, null);
+                PublicKey publicKey = null;
+
+                try {
+                    publicKey = KeyConverter.stringToPublicKey(publicKeyAsString);
+
+                } catch (GeneralSecurityException e) {
+
+                    e.printStackTrace();
+                }
+
+                String activationRequest = null;
+
+                try {
+                     activationRequest = RequestBuilder.buildRequest(publicKey, activationRequestAsByteArray);
+
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+                }
+                RetrofitManager retrofitManager = new RetrofitManager();
+
+                Call<String> result = retrofitManager.getBeaconService().getActivationResponse(activationRequest);
+
+                result.enqueue(new Callback<String>() {
+
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        Log.d("response", response.body());
+
+                        String responseBody = response.body();
+
+                        if(responseBody.contains("OK")){
+
+                            String hexString = responseBody.replace("OK ", "");
+                            final byte[] sha1 = SHA1Converter.hexStringToByteArray(hexString);
+
+                            //----- Loggar SHA1 value -----
+                            List<String> sha1List = new ArrayList<>();
+
+                            for (byte sha1Byte : sha1) {
+
+                                sha1List.add(String.valueOf(sha1Byte));
+                            }
+                            
+                            Log.d("SHA1", sha1List.toString());
+                            //----- Log ends-----
+
+                        } else {
+
+                            ActivationFailedDialog activationFailedDialog = new ActivationFailedDialog(context);
+                            activationFailedDialog.show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Log.d("failure", "failed");
+                    }
+                });
+
                 // gör "write" activation command till den valda beacon.
             }
         });

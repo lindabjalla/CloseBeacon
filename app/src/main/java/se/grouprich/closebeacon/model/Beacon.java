@@ -5,25 +5,25 @@ import java.util.UUID;
 public class Beacon {
 
     private String name;
-    private String address;
+    private String macAddress;
     private String rssi;
     private String serviceUuid;
     private String serialNumber;
     private String proximityUuid;
 
-    public Beacon(String name, String address, String rssi, String serviceUuid) {
+    public Beacon(String name, String macAddress, String rssi, String serviceUuid) {
 
         this.name = name;
-        this.address = address;
+        this.macAddress = macAddress;
         this.rssi = rssi;
         this.serviceUuid = serviceUuid;
-        this.serialNumber = createSerialNumber(address);
+        this.serialNumber = createSerialNumber(macAddress);
         proximityUuid = UUID.randomUUID().toString();
     }
 
     public String getMacAddress() {
 
-        return address;
+        return macAddress;
     }
 
     public String getName() {
@@ -70,19 +70,5 @@ public class Beacon {
         }
 
         return createdSerialNumber.toString();
-    }
-
-    private byte[] convertMacAddressToByteArray(String macAddress){
-
-        String[] macAddressArray = macAddress.split(":");
-
-        byte[] macAddressAsByteArray = new byte[6];
-
-        for(int i = 0; i < macAddressArray.length; i++){
-
-            macAddressAsByteArray[i] = Integer.decode("0x" + macAddressArray[i]).byteValue();
-        }
-
-        return macAddressAsByteArray;
     }
 }
