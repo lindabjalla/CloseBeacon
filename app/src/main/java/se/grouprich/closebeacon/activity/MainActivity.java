@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
 
 //        preferences.edit().putBoolean(APP_IS_ACTIVATED_KEY, false).apply(); // bara för test
 
-        System.out.println(preferences.getBoolean(APP_IS_ACTIVATED_KEY, false));
         if (!preferences.getBoolean(APP_IS_ACTIVATED_KEY, false)) {
 
             Retrofit retrofit = new Retrofit.Builder()

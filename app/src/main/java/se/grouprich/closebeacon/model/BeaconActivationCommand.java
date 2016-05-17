@@ -1,6 +1,7 @@
 package se.grouprich.closebeacon.model;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -31,47 +32,45 @@ public final class BeaconActivationCommand {
                 .putLong(proximityUuid.getLeastSignificantBits())
                 .array();
 
-        majorNumber = ByteArrayBuilder.buildByteArrayFromNumberAsString(majorNumberString);
-        minorNumber = ByteArrayBuilder.buildByteArrayFromNumberAsString(minorNumberString);
+        this.majorNumber = ByteBuffer.allocate(2).order(ByteOrder.BIG_ENDIAN)
+                .put(convertMajorMinorNumberToByteArray(majorNumberString))
+                .array();
+
+        this.minorNumber = ByteBuffer.allocate(2).order(ByteOrder.BIG_ENDIAN)
+                .put(convertMajorMinorNumberToByteArray(minorNumberString))
+                .array();
+
         power = (byte) 0xC5;
 
         filling = new byte[46];
         Arrays.fill(filling, (byte) 0);
     }
 
-    public byte[] getSha1Hash() {
-        return sha1Hash;
+    private byte[] convertMajorMinorNumberToByteArray(String string) {
+
+        byte[] byteArray = new byte[2];
+
+        for (int i = 0; i < string.length(); i++) {
+
+            final byte parsedByte = Byte.parseByte(String.valueOf(string.charAt(i)));
+            byteArray[i] = parsedByte;
+        }
+
+        return byteArray;
     }
 
-    public byte[] getCompanyId() {
-        return companyId;
-    }
+    public byte[] buildByteArray() {
 
-    public byte getId1() {
-        return id1;
-    }
-
-    public byte getId2() {
-        return id2;
-    }
-
-    public byte[] getProximityUuidByteArray() {
-        return proximityUuidByteArray;
-    }
-
-    public byte[] getMajorNumber() {
-        return majorNumber;
-    }
-
-    public byte[] getMinorNumber() {
-        return minorNumber;
-    }
-
-    public byte getPower() {
-        return power;
-    }
-
-    public byte[] getFilling() {
-        return filling;
+        return ByteBuffer.allocate(91)
+                .put(sha1Hash)
+                .put(companyId)
+                .put(id1)
+                .put(id2)
+                .put(proximityUuidByteArray)
+                .put(majorNumber)
+                .put(minorNumber)
+                .put(power)
+                .put(filling)
+                .array();
     }
 }

@@ -74,7 +74,7 @@ public class BeaconActivationRequest {
         return byteArray;
     }
 
-    public byte[] buildActivationRequestAsByteArray(){
+    public byte[] buildByteArray(){
 
         return ByteBuffer.allocate(83)
                 .put(protocolVersion)
