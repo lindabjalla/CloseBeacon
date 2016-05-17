@@ -292,7 +292,9 @@ public class ScanActivity extends AppCompatActivity {
 
             List<BluetoothGattService> services = gatt.getServices();
             Log.i("onServicesDiscovered", services.toString());
-            gatt.readCharacteristic(services.get(1).getCharacteristics().get(0));
+            if(!services.isEmpty()) {
+                gatt.readCharacteristic(services.get(1).getCharacteristics().get(0));
+            }
         }
 
         @Override

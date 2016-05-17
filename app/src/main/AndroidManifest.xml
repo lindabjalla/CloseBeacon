@@ -30,8 +30,8 @@
         <activity android:name=".activity.UuidSelectionActivity" />
         <activity android:name=".activity.ScanActivity" />
         <activity android:name=".activity.DeviceDetailsActivity" />
-        <activity android:name=".activity.ActivationActivity" />
-        <!--<activity android:name=".activity.DeviceControlActivity"></activity>-->
+        <activity android:name=".activity.DeviceControlActivity"/>
+        <service android:name=".service.BluetoothLeService" android:enabled="true"/>
     </application>
 
 </manifest>

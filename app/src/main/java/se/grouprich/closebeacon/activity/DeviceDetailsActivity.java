@@ -1,10 +1,12 @@
 package se.grouprich.closebeacon.activity;
 
-import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +30,7 @@ import se.grouprich.closebeacon.dialog.ActivationFailedDialog;
 import se.grouprich.closebeacon.dialog.InvalidMajorMinorDialog;
 import se.grouprich.closebeacon.dialog.NoUuidDialog;
 import se.grouprich.closebeacon.dialog.UuidGeneratedDialog;
+import se.grouprich.closebeacon.model.BeaconActivationCommand;
 import se.grouprich.closebeacon.model.BeaconActivationRequest;
 import se.grouprich.closebeacon.requestresponsemanager.RequestBuilder;
 import se.grouprich.closebeacon.requestresponsemanager.converter.KeyConverter;
@@ -38,6 +41,8 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
     public static final String UUID_STRING_LIST_KEY = "se.grouprich.closebeacon.UUID_LIST_KEY";
     public static final String SAVED_BEACON_KEY = "se.grouprich.closebeacon.SAVED_BEACON_KEY";
+    public static final String ACTIVATION_COMMAND_KEY = "se.grouprich.closebeacon.ACTIVATION_COMMAND";
+    public static final String MAC_ADDRESS_KEY = "se.grouprich.closebeacon.MAC_ADDRESS_KEY";
 
     private TextView textViewMacAddress;
     private TextView textViewName;
@@ -214,7 +219,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                 String authCode = preferences.getString(AuthorizationActivity.AUTH_CODE_KEY, null);
 
                 BeaconActivationRequest beaconActivationRequest = new BeaconActivationRequest(authCode, macAddress, majorNumber, minorNumber, proximityUuid);
-                final byte[] activationRequestAsByteArray = beaconActivationRequest.buildActivationRequestAsByteArray();
+                final byte[] activationRequestAsByteArray = beaconActivationRequest.buildByteArray();
 
                 // ------ Loggar activationRequest byteArray value ------
                 List<String> activationRequestBytes = new ArrayList<>();
@@ -259,8 +264,8 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
                         if(responseBody.contains("OK")){
 
-                            String hexString = responseBody.replace("OK ", "");
-                            final byte[] sha1 = SHA1Converter.hexStringToByteArray(hexString);
+                            String sha1Hex = responseBody.replace("OK ", "");
+                            final byte[] sha1 = SHA1Converter.hexStringToByteArray(sha1Hex);
 
                             //----- Loggar SHA1 value -----
                             List<String> sha1List = new ArrayList<>();
@@ -273,7 +278,15 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                             Log.d("SHA1", sha1List.toString());
                             //----- Log ends-----
 
-                        } else {
+                            BeaconActivationCommand beaconActivationCommand = new BeaconActivationCommand(sha1, proximityUuid, majorNumber, minorNumber);
+                            final byte[] beaconActivationCommandAsByteArray = beaconActivationCommand.buildByteArray();
+
+                            Intent intent = new Intent(context, DeviceControlActivity.class);
+                            intent.putExtra(ACTIVATION_COMMAND_KEY, beaconActivationCommandAsByteArray);
+                            intent.putExtra(MAC_ADDRESS_KEY, macAddress);
+                            startActivity(intent);
+
+                            } else {
 
                             ActivationFailedDialog activationFailedDialog = new ActivationFailedDialog(context);
                             activationFailedDialog.show();
