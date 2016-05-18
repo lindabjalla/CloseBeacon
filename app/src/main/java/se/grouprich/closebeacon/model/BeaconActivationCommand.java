@@ -2,7 +2,9 @@ package se.grouprich.closebeacon.model;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import se.grouprich.closebeacon.requestresponsemanager.bytearraybuilder.ByteArrayBuilder;
@@ -23,7 +25,7 @@ public final class BeaconActivationCommand {
 
         this.sha1Hash = sha1Hash;
         companyId = ByteBuffer.allocate(2).put((byte) 0x004C).array();
-        id1 = 1;
+        id1 = 2;
         id2 = 21;
 
         UUID proximityUuid = UUID.fromString(proximityUuidString);
@@ -33,30 +35,17 @@ public final class BeaconActivationCommand {
                 .array();
 
         this.majorNumber = ByteBuffer.allocate(2).order(ByteOrder.BIG_ENDIAN)
-                .put(convertMajorMinorNumberToByteArray(majorNumberString))
+                .put(ByteArrayBuilder.numberStringToByteArray(majorNumberString))
                 .array();
 
         this.minorNumber = ByteBuffer.allocate(2).order(ByteOrder.BIG_ENDIAN)
-                .put(convertMajorMinorNumberToByteArray(minorNumberString))
+                .put(ByteArrayBuilder.numberStringToByteArray(minorNumberString))
                 .array();
 
         power = (byte) 0xC5;
 
         filling = new byte[46];
         Arrays.fill(filling, (byte) 0);
-    }
-
-    private byte[] convertMajorMinorNumberToByteArray(String string) {
-
-        byte[] byteArray = new byte[2];
-
-        for (int i = 0; i < string.length(); i++) {
-
-            final byte parsedByte = Byte.parseByte(String.valueOf(string.charAt(i)));
-            byteArray[i] = parsedByte;
-        }
-
-        return byteArray;
     }
 
     public byte[] buildByteArray() {
