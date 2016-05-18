@@ -2,9 +2,8 @@ package se.grouprich.closebeacon.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattService;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -13,19 +12,15 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.IBinder;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import se.grouprich.closebeacon.R;
@@ -52,8 +47,6 @@ public class DeviceControlActivity extends Activity {
     private String serviceUuid = "19721006-2004-2007-2014-acc0cbeac000";
     private String characteristicUuid = "19721006-2004-2007-2014-acc0cbeac010";
     byte[] activationCommand;
-
-    Button buttonWriteChar;
 
     private final String LIST_NAME = "NAME";
     private final String LIST_UUID = "UUID";
@@ -148,14 +141,13 @@ public class DeviceControlActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.button_control);
+        setContentView(R.layout.button_device_control);
 
         final Intent intent = getIntent();
 //        mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
         mDeviceName = "CLOSE BEACON";
         mDeviceAddress = intent.getStringExtra(DeviceDetailsActivity.MAC_ADDRESS_KEY);
         activationCommand = intent.getByteArrayExtra(DeviceDetailsActivity.ACTIVATION_COMMAND_KEY);
-        buttonWriteChar = (Button) findViewById(R.id.button_write_char);
 
         // Sets up UI references.
 //        ((TextView) findViewById(R.id.device_address)).setText(mDeviceAddress);
@@ -166,8 +158,6 @@ public class DeviceControlActivity extends Activity {
 
 //        getActionBar().setTitle(mDeviceName);
 //        getActionBar().setDisplayHomeAsUpEnabled(true);
-        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
-        bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 //        buttonWriteChar.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -315,9 +305,25 @@ public class DeviceControlActivity extends Activity {
     }
 
     public void onClickWrite(View view){
+
+        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
+        bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
         if(mBluetoothLeService != null) {
+
             final boolean result = mBluetoothLeService.writeCharacteristic(serviceUuid, characteristicUuid, activationCommand);
-            Log.d("*********** result", String.valueOf(result));
+            List<String> byteString = new ArrayList<>();
+
+            for (byte  b : activationCommand) {
+
+                byteString.add(String.valueOf(b));
+            }
+
+            Log.d("byteArrayString", byteString.toString());
+            Log.d("write char result", String.valueOf(result));
+
+            // TODO: scanna beacon och se om den aktiverad genom att göra så.
+            // TODO: result.getScanRecord().getManufacturerSpecificData();
+
         }
     }
 

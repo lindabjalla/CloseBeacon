@@ -90,6 +90,12 @@ public class BluetoothLeService extends Service {
         }
 
         @Override
+        public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+
+            super.onCharacteristicWrite(gatt, characteristic, status);
+        }
+
+        @Override
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
@@ -336,6 +342,7 @@ public class BluetoothLeService extends Service {
             return false;
         }
 
+//        characteristic.setWriteType();
         characteristic.setValue(activationRequestCommand);
         return mBluetoothGatt.writeCharacteristic(characteristic);
     }

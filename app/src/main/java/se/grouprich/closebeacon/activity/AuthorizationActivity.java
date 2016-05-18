@@ -30,7 +30,6 @@ public class AuthorizationActivity extends AppCompatActivity {
 
     public static final String TAG = AuthorizationActivity.class.getSimpleName();
     public static final String AUTH_CODE_KEY = "authCodeKey";
-    private Button buttonAuth;
     private TextView textAuthCode;
     private String authenticationCode;
     private PublicKey publicKey;
@@ -46,7 +45,7 @@ public class AuthorizationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
 
-       preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES, 0);
+        preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES, 0);
         String publicKeyAsString = preferences.getString(MainActivity.PUBLIC_KEY_AS_STRING_KEY, null);
 
         try {
@@ -57,98 +56,98 @@ public class AuthorizationActivity extends AppCompatActivity {
 
             e.printStackTrace();
         }
-//        Intent intent = getIntent();
-//        publicKey = (PublicKey) intent.getSerializableExtra(MainActivity.PUBLIC_KEY_KEY);
 
         if (publicKey != null) {
 
-            buttonAuth = (Button) findViewById(R.id.button_authorize);
+            Button buttonAuth = (Button) findViewById(R.id.button_authorize);
             textAuthCode = (EditText) findViewById(R.id.editText_auth_code);
             dialog = new InvalidAuthCodeDialog(context);
 
-            buttonAuth.setOnClickListener(new View.OnClickListener() {
+            if (buttonAuth != null) {
 
-                @Override
-                public void onClick(View view) {
+                buttonAuth.setOnClickListener(new View.OnClickListener() {
 
-                    authenticationCode = textAuthCode.getText().toString();
+                    @Override
+                    public void onClick(View view) {
 
-                    if (authenticationCode.length() != 12) {
+                        authenticationCode = textAuthCode.getText().toString();
 
-                        dialog.show();
+                        if (authenticationCode.length() != 12) {
 
-                    } else {
+                            dialog.show();
 
-                        AuthorizationByteArrayBuilder requestBuilder = new AuthorizationByteArrayBuilder();
-                        final byte[] authRequestByteArray = requestBuilder.buildAuthRequestByteArray(authenticationCode);
-                        final byte[] authCodePlusOkByteArray = requestBuilder.buildResponseOkByteArray(authRequestByteArray);
-                        final byte[] authCodePlusUnknownByteArray = requestBuilder.buildResponseUnknownByteArray(authRequestByteArray);
+                        } else {
 
-                        Log.d("authReq", authRequestByteArray.toString());
+                            AuthorizationByteArrayBuilder requestBuilder = new AuthorizationByteArrayBuilder();
+                            final byte[] authRequestByteArray = requestBuilder.buildAuthRequestByteArray(authenticationCode);
+                            final byte[] authCodePlusOkByteArray = requestBuilder.buildResponseOkByteArray(authRequestByteArray);
+                            final byte[] authCodePlusUnknownByteArray = requestBuilder.buildResponseUnknownByteArray(authRequestByteArray);
 
-                        try {
+                            Log.d("authReq", authRequestByteArray.toString());
 
-                            responseOk = SHA1Converter.byteArrayToSHA1(authCodePlusOkByteArray);
-                            responseUnknown = SHA1Converter.byteArrayToSHA1(authCodePlusUnknownByteArray);
+                            try {
 
-                        } catch (NoSuchAlgorithmException e) {
+                                responseOk = SHA1Converter.byteArrayToSHA1(authCodePlusOkByteArray);
+                                responseUnknown = SHA1Converter.byteArrayToSHA1(authCodePlusUnknownByteArray);
 
-                            e.printStackTrace();
-                        }
+                            } catch (NoSuchAlgorithmException e) {
 
-                        Log.d("authCodePlusOk", responseOk);
-                        Log.d("authCodePlusUnknown", responseUnknown);
+                                e.printStackTrace();
+                            }
 
-                        String authorizationRequest = null;
+                            Log.d("authCodePlusOk", responseOk);
+                            Log.d("authCodePlusUnknown", responseUnknown);
 
-                        try {
+                            String authorizationRequest = null;
 
-                            authorizationRequest = RequestBuilder.buildRequest(publicKey, authRequestByteArray);
+                            try {
 
-                        } catch (Exception e) {
+                                authorizationRequest = RequestBuilder.buildRequest(publicKey, authRequestByteArray);
 
-                            e.printStackTrace();
-                        }
+                            } catch (Exception e) {
 
-                        Log.d("authReq", authorizationRequest);
+                                e.printStackTrace();
+                            }
 
-                        RetrofitManager retrofitManager = new RetrofitManager();
-                        Call<String> result = retrofitManager.getBeaconService().getAuthorizationResponse(authorizationRequest);
+                            Log.d("authReq", authorizationRequest);
 
-                        result.enqueue(new Callback<String>() {
+                            RetrofitManager retrofitManager = new RetrofitManager();
+                            Call<String> result = retrofitManager.getBeaconService().getAuthorizationResponse(authorizationRequest);
 
-                            @Override
-                            public void onResponse(Call<String> call, Response<String> response) {
+                            result.enqueue(new Callback<String>() {
 
-                                Log.d("url", call.request().url().toString());
-                                Log.d(TAG, "***************** " + response.body());
-                                Log.d("responseOk", responseOk);
+                                @Override
+                                public void onResponse(Call<String> call, Response<String> response) {
 
-                                if (response.body().replaceFirst("=", "").equals(responseOk)) {
+                                    Log.d("url", call.request().url().toString());
+                                    Log.d(TAG, "***************** " + response.body());
+                                    Log.d("responseOk", responseOk);
 
-//                                    SharedPreferences preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES, 0);
-                                    preferences.edit().putBoolean(MainActivity.APP_IS_ACTIVATED_KEY, true)
-                                            .putString(AUTH_CODE_KEY, authenticationCode)
-                                            .apply();
+                                    if (response.body().replaceFirst("=", "").equals(responseOk)) {
 
-                                    Intent intent = new Intent(context, ScanActivity.class);
-                                    startActivity(intent);
+                                        preferences.edit().putBoolean(MainActivity.APP_IS_ACTIVATED_KEY, true)
+                                                .putString(AUTH_CODE_KEY, authenticationCode)
+                                                .apply();
 
-                                } else {
+                                        Intent intent = new Intent(context, ScanActivity.class);
+                                        startActivity(intent);
 
-                                    dialog.show();
+                                    } else {
+
+                                        dialog.show();
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void onFailure(Call<String> call, Throwable t) {
+                                @Override
+                                public void onFailure(Call<String> call, Throwable t) {
 
-                                Log.d(TAG, "Could not fetch response" + t.getMessage());
-                            }
-                        });
+                                    Log.d(TAG, "Could not fetch response" + t.getMessage());
+                                }
+                            });
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }
 }

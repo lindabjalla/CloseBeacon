@@ -298,8 +298,6 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                         Log.d("failure", "failed");
                     }
                 });
-
-                // gör "write" activation command till den valda beacon.
             }
         });
     }

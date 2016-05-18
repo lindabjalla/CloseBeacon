@@ -13,7 +13,7 @@ public final class SHA1Converter {
         return byteArrayToHex(md.digest(byteArrayToConvert));
     }
 
-    private static String byteArrayToHex(final byte[] byteArray) {
+    public static String byteArrayToHex(final byte[] byteArray) {
 
         Formatter formatter = new Formatter();
 

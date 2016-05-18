@@ -5,6 +5,8 @@ import java.nio.ByteOrder;
 import java.util.Random;
 import java.util.UUID;
 
+import se.grouprich.closebeacon.requestresponsemanager.bytearraybuilder.ByteArrayBuilder;
+
 public class BeaconActivationRequest {
 
     private byte[] protocolVersion;
@@ -17,12 +19,12 @@ public class BeaconActivationRequest {
     private byte[] minorNumber;
     private byte[] proximityUuidAsByteArray;
 
-    public BeaconActivationRequest(String authCode, String macAddress, String majorNumber,
-                                   String minorNumber, String proximityUuidAsString) {
+    public BeaconActivationRequest(String authCode, String macAddress, String majorNumberAsString,
+                                   String minorNumberAsString, String proximityUuidAsString) {
 
         protocolVersion = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(1).array();
         this.authCode = authCode.getBytes();
-        this.macAddress = convertMacAddressToByteArray(macAddress);
+        this.macAddress = ByteArrayBuilder.macAddressToByteArray(macAddress);
 
         adminKey = new byte[20];
         new Random().nextBytes(adminKey);
@@ -33,11 +35,11 @@ public class BeaconActivationRequest {
         beaconType = 100;
 
         this.majorNumber = ByteBuffer.allocate(2).order(ByteOrder.BIG_ENDIAN)
-                .put(convertMajorMinorNumberToByteArray(majorNumber))
+                .put(ByteArrayBuilder.numberStringToByteArray(majorNumberAsString))
                 .array();
 
         this.minorNumber = ByteBuffer.allocate(2).order(ByteOrder.BIG_ENDIAN)
-                .put(convertMajorMinorNumberToByteArray(minorNumber))
+                .put(ByteArrayBuilder.numberStringToByteArray(minorNumberAsString))
                 .array();
 
         UUID proximityUuid = UUID.fromString(proximityUuidAsString);
@@ -45,33 +47,6 @@ public class BeaconActivationRequest {
                 .putLong(proximityUuid.getMostSignificantBits())
                 .putLong(proximityUuid.getLeastSignificantBits())
                 .array();
-    }
-
-    private byte[] convertMacAddressToByteArray(String macAddress){
-
-        String[] macAddressArray = macAddress.split(":");
-
-        byte[] macAddressAsByteArray = new byte[6];
-
-        for(int i = 0; i < macAddressArray.length; i++){
-
-            macAddressAsByteArray[i] = Integer.decode("0x" + macAddressArray[i]).byteValue();
-        }
-
-        return macAddressAsByteArray;
-    }
-
-    private byte[] convertMajorMinorNumberToByteArray(String string) {
-
-        byte[] byteArray = new byte[2];
-
-        for (int i = 0; i < string.length(); i++) {
-
-            final byte parsedByte = Byte.parseByte(String.valueOf(string.charAt(i)));
-            byteArray[i] = parsedByte;
-        }
-
-        return byteArray;
     }
 
     public byte[] buildByteArray(){

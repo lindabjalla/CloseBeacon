@@ -13,6 +13,7 @@ import android.bluetooth.BluetoothProfile;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanFilter;
+import android.bluetooth.le.ScanRecord;
 import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
 import android.content.Context;
@@ -26,8 +27,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.SparseArray;
 import android.widget.Toast;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -37,13 +40,14 @@ import java.util.UUID;
 import se.grouprich.closebeacon.R;
 import se.grouprich.closebeacon.adapter.BeaconAdapter;
 import se.grouprich.closebeacon.model.Beacon;
+import se.grouprich.closebeacon.requestresponsemanager.converter.SHA1Converter;
 
 @TargetApi(21)
 public class ScanActivity extends AppCompatActivity {
     private BluetoothAdapter mBluetoothAdapter;
     private int REQUEST_ENABLE_BT = 1;
     private Handler mHandler;
-    private static final long SCAN_PERIOD = 3000;
+    private static final long SCAN_PERIOD = 10000;
     private BluetoothLeScanner mLEScanner;
     private ScanSettings settings;
     private List<ScanFilter> filters;
@@ -191,8 +195,7 @@ public class ScanActivity extends AppCompatActivity {
             BluetoothDevice btDevice = result.getDevice();
 
             Log.i("** RECORD *****  ", String.valueOf(result.getScanRecord()));
-            Log.i("** RECORD *****  ", String.valueOf(result.getScanRecord().getManufacturerSpecificData()));
-
+            Log.i("** RECORD2 *****  ", String.valueOf(result.getScanRecord().getManufacturerSpecificData()));
 
 //            String uuidFromScan = String.valueOf(result.getScanRecord().getServiceUuids());
 
@@ -217,6 +220,7 @@ public class ScanActivity extends AppCompatActivity {
                             String.valueOf(result.getRssi()),
 //                            String.valueOf(result.getScanRecord().getServiceUuids()).replace("[", "").replace("]", ""));
                             serviceUuid);
+
                     //addBeacon(iBeacon);
                     Log.i("**== ADDED ***", "");
                     beacons.add(iBeacon);
