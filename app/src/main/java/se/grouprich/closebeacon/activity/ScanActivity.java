@@ -98,7 +98,7 @@ public class ScanActivity extends AppCompatActivity {
                         .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
                         .build();
                 filters = new ArrayList<ScanFilter>();
-                beacons = Collections.synchronizedList(new ArrayList<Beacon>());
+                beacons = Collections.synchronizedList(new ArrayList<Beacon>()); //?
             }
 
             scanLeDevice(true);
