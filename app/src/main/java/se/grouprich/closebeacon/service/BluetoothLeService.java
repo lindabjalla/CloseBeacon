@@ -341,7 +341,7 @@ public class BluetoothLeService extends Service {
             Log.e(TAG, "char not found!");
             return false;
         }
-        
+
 //        characteristic.setWriteType();
         characteristic.setValue(activationRequestCommand);
         return mBluetoothGatt.writeCharacteristic(characteristic);

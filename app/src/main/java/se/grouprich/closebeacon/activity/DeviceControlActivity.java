@@ -2,6 +2,7 @@ package se.grouprich.closebeacon.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -35,7 +36,7 @@ public class DeviceControlActivity extends Activity {
     private TextView mConnectionState;
     private TextView mDataField;
     private String mDeviceName;
-    private String macAddress;
+    private String mDeviceAddress;
     private ExpandableListView mGattServicesList;
     private BluetoothLeService mBluetoothLeService;
     private ArrayList<ArrayList<BluetoothGattCharacteristic>> mGattCharacteristics =
@@ -45,7 +46,7 @@ public class DeviceControlActivity extends Activity {
 
     private String serviceUuid = "19721006-2004-2007-2014-acc0cbeac000";
     private String characteristicUuid = "19721006-2004-2007-2014-acc0cbeac010";
-    private byte[] activationCommand;
+    byte[] activationCommand;
 
     private final String LIST_NAME = "NAME";
     private final String LIST_UUID = "UUID";
@@ -61,7 +62,7 @@ public class DeviceControlActivity extends Activity {
                 finish();
             }
             // Automatically connects to the device upon successful start-up initialization.
-            mBluetoothLeService.connect(macAddress);
+            mBluetoothLeService.connect(mDeviceAddress);
         }
 
         @Override
@@ -145,11 +146,11 @@ public class DeviceControlActivity extends Activity {
         final Intent intent = getIntent();
 //        mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
         mDeviceName = "CLOSE BEACON";
-        macAddress = intent.getStringExtra(DeviceDetailsActivity.MAC_ADDRESS_KEY);
+        mDeviceAddress = intent.getStringExtra(DeviceDetailsActivity.MAC_ADDRESS_KEY);
         activationCommand = intent.getByteArrayExtra(DeviceDetailsActivity.ACTIVATION_COMMAND_KEY);
 
         // Sets up UI references.
-//        ((TextView) findViewById(R.id.device_address)).setText(macAddress);
+//        ((TextView) findViewById(R.id.device_address)).setText(mDeviceAddress);
 //        mGattServicesList = (ExpandableListView) findViewById(R.id.gatt_services_list);
 //        mGattServicesList.setOnChildClickListener(servicesListClickListner);
         mConnectionState = (TextView) findViewById(R.id.connection_state);
@@ -175,7 +176,7 @@ public class DeviceControlActivity extends Activity {
         super.onResume();
         registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         if (mBluetoothLeService != null) {
-            final boolean result = mBluetoothLeService.connect(macAddress);
+            final boolean result = mBluetoothLeService.connect(mDeviceAddress);
             Log.d(TAG, "Connect request result=" + result);
         }
     }
@@ -210,7 +211,7 @@ public class DeviceControlActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.menu_connect:
-                mBluetoothLeService.connect(macAddress);
+                mBluetoothLeService.connect(mDeviceAddress);
                 return true;
             case R.id.menu_disconnect:
                 mBluetoothLeService.disconnect();
@@ -320,10 +321,7 @@ public class DeviceControlActivity extends Activity {
             Log.d("byteArrayString", byteString.toString());
             Log.d("write char result", String.valueOf(result));
 
-            Intent rangingIntent =  new Intent(this, RangingActivity.class);
-            startActivity(rangingIntent);
-
-            // TODO: scanna beacon och se om den är aktiverad genom att göra så.
+            // TODO: scanna beacon och se om den aktiverad genom att göra så.
             // TODO: result.getScanRecord().getManufacturerSpecificData();
 
         }

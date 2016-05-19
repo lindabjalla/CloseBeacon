@@ -1,4 +1,4 @@
-package grouprich.se.closebeacon;
+package se.grouprich.closebeacon.requestresponsemanager.converter;
 
 import android.util.Base64;
 
@@ -9,10 +9,12 @@ import java.security.spec.X509EncodedKeySpec;
 
 public final class KeyConverter {
 
-    public static PublicKey stringToPublicKey(String keyInString) throws GeneralSecurityException {
-        byte key[] =  Base64.decode(keyInString, Base64.DEFAULT);
-        X509EncodedKeySpec keySpec =  new X509EncodedKeySpec(key);
+    public static PublicKey stringToPublicKey(String keyString) throws GeneralSecurityException {
+
+        byte[] decodedPublicKey = Base64.decode(keyString, Base64.DEFAULT);
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(decodedPublicKey);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+
         return keyFactory.generatePublic(keySpec);
     }
 }

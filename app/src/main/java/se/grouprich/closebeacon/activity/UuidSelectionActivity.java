@@ -23,7 +23,7 @@ public class UuidSelectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_uuid_selection);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.names_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
         Intent intent = getIntent();

@@ -9,7 +9,6 @@
         android:id="@+id/select_uuid_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/recycler_view_uuid"
         android:background="@color/colorEggshell"
         android:padding="16dp">
 
@@ -28,9 +27,10 @@
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/recycler_view_uuid"
+        android:id="@+id/names_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/select_uuid_message"
         android:scrollbars="vertical"
         tools:context="se.grouprich.closebeacon.MainActivity"
         android:clickable="true"/>

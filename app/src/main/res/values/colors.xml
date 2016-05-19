@@ -3,4 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorApricot">#ffad99</color>
+    <color name="colorEggshell">#fffdf8</color>
+    <color name="colorDimGray">#696969</color>
+    <color name="colorAquaGreen">#73bfbf</color>
+    <color name="colorVintageBlue">#99C4C0</color>
+    <color name="colorLineLight">#FFCC80</color>
+    <color name="colorLineMedium">#FFB74D</color>
+    <color name="colorBackground">#FFE0B2</color>
 </resources>

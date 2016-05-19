@@ -3,21 +3,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="grouprich.se.closebeacon.AuthorizationActivity"
-    android:background="#ffffff">
+    tools:context="se.grouprich.closebeacon.activity.AuthorizationActivity">
 
     <Button
+        android:id="@+id/button_authorize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
-        android:id="@+id/button_auth"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="126dp"
-        android:background="#59441a"
-        android:textColor="#f6eeee" />
+        android:layout_centerVertical="true"
+        android:background="#7d7c79"
+        android:padding="16dp"
+        android:textAllCaps="false"
+        android:text="AUTHORIZE"
+        android:textSize="24sp"
+        android:textColor="#f9d998" />
+
+    <EditText
+        android:id="@+id/editText_auth_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/button_authorize"
+        android:hint="Enter your authentication code"
+        android:inputType="text"
+        android:padding="20dp" />
+
+    <RelativeLayout
+        android:id="@+id/layout_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f9d998"
+        android:layout_centerHorizontal="true"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="AUTHORIZATION"
+            android:textColor="#121010"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:visibility="visible" />
+    </RelativeLayout>
+
 </RelativeLayout>

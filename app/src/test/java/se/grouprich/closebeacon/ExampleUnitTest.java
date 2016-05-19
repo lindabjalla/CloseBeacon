@@ -1,4 +1,4 @@
-package grouprich.se.closebeacon;
+package se.grouprich.closebeacon;
 
 import org.junit.Test;
 

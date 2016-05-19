@@ -48,14 +48,6 @@ public final class BeaconActivationCommand {
         Arrays.fill(filling, (byte) 0);
     }
 
-    public byte[] getMajorNumber() {
-        return majorNumber;
-    }
-
-    public byte[] getMinorNumber() {
-        return minorNumber;
-    }
-
     public byte[] buildByteArray() {
 
         return ByteBuffer.allocate(91)
