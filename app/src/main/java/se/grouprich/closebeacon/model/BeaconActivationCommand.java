@@ -2,7 +2,6 @@ package se.grouprich.closebeacon.model;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.UUID;
 
