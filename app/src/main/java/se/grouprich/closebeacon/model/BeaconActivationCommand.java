@@ -21,7 +21,6 @@ public final class BeaconActivationCommand {
     private byte id2;
     private byte[] proximityUuidByteArray;
     private byte power;
-    private byte[] filling;
 
     public BeaconActivationCommand(byte[] sha1Hash, String proximityUuidString, String majorNumberString, String minorNumberString) {
 
@@ -55,6 +54,14 @@ public final class BeaconActivationCommand {
                 .array();
 
         power = (byte) 0xC5;
+    }
+
+    public byte[] getMajorNumber() {
+        return majorNumber;
+    }
+
+    public byte[] getMinorNumber() {
+        return minorNumber;
     }
 
     public byte[] buildByteArray() {
