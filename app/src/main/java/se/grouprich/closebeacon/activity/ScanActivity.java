@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Timer;
 import java.util.UUID;
 
 import se.grouprich.closebeacon.R;
@@ -50,7 +51,7 @@ public class ScanActivity extends AppCompatActivity {
     private BluetoothAdapter mBluetoothAdapter;
     private int REQUEST_ENABLE_BT = 1;
     private Handler mHandler;
-    private static final long SCAN_PERIOD = 10000;
+    private static final long SCAN_PERIOD = 1000;
     private BluetoothLeScanner mLEScanner;
     private ScanSettings settings;
     private List<ScanFilter> filters;
@@ -112,10 +113,12 @@ public class ScanActivity extends AppCompatActivity {
                         .build();
                 filters = new ArrayList<ScanFilter>();
                 beacons = Collections.synchronizedList(new ArrayList<Beacon>());
+
             }
 
             scanLeDevice(true);
         }
+
     }
 
     @Override
@@ -160,10 +163,10 @@ public class ScanActivity extends AppCompatActivity {
     private void scanLeDevice(final boolean enable) {
 
         if (enable) {
-            mHandler.postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
+//            mHandler.postDelayed(new Runnable() {
+//
+//                @Override
+//                public void run() {
 
                     if (Build.VERSION.SDK_INT < 21) {
 
@@ -173,8 +176,8 @@ public class ScanActivity extends AppCompatActivity {
 
                         mLEScanner.stopScan(mScanCallback);
                     }
-                }
-            }, SCAN_PERIOD);
+//                }
+//            }, SCAN_PERIOD);
 
             if (Build.VERSION.SDK_INT < 21) {
 
@@ -184,6 +187,7 @@ public class ScanActivity extends AppCompatActivity {
 
                 mLEScanner.startScan(filters, settings, mScanCallback);
             }
+
 
         } else {
 
@@ -240,6 +244,7 @@ public class ScanActivity extends AppCompatActivity {
             }
 
             displayBeaconsList();
+
             connectToDevice(btDevice);
         }
 
@@ -277,7 +282,23 @@ public class ScanActivity extends AppCompatActivity {
         if (mGatt == null) {
 
             mGatt = device.connectGatt(this, false, gattCallback);
-            scanLeDevice(false);// will stop after first device detection
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    scanLeDevice(false);// will stop after five seconds
+                }
+            }, 10000);
+
+        }else{
+
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    scanLeDevice(false);// will stop after five seconds
+                }
+            }, 10000);
         }
     }
 
