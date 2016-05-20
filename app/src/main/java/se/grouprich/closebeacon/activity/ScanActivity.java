@@ -1,5 +1,6 @@
 package se.grouprich.closebeacon.activity;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -17,12 +18,14 @@ import android.bluetooth.le.ScanRecord;
 import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ParcelUuid;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -59,6 +62,8 @@ public class ScanActivity extends AppCompatActivity {
     private List<Beacon> beacons;
     private final String serviceUuid = "19721006-2004-2007-2014-acc0cbeac000";
 
+    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -73,6 +78,14 @@ public class ScanActivity extends AppCompatActivity {
 
             finish();
         }
+
+//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+//            if(this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION != PackageManager.PERMISSION_GRANTED)){
+//            }
+//        }
+
+
+
 
         final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
@@ -202,7 +215,7 @@ public class ScanActivity extends AppCompatActivity {
             final List<ParcelUuid> serviceUuids = result.getScanRecord().getServiceUuids();
             final List<String> serviceUuidsString = new ArrayList<>();
 
-            if(serviceUuids != null) {
+            if (serviceUuids != null) {
 
                 for (ParcelUuid serviceUuid : serviceUuids) {
 
@@ -210,21 +223,21 @@ public class ScanActivity extends AppCompatActivity {
                 }
             }
 
-            if (serviceUuidsString.contains(serviceUuid) && checkMacAddress(String.valueOf(result.getDevice().getAddress()))){
+            if (serviceUuidsString.contains(serviceUuid) && checkMacAddress(String.valueOf(result.getDevice().getAddress()))) {
 
 //                if ((uuidFromScan != null) && (serviceUuid.equals(uuidFromScan)) &&
 //                        checkMacAddress(String.valueOf(result.getDevice().getAddress()))) {
 
-                    Beacon iBeacon = new Beacon(String.valueOf(result.getDevice().getName()),
-                            String.valueOf(result.getDevice().getAddress()),
-                            String.valueOf(result.getRssi()),
+                Beacon iBeacon = new Beacon(String.valueOf(result.getDevice().getName()),
+                        String.valueOf(result.getDevice().getAddress()),
+                        String.valueOf(result.getRssi()),
 //                            String.valueOf(result.getScanRecord().getServiceUuids()).replace("[", "").replace("]", ""));
-                            serviceUuid);
+                        serviceUuid);
 
-                    //addBeacon(iBeacon);
-                    Log.i("**== ADDED ***", "");
-                    beacons.add(iBeacon);
-                }
+                //addBeacon(iBeacon);
+                Log.i("**== ADDED ***", "");
+                beacons.add(iBeacon);
+            }
 
             displayBeaconsList();
             connectToDevice(btDevice);
@@ -296,7 +309,7 @@ public class ScanActivity extends AppCompatActivity {
 
             List<BluetoothGattService> services = gatt.getServices();
             Log.i("onServicesDiscovered", services.toString());
-            if(!services.isEmpty()) {
+            if (!services.isEmpty()) {
                 gatt.readCharacteristic(services.get(1).getCharacteristics().get(0));
             }
         }

@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -280,6 +281,8 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
                             BeaconActivationCommand beaconActivationCommand = new BeaconActivationCommand(sha1, proximityUuid, majorNumber, minorNumber);
                             final byte[] beaconActivationCommandAsByteArray = beaconActivationCommand.buildByteArray();
+
+                            preferences.edit().putString(ACTIVATION_COMMAND_KEY, Base64.encodeToString(beaconActivationCommandAsByteArray, Base64.DEFAULT)).apply();
 
                             Intent intent = new Intent(context, DeviceControlActivity.class);
                             intent.putExtra(ACTIVATION_COMMAND_KEY, beaconActivationCommandAsByteArray);

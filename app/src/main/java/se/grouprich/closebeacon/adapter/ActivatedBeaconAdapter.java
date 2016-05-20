@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import org.altbeacon.beacon.Beacon;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,6 +29,7 @@ public class ActivatedBeaconAdapter extends RecyclerView.Adapter<ActivatedBeacon
 
     public ActivatedBeaconAdapter(Context context, Set<Beacon> beacons) {
         this.context = context;
+        this.beacons = new ArrayList<>();
         this.beacons.addAll(beacons);
         Collections.sort(this.beacons, new DistanceComparator());
 

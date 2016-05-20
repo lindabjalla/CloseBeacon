@@ -7,6 +7,7 @@
     <!-- Bluetooth permission -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
@@ -31,6 +32,7 @@
         <activity android:name=".activity.ScanActivity" />
         <activity android:name=".activity.DeviceDetailsActivity" />
         <activity android:name=".activity.DeviceControlActivity"/>
+        <activity android:name=".activity.RangingActivity"/>
         <service android:name=".service.BluetoothLeService" android:enabled="true"/>
     </application>
 
