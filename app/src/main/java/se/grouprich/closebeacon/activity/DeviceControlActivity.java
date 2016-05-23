@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import se.grouprich.closebeacon.R;
@@ -45,10 +47,18 @@ public class DeviceControlActivity extends Activity {
             new ArrayList<ArrayList<BluetoothGattCharacteristic>>();
     private boolean mConnected = false;
     private BluetoothGattCharacteristic mNotifyCharacteristic;
+    private SharedPreferences preferences;
 
     private String serviceUuid = "19721006-2004-2007-2014-acc0cbeac000";
     private String characteristicUuid = "19721006-2004-2007-2014-acc0cbeac010";
+
     private byte[] activationCommand;
+    private byte[] activationCommand1;
+    private byte[] activationCommand2;
+    private byte[] activationCommand3;
+    private byte[] activationCommand4;
+    private byte[] activationCommand5;
+    private List<byte[]> splitActivationCommand;
 
     private final String LIST_NAME = "NAME";
     private final String LIST_UUID = "UUID";
@@ -150,6 +160,20 @@ public class DeviceControlActivity extends Activity {
         mDeviceName = "CLOSE BEACON";
         mDeviceAddress = intent.getStringExtra(DeviceDetailsActivity.MAC_ADDRESS_KEY);
         activationCommand = intent.getByteArrayExtra(DeviceDetailsActivity.ACTIVATION_COMMAND_KEY);
+        activationCommand1 = Arrays.copyOfRange(activationCommand, 0, 20);
+        activationCommand2 = Arrays.copyOfRange(activationCommand, 20, 40);
+        activationCommand3 = Arrays.copyOfRange(activationCommand, 40, 60);
+        activationCommand4 = Arrays.copyOfRange(activationCommand, 60, 80);
+        activationCommand5 = Arrays.copyOfRange(activationCommand, 80, 91);
+
+        splitActivationCommand = new ArrayList<>();
+        splitActivationCommand.add(activationCommand1);
+        splitActivationCommand.add(activationCommand2);
+        splitActivationCommand.add(activationCommand3);
+        splitActivationCommand.add(activationCommand4);
+        splitActivationCommand.add(activationCommand5);
+
+        preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES, 0);
 
         // Sets up UI references.
 //        ((TextView) findViewById(R.id.device_address)).setText(mDeviceAddress);
@@ -214,7 +238,7 @@ public class DeviceControlActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.menu_connect:
                 mBluetoothLeService.connect(mDeviceAddress);
                 return true;
@@ -309,33 +333,28 @@ public class DeviceControlActivity extends Activity {
         return intentFilter;
     }
 
-    public void onClickWrite(View view){
+    public void onClickWrite(View view) throws InterruptedException {
 
-        if(mBluetoothLeService != null) {
+//        preferences.edit().putBoolean(BluetoothLeService.FINISHED_WRITING, false).apply();
 
+        if (mBluetoothLeService != null) {
 
-            final boolean result = mBluetoothLeService.writeCharacteristic(serviceUuid, characteristicUuid, activationCommand);
-            List<String> byteString = new ArrayList<>();
+//            mBluetoothLeService.addBleQueue(activationCommand1);
+//            mBluetoothLeService.addBleQueue(activationCommand2);
+//            mBluetoothLeService.addBleQueue(activationCommand3);
+//            mBluetoothLeService.addBleQueue(activationCommand4);
+//            mBluetoothLeService.addBleQueue(activationCommand5);
 
-            for (byte  b : activationCommand) {
+            mBluetoothLeService.writeCharacteristic(serviceUuid, characteristicUuid, activationCommand);
+        }
 
-                byteString.add(String.valueOf(b));
-            }
-
-            Log.d("byteArrayString", byteString.toString());
-            Log.d("write char result", String.valueOf(result));
+//            mBluetoothLeService.requestMtu();
+//            final boolean result = mBluetoothLeService.writeCharacteristic(serviceUuid, characteristicUuid, activationCommand);
 
 //            Intent intent = new Intent(this, RangingActivity.class);
 //            startActivity(intent);
-            // TODO: scanna beacon och se om den aktiverad genom att göra så.
-            // TODO: result.getScanRecord().getManufacturerSpecificData();
+        // TODO: scanna beacon och se om den aktiverad genom att göra så.
+        // TODO: result.getScanRecord().getManufacturerSpecificData();
 
-        }
-    }
-
-    public void onClickRead(View v){
-        if(mBluetoothLeService != null) {
-            mBluetoothLeService.readCharacteristic(serviceUuid, characteristicUuid);
-        }
     }
 }

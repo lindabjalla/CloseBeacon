@@ -69,6 +69,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
     private String majorNumber;
     private String minorNumber;
     private String proximityUuid;
+    private BeaconActivationRequest beaconActivationRequest;
 
     private SharedPreferences preferences;
 
@@ -222,7 +223,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                 preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES, 0);
                 String authCode = preferences.getString(AuthorizationActivity.AUTH_CODE_KEY, null);
 
-                BeaconActivationRequest beaconActivationRequest = new BeaconActivationRequest(authCode, macAddress, majorNumber, minorNumber, proximityUuid);
+                beaconActivationRequest = new BeaconActivationRequest(authCode, macAddress, majorNumber, minorNumber, proximityUuid);
                 final byte[] activationRequestAsByteArray = beaconActivationRequest.buildByteArray();
 
                 // ------ Loggar activationRequest byteArray value ------
@@ -282,7 +283,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                             Log.d("SHA1", sha1List.toString());
                             //----- Log ends-----
 
-                            BeaconActivationCommand beaconActivationCommand = new BeaconActivationCommand(sha1, proximityUuid, majorNumber, minorNumber);
+                            BeaconActivationCommand beaconActivationCommand = new BeaconActivationCommand(beaconActivationRequest.getAdminKey(), beaconActivationRequest.getMobileKey(), sha1, proximityUuid, majorNumber, minorNumber);
                             final byte[] beaconActivationCommandAsByteArray = beaconActivationCommand.buildByteArray();
 
                             preferences.edit().putString(ACTIVATION_COMMAND_KEY, Base64.encodeToString(beaconActivationCommandAsByteArray, Base64.DEFAULT)).apply();

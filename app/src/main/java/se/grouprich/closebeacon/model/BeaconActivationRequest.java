@@ -49,6 +49,14 @@ public class BeaconActivationRequest {
                 .array();
     }
 
+    public byte[] getAdminKey() {
+        return adminKey;
+    }
+
+    public byte[] getMobileKey() {
+        return mobileKey;
+    }
+
     public byte[] buildByteArray(){
 
         return ByteBuffer.allocate(83)

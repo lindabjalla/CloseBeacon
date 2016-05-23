@@ -21,7 +21,9 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.UUID;
 import java.util.prefs.Preferences;
 
@@ -31,12 +33,24 @@ import se.grouprich.closebeacon.activity.MainActivity;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class BluetoothLeService extends Service {
     private final static String TAG = BluetoothLeService.class.getSimpleName();
+    public final static String FINISHED_WRITING = "se.grouprich.closebeacon.FINISHED_WRITING";
+
+    private final static int MAX_MTU = 512;
+
+    private boolean finishedWriting;
+
+    private Queue<byte[]> bleQueue = new LinkedList<>();
 
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
     private String mBluetoothDeviceAddress;
     private BluetoothGatt mBluetoothGatt;
     private int mConnectionState = STATE_DISCONNECTED;
+
+    private BluetoothGattCharacteristic characteristic;
+
+    private String serviceUuid = "19721006-2004-2007-2014-acc0cbeac000";
+    private String characteristicUuid = "19721006-2004-2007-2014-acc0cbeac010";
 
     private static final int STATE_DISCONNECTED = 0;
     private static final int STATE_CONNECTING = 1;
@@ -77,6 +91,13 @@ public class BluetoothLeService extends Service {
                 Log.i(TAG, "Disconnected from GATT server.");
                 broadcastUpdate(intentAction);
             }
+
+        }
+
+        @Override
+        public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
+            super.onMtuChanged(gatt, mtu, status);
+            Log.d("onMtuChanged", String.valueOf(mtu));
         }
 
         @Override
@@ -101,16 +122,22 @@ public class BluetoothLeService extends Service {
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
 
-            SharedPreferences preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES, 0);
-            String activationCommandAsString = preferences.getString(DeviceDetailsActivity.ACTIVATION_COMMAND_KEY, null);
-            byte[] activationCommand = Base64.decode(activationCommandAsString, Base64.DEFAULT);
-
-            if(!Arrays.equals(characteristic.getValue(), activationCommand)) {
-                mBluetoothGatt.abortReliableWrite();
-            } else {
-                mBluetoothGatt.executeReliableWrite();
-            }
             super.onCharacteristicWrite(gatt, characteristic, status);
+
+            Log.d("status", String.valueOf(status));
+//
+//            bleQueue.remove();
+//
+//            if(bleQueue.size() > 0){
+//                write(bleQueue.element());
+//            }
+//            if(!Arrays.equals(characteristic.getValue(), activationCommand)) {
+//                mBluetoothGatt.abortReliableWrite();
+//            } else {
+//                mBluetoothGatt.executeReliableWrite();
+
+//                Log.d("ReliableWrite", "executed");
+//            }
         }
 
         @Override
@@ -278,7 +305,7 @@ public class BluetoothLeService extends Service {
      * asynchronously through the {@code BluetoothGattCallback#onCharacteristicRead(android.bluetooth.BluetoothGatt, android.bluetooth.BluetoothGattCharacteristic, int)}
      * callback.
      *
-     * @param characteristic The characteristic to read from.
+//     * @param characteristic The characteristic to read from.
      */
 //    public void readCharacteristic(BluetoothGattCharacteristic characteristic) {
 //        if (mBluetoothAdapter == null || mBluetoothGatt == null) {
@@ -341,7 +368,7 @@ public class BluetoothLeService extends Service {
         return mBluetoothGatt.getServices();
     }
 
-    public boolean writeCharacteristic(String serviceUuid, String characteristicUuid, byte[] activationRequestCommand) {
+    public boolean writeCharacteristic(String serviceUuid, String characteristicUuid, byte[] activationCommand) {
 
         //check mBluetoothGatt is available
         if (mBluetoothGatt == null) {
@@ -353,16 +380,39 @@ public class BluetoothLeService extends Service {
             Log.e(TAG, "service not found!");
             return false;
         }
-        BluetoothGattCharacteristic characteristic = service
-                .getCharacteristic(UUID.fromString(characteristicUuid));
+        characteristic = service.getCharacteristic(UUID.fromString(characteristicUuid));
         if (characteristic == null) {
             Log.e(TAG, "char not found!");
             return false;
         }
 
-        mBluetoothGatt.beginReliableWrite();
-//        characteristic.setWriteType();
-        characteristic.setValue(activationRequestCommand);
+        characteristic.setValue(activationCommand);
+        return mBluetoothGatt.writeCharacteristic(characteristic);
+
+//        mBluetoothGatt.beginReliableWrite();
+//        characteristic.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
+//        characteristic.setValue(splitActivationCommand);
+//        return mBluetoothGatt.writeCharacteristic(characteristic);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public void requestMtu() {
+        //gatt is a BluetoothGatt instance and MAX_MTU is 512
+        mBluetoothGatt.requestMtu(MAX_MTU);
+    }
+
+    public void addBleQueue(byte[] splitCommand){
+
+        bleQueue.add(splitCommand);
+    }
+
+    public Queue<byte[]> getBleQueue() {
+        return bleQueue;
+    }
+
+    private boolean write(byte[] splitActivationCommand){
+
+        characteristic.setValue(splitActivationCommand);
         return mBluetoothGatt.writeCharacteristic(characteristic);
     }
 }

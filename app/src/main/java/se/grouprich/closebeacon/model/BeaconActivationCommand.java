@@ -22,14 +22,11 @@ public final class BeaconActivationCommand {
     private byte[] proximityUuidByteArray;
     private byte power;
 
-    public BeaconActivationCommand(byte[] sha1Hash, String proximityUuidString, String majorNumberString, String minorNumberString) {
+    public BeaconActivationCommand(byte[] adminKey, byte[] mobileKey, byte[] sha1Hash, String proximityUuidString, String majorNumberString, String minorNumberString) {
 
         commandCode = 80;
-        adminKey = new byte[20];
-        new Random().nextBytes(adminKey);
-
-        mobileKey = new byte[20];
-        new Random().nextBytes(mobileKey);
+        this.adminKey = adminKey;
+        this.mobileKey = mobileKey;
 
         beaconType = 100;
 
