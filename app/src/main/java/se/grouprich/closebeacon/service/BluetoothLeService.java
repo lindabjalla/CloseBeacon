@@ -125,19 +125,6 @@ public class BluetoothLeService extends Service {
             super.onCharacteristicWrite(gatt, characteristic, status);
 
             Log.d("status", String.valueOf(status));
-//
-//            bleQueue.remove();
-//
-//            if(bleQueue.size() > 0){
-//                write(bleQueue.element());
-//            }
-//            if(!Arrays.equals(characteristic.getValue(), activationCommand)) {
-//                mBluetoothGatt.abortReliableWrite();
-//            } else {
-//                mBluetoothGatt.executeReliableWrite();
-
-//                Log.d("ReliableWrite", "executed");
-//            }
         }
 
         @Override

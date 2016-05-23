@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
+import java.util.Arrays;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,7 +30,7 @@ import se.grouprich.closebeacon.retrofit.RetrofitManager;
 public class AuthorizationActivity extends AppCompatActivity {
 
     public static final String TAG = AuthorizationActivity.class.getSimpleName();
-    public static final String AUTH_CODE_KEY = "authCodeKey";
+    public static final String AUTH_CODE_KEY = "se.grouprich.closebeacon.AUTH_CODE_KEY";
     private TextView textAuthCode;
     private String authenticationCode;
     private PublicKey publicKey;
@@ -83,10 +84,9 @@ public class AuthorizationActivity extends AppCompatActivity {
                             final byte[] authCodePlusOkByteArray = requestBuilder.buildResponseOkByteArray(authRequestByteArray);
                             final byte[] authCodePlusUnknownByteArray = requestBuilder.buildResponseUnknownByteArray(authRequestByteArray);
 
-                            Log.d("authReq", authRequestByteArray.toString());
+                            Log.d("authReq", Arrays.toString(authRequestByteArray));
 
                             try {
-
                                 responseOk = SHA1Converter.byteArrayToSHA1(authCodePlusOkByteArray);
                                 responseUnknown = SHA1Converter.byteArrayToSHA1(authCodePlusUnknownByteArray);
 
@@ -99,9 +99,7 @@ public class AuthorizationActivity extends AppCompatActivity {
                             Log.d("authCodePlusUnknown", responseUnknown);
 
                             String authorizationRequest = null;
-
                             try {
-
                                 authorizationRequest = RequestBuilder.buildRequest(publicKey, authRequestByteArray);
 
                             } catch (Exception e) {

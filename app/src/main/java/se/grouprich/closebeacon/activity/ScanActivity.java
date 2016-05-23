@@ -48,6 +48,8 @@ import se.grouprich.closebeacon.requestresponsemanager.converter.SHA1Converter;
 
 @TargetApi(21)
 public class ScanActivity extends AppCompatActivity {
+
+    public static final String SERVICE_UUID = "19721006-2004-2007-2014-acc0cbeac000";
     private BluetoothAdapter mBluetoothAdapter;
     private int REQUEST_ENABLE_BT = 1;
     private Handler mHandler;
@@ -61,7 +63,6 @@ public class ScanActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
     private List<Beacon> beacons;
-    private final String serviceUuid = "19721006-2004-2007-2014-acc0cbeac000";
 
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
 
@@ -227,7 +228,7 @@ public class ScanActivity extends AppCompatActivity {
                 }
             }
 
-            if (serviceUuidsString.contains(serviceUuid) && checkMacAddress(String.valueOf(result.getDevice().getAddress()))) {
+            if (serviceUuidsString.contains(SERVICE_UUID) && checkMacAddress(String.valueOf(result.getDevice().getAddress()))) {
 
 //                if ((uuidFromScan != null) && (serviceUuid.equals(uuidFromScan)) &&
 //                        checkMacAddress(String.valueOf(result.getDevice().getAddress()))) {
@@ -236,7 +237,7 @@ public class ScanActivity extends AppCompatActivity {
                         String.valueOf(result.getDevice().getAddress()),
                         String.valueOf(result.getRssi()),
 //                            String.valueOf(result.getScanRecord().getServiceUuids()).replace("[", "").replace("]", ""));
-                        serviceUuid);
+                        SERVICE_UUID);
 
                 //addBeacon(iBeacon);
                 Log.i("**== ADDED ***", "");
