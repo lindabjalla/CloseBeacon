@@ -2,6 +2,7 @@ package se.grouprich.closebeacon.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.BroadcastReceiver;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +48,7 @@ public class DeviceControlActivity extends Activity {
 
     private String serviceUuid = "19721006-2004-2007-2014-acc0cbeac000";
     private String characteristicUuid = "19721006-2004-2007-2014-acc0cbeac010";
-    byte[] activationCommand;
+    private byte[] activationCommand;
 
     private final String LIST_NAME = "NAME";
     private final String LIST_UUID = "UUID";
@@ -155,6 +157,9 @@ public class DeviceControlActivity extends Activity {
 //        mGattServicesList.setOnChildClickListener(servicesListClickListner);
         mConnectionState = (TextView) findViewById(R.id.connection_state);
         mDataField = (TextView) findViewById(R.id.data_value);
+
+        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
+        bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
 
 //        getActionBar().setTitle(mDeviceName);
 //        getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -306,9 +311,8 @@ public class DeviceControlActivity extends Activity {
 
     public void onClickWrite(View view){
 
-        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
-        bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
         if(mBluetoothLeService != null) {
+
 
             final boolean result = mBluetoothLeService.writeCharacteristic(serviceUuid, characteristicUuid, activationCommand);
             List<String> byteString = new ArrayList<>();
@@ -321,6 +325,8 @@ public class DeviceControlActivity extends Activity {
             Log.d("byteArrayString", byteString.toString());
             Log.d("write char result", String.valueOf(result));
 
+//            Intent intent = new Intent(this, RangingActivity.class);
+//            startActivity(intent);
             // TODO: scanna beacon och se om den aktiverad genom att göra så.
             // TODO: result.getScanRecord().getManufacturerSpecificData();
 

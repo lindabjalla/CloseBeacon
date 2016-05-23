@@ -12,13 +12,21 @@ import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
+import android.util.Base64;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.prefs.Preferences;
+
+import se.grouprich.closebeacon.activity.DeviceDetailsActivity;
+import se.grouprich.closebeacon.activity.MainActivity;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class BluetoothLeService extends Service {
@@ -89,9 +97,19 @@ public class BluetoothLeService extends Service {
             }
         }
 
+        @TargetApi(Build.VERSION_CODES.KITKAT)
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
 
+            SharedPreferences preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES, 0);
+            String activationCommandAsString = preferences.getString(DeviceDetailsActivity.ACTIVATION_COMMAND_KEY, null);
+            byte[] activationCommand = Base64.decode(activationCommandAsString, Base64.DEFAULT);
+
+            if(!Arrays.equals(characteristic.getValue(), activationCommand)) {
+                mBluetoothGatt.abortReliableWrite();
+            } else {
+                mBluetoothGatt.executeReliableWrite();
+            }
             super.onCharacteristicWrite(gatt, characteristic, status);
         }
 
@@ -342,6 +360,7 @@ public class BluetoothLeService extends Service {
             return false;
         }
 
+        mBluetoothGatt.beginReliableWrite();
 //        characteristic.setWriteType();
         characteristic.setValue(activationRequestCommand);
         return mBluetoothGatt.writeCharacteristic(characteristic);

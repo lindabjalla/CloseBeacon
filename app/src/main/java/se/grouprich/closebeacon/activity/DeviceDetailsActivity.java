@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -43,6 +44,9 @@ public class DeviceDetailsActivity extends AppCompatActivity {
     public static final String SAVED_BEACON_KEY = "se.grouprich.closebeacon.SAVED_BEACON_KEY";
     public static final String ACTIVATION_COMMAND_KEY = "se.grouprich.closebeacon.ACTIVATION_COMMAND";
     public static final String MAC_ADDRESS_KEY = "se.grouprich.closebeacon.MAC_ADDRESS_KEY";
+    public static final String PROXIMITY_UUID_KEY = "se.grouprich.closebeacon.PROXIMITY_UUID_KEY";
+    public static final String MAJOR_KEY = "se.grouprich.closebeacon.MAJOR_KEY";
+    public static final String MINOR_KEY = "se.grouprich.closebeacon.MINOR_KEY";
 
     private TextView textViewMacAddress;
     private TextView textViewName;
@@ -280,6 +284,11 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
                             BeaconActivationCommand beaconActivationCommand = new BeaconActivationCommand(sha1, proximityUuid, majorNumber, minorNumber);
                             final byte[] beaconActivationCommandAsByteArray = beaconActivationCommand.buildByteArray();
+
+                            preferences.edit().putString(ACTIVATION_COMMAND_KEY, Base64.encodeToString(beaconActivationCommandAsByteArray, Base64.DEFAULT)).apply();
+                            preferences.edit().putString(PROXIMITY_UUID_KEY, proximityUuid).apply();
+                            preferences.edit().putString(MAJOR_KEY, Base64.encodeToString(beaconActivationCommand.getMajorNumber(), Base64.DEFAULT)).apply();
+                            preferences.edit().putString(MINOR_KEY, Base64.encodeToString(beaconActivationCommand.getMinorNumber(), Base64.DEFAULT)).apply();
 
                             Intent intent = new Intent(context, DeviceControlActivity.class);
                             intent.putExtra(ACTIVATION_COMMAND_KEY, beaconActivationCommandAsByteArray);
