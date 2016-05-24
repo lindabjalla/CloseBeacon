@@ -21,10 +21,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ParcelUuid;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -46,14 +49,14 @@ import se.grouprich.closebeacon.adapter.BeaconAdapter;
 import se.grouprich.closebeacon.model.Beacon;
 import se.grouprich.closebeacon.requestresponsemanager.converter.SHA1Converter;
 
-@TargetApi(21)
+@TargetApi(23)
 public class ScanActivity extends AppCompatActivity {
 
     public static final String SERVICE_UUID = "19721006-2004-2007-2014-acc0cbeac000";
     private BluetoothAdapter mBluetoothAdapter;
     private int REQUEST_ENABLE_BT = 1;
     private Handler mHandler;
-    private static final long SCAN_PERIOD = 1000;
+    private static final long SCAN_PERIOD = 10000;
     private BluetoothLeScanner mLEScanner;
     private ScanSettings settings;
     private List<ScanFilter> filters;
@@ -65,6 +68,7 @@ public class ScanActivity extends AppCompatActivity {
     private List<Beacon> beacons;
 
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
+    public static final String TAG = ScanActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +95,27 @@ public class ScanActivity extends AppCompatActivity {
 
         final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
+
+        //Validation till vertionen type marshmallow
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            if (this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("This app needs location access");
+                builder.setMessage("Please grant location access so this app can detect beacons.");
+                builder.setPositiveButton(android.R.string.ok, null);
+                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
+                        }
+                    }
+                });
+                builder.show();
+            }
+        }
+
     }
 
     @Override
@@ -114,12 +139,10 @@ public class ScanActivity extends AppCompatActivity {
                         .build();
                 filters = new ArrayList<ScanFilter>();
                 beacons = Collections.synchronizedList(new ArrayList<Beacon>());
-
             }
 
             scanLeDevice(true);
         }
-
     }
 
     @Override
@@ -164,10 +187,10 @@ public class ScanActivity extends AppCompatActivity {
     private void scanLeDevice(final boolean enable) {
 
         if (enable) {
-//            mHandler.postDelayed(new Runnable() {
-//
-//                @Override
-//                public void run() {
+            mHandler.postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
 
                     if (Build.VERSION.SDK_INT < 21) {
 
@@ -177,8 +200,8 @@ public class ScanActivity extends AppCompatActivity {
 
                         mLEScanner.stopScan(mScanCallback);
                     }
-//                }
-//            }, SCAN_PERIOD);
+                }
+            }, SCAN_PERIOD);
 
             if (Build.VERSION.SDK_INT < 21) {
 
@@ -188,7 +211,6 @@ public class ScanActivity extends AppCompatActivity {
 
                 mLEScanner.startScan(filters, settings, mScanCallback);
             }
-
 
         } else {
 
@@ -245,7 +267,6 @@ public class ScanActivity extends AppCompatActivity {
             }
 
             displayBeaconsList();
-
             connectToDevice(btDevice);
         }
 
