@@ -46,7 +46,7 @@ public final class AuthorizationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
 
-        preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES, 0);
+        preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES, MODE_PRIVATE);
         final String publicKeyAsString = preferences.getString(MainActivity.PUBLIC_KEY_AS_STRING_KEY, null);
 
         try {

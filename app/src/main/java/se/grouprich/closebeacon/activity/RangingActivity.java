@@ -50,7 +50,7 @@ public class RangingActivity extends Activity implements BeaconConsumer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranging);
 
-        preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES, 0);
+        preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES, MODE_PRIVATE);
         proximityUuid = preferences.getString(DeviceDetailsActivity.PROXIMITY_UUID_KEY, null);
         majorString = preferences.getString(DeviceDetailsActivity.MAJOR_KEY, null);
         minorString = preferences.getString(DeviceDetailsActivity.MINOR_KEY, null);

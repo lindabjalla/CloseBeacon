@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final SharedPreferences preferences = getSharedPreferences(BEACON_PREFERENCES, 0);
+        final SharedPreferences preferences = getSharedPreferences(BEACON_PREFERENCES, MODE_PRIVATE);
 
         if (!preferences.getBoolean(APP_IS_ACTIVATED_KEY, false)) {
 

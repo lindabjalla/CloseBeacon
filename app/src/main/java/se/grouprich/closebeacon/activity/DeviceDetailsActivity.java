@@ -32,7 +32,6 @@ import se.grouprich.closebeacon.retrofit.RetrofitManager;
 public class DeviceDetailsActivity extends AppCompatActivity {
 
     public static final String UUID_STRING_LIST_KEY = "se.grouprich.closebeacon.UUID_LIST_KEY";
-    public static final String SAVED_BEACON_KEY = "se.grouprich.closebeacon.SAVED_BEACON_KEY";
     public static final String ACTIVATION_COMMAND_KEY = "se.grouprich.closebeacon.ACTIVATION_COMMAND";
     public static final String MAC_ADDRESS_KEY = "se.grouprich.closebeacon.MAC_ADDRESS_KEY";
     public static final String PROXIMITY_UUID_KEY = "se.grouprich.closebeacon.PROXIMITY_UUID_KEY";
@@ -48,7 +47,6 @@ public class DeviceDetailsActivity extends AppCompatActivity {
     private String minorNumber;
     private String proximityUuid;
     private BeaconActivationRequest beaconActivationRequest;
-
     private SharedPreferences preferences;
 
     @Override
@@ -68,7 +66,6 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         editTextMajor = (EditText) findViewById(R.id.edit_major);
         editTextMinor = (EditText) findViewById(R.id.edit_minor);
         invalidMajorMinorDialog = new InvalidMajorMinorDialog(this);
-        preferences = getSharedPreferences(SAVED_BEACON_KEY, 0);
 
         final Bundle bundle = getIntent().getExtras();
 
@@ -125,7 +122,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                             invalidMajorMinorDialog.show();
                         }
 
-                        preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES, 0);
+                        preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES, MODE_PRIVATE);
                         final String authCode = preferences.getString(AuthorizationActivity.AUTH_CODE_KEY, null);
 
                         beaconActivationRequest = new BeaconActivationRequest(authCode, macAddress, majorNumber, minorNumber, proximityUuid);
