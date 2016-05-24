@@ -14,40 +14,31 @@ import android.bluetooth.BluetoothProfile;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanFilter;
-import android.bluetooth.le.ScanRecord;
 import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ParcelUuid;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.SparseArray;
 import android.widget.Toast;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Timer;
-import java.util.UUID;
 
 import se.grouprich.closebeacon.R;
 import se.grouprich.closebeacon.adapter.BeaconAdapter;
 import se.grouprich.closebeacon.model.Beacon;
-import se.grouprich.closebeacon.requestresponsemanager.converter.SHA1Converter;
 
 @TargetApi(23)
 public class ScanActivity extends AppCompatActivity {
@@ -84,14 +75,6 @@ public class ScanActivity extends AppCompatActivity {
 
             finish();
         }
-
-//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-//            if(this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION != PackageManager.PERMISSION_GRANTED)){
-//            }
-//        }
-
-
-
 
         final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();

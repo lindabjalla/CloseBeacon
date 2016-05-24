@@ -30,6 +30,7 @@
         android:layout_centerHorizontal="true"
         android:layout_above="@id/button_authorize"
         android:hint="Enter your authentication code"
+        android:gravity="center"
         android:inputType="text"
         android:padding="20dp" />
 

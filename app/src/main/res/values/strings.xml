@@ -21,7 +21,8 @@
     <string name="edit_major">Please edit major</string>
     <string name="edit_minor">Please edit minor</string>
     <string name="label_minor">Minor:</string>
-    <string name="label_device_address">Device macAddress:</string>
+    <string name="label_device_address">Device MAC address:</string>
+    <string name="data_value">Data value:</string>
     <string name="label_major">Major:</string>
     <string name="label_device_rssi">RSSI:</string>
     <string name="label_device_name">Name:</string>

@@ -18,33 +18,36 @@ import android.widget.TextView;
 import se.grouprich.closebeacon.R;
 import se.grouprich.closebeacon.service.BluetoothLeService;
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class DeviceControlActivity extends Activity {
+@TargetApi(Build.VERSION_CODES.M)
+public final class DeviceControlActivity extends Activity {
+
     private final static String TAG = DeviceControlActivity.class.getSimpleName();
 
     private TextView dataValue;
-    private TextView macAddress;
     private TextView gattServicesDiscovered;
     private TextView connectionState;
     private String mDeviceAddress;
     private BluetoothLeService mBluetoothLeService;
-
     private byte[] activationCommand;
 
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder service) {
+
             mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
+
             if (!mBluetoothLeService.initialize()) {
                 Log.e(TAG, "Unable to initialize Bluetooth");
                 finish();
             }
+
             mBluetoothLeService.connect(mDeviceAddress);
         }
 
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
+
             mBluetoothLeService = null;
         }
     };
@@ -83,17 +86,16 @@ public class DeviceControlActivity extends Activity {
         setContentView(R.layout.button_device_control);
 
         dataValue = (TextView) findViewById(R.id.data_value);
-        macAddress = (TextView) findViewById(R.id.mac_address);
+        final TextView macAddressTextView = (TextView) findViewById(R.id.text_view_mac_address);
         gattServicesDiscovered = (TextView) findViewById(R.id.gatt_services_discovered);
         connectionState = (TextView) findViewById(R.id.text_connection_state);
-
         final Intent intent = getIntent();
         mDeviceAddress = intent.getStringExtra(DeviceDetailsActivity.MAC_ADDRESS_KEY);
         activationCommand = intent.getByteArrayExtra(DeviceDetailsActivity.ACTIVATION_COMMAND_KEY);
 
-        macAddress.setText(mDeviceAddress);
+        macAddressTextView.setText(mDeviceAddress);
 
-        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
+        final Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
     }
 
@@ -126,6 +128,7 @@ public class DeviceControlActivity extends Activity {
     }
 
     private void updateConnectionState(final int resourceId) {
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -135,17 +138,21 @@ public class DeviceControlActivity extends Activity {
     }
 
     private void displayData(String data) {
+
         if (data != null) {
             dataValue.setText(data);
         }
     }
 
     private static IntentFilter makeGattUpdateIntentFilter() {
+
         final IntentFilter intentFilter = new IntentFilter();
+
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
+
         return intentFilter;
     }
 
@@ -153,7 +160,7 @@ public class DeviceControlActivity extends Activity {
 
         if (mBluetoothLeService != null) {
 
-            String characteristicUuid = "19721006-2004-2007-2014-acc0cbeac010";
+            final String characteristicUuid = "19721006-2004-2007-2014-acc0cbeac010";
 
             mBluetoothLeService.connect(mDeviceAddress);
 
