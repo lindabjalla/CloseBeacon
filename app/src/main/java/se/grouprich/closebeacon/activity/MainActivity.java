@@ -22,14 +22,11 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String BASE_URL = "http://smartsensor.io/CBtest/";
     public static final String TAG = MainActivity.class.getSimpleName();
-    public static final String BEACON_PREFERENCES = "beaconPreferences";
-    public static final String APP_IS_ACTIVATED_KEY = "appIsActivated";
-//    public static final String PUBLIC_KEY_KEY = "publicKey";
-    public static final String PUBLIC_KEY_AS_STRING_KEY = "publicKeyAsString";
+    public static final String BEACON_PREFERENCES = "se.grouprich.closebeacon.BEACON_PREFERENCES";
+    public static final String APP_IS_ACTIVATED_KEY = "se.grouprich.closebeacon.APP_IS_ACTIVATED_KEY";
+    public static final String PUBLIC_KEY_AS_STRING_KEY = "se.grouprich.closebeacon.PUBLIC_KEY_AS_STRING_KEY";
 
     private String publicKeyAsString;
-//    private PublicKey publicKey;
-    private boolean appIsActivated;
     private Context context = this;
 
     @Override
@@ -40,17 +37,15 @@ public class MainActivity extends AppCompatActivity {
 
         final SharedPreferences preferences = getSharedPreferences(BEACON_PREFERENCES, 0);
 
-//        preferences.edit().putBoolean(APP_IS_ACTIVATED_KEY, false).apply(); // bara för test
-
         if (!preferences.getBoolean(APP_IS_ACTIVATED_KEY, false)) {
 
-            Retrofit retrofit = new Retrofit.Builder()
+            final Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(new StringConverterFactory())
                     .build();
 
-            BeaconService beaconService = retrofit.create(BeaconService.class);
-            Call<String> result = beaconService.getPublicKey();
+            final BeaconService beaconService = retrofit.create(BeaconService.class);
+            final Call<String> result = beaconService.getPublicKey();
 
             result.enqueue(new Callback<String>() {
 
@@ -60,19 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
                     publicKeyAsString = response.body().replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", "");
 
-//                    try {
-//
-//                        publicKey = KeyConverter.stringToPublicKey(keyString);
-//                        System.out.println(publicKey.toString());
-//
-//                    } catch (Exception e) {
-//
-//                        e.printStackTrace();
-//                    }
-
                     preferences.edit().putString(PUBLIC_KEY_AS_STRING_KEY, publicKeyAsString).apply();
                     Intent intent = new Intent(context, AuthorizationActivity.class);
-//                    intent.putExtra(PUBLIC_KEY_KEY, publicKey);
                     startActivity(intent);
                 }
 
@@ -85,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
 
-            Intent intent = new Intent(this, ScanActivity.class);
+            final Intent intent = new Intent(this, ScanActivity.class);
             startActivity(intent);
         }
     }
