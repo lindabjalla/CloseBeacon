@@ -53,7 +53,6 @@ public class RangingActivity extends Activity implements BeaconConsumer {
         beaconManager = BeaconManager.getInstanceForApplication(this);
         beaconManager.getBeaconParsers().add(new BeaconParser()
                 .setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
-//        .setBeaconLayout("m:2-3=0215,i:4-17,i:18-19,i:20-21,p:22-22"));
 
         beaconManager.bind(this);
 
