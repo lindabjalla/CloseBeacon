@@ -31,11 +31,11 @@ public final class BeaconActivationCommand {
         beaconType = 100;
 
         majorNumber = ByteBuffer.allocate(2).order(ByteOrder.BIG_ENDIAN)
-                .put(ByteArrayBuilder.numberStringToByteArray(majorNumberString))
+                .putShort(Short.parseShort(majorNumberString))
                 .array();
 
         minorNumber = ByteBuffer.allocate(2).order(ByteOrder.BIG_ENDIAN)
-                .put(ByteArrayBuilder.numberStringToByteArray(minorNumberString))
+                .putShort(Short.parseShort(minorNumberString))
                 .array();
 
         this.sha1Hash = sha1Hash;

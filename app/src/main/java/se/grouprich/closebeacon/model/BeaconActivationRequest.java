@@ -35,11 +35,11 @@ public class BeaconActivationRequest {
         beaconType = 100;
 
         this.majorNumber = ByteBuffer.allocate(2).order(ByteOrder.BIG_ENDIAN)
-                .put(ByteArrayBuilder.numberStringToByteArray(majorNumberAsString))
+                .putShort(Short.parseShort(majorNumberAsString))
                 .array();
 
         this.minorNumber = ByteBuffer.allocate(2).order(ByteOrder.BIG_ENDIAN)
-                .put(ByteArrayBuilder.numberStringToByteArray(minorNumberAsString))
+                .putShort(Short.parseShort(minorNumberAsString))
                 .array();
 
         UUID proximityUuid = UUID.fromString(proximityUuidAsString);
