@@ -122,7 +122,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                             invalidMajorMinorDialog.show();
                         }
 
-                        preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES, MODE_PRIVATE);
+                        preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES_KEY, MODE_PRIVATE);
                         final String authCode = preferences.getString(AuthorizationActivity.AUTH_CODE_KEY, null);
 
                         beaconActivationRequest = new BeaconActivationRequest(authCode, macAddress, majorNumber, minorNumber, proximityUuid);

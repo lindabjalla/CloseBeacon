@@ -238,7 +238,7 @@ public class ScanActivity extends AppCompatActivity {
 //                if ((uuidFromScan != null) && (serviceUuid.equals(uuidFromScan)) &&
 //                        checkMacAddress(String.valueOf(result.getDevice().getAddress()))) {
 
-                Beacon iBeacon = new Beacon(String.valueOf(result.getDevice().getName()),
+                Beacon beacon = new Beacon(String.valueOf(result.getDevice().getName()),
                         String.valueOf(result.getDevice().getAddress()),
                         String.valueOf(result.getRssi()),
 //                            String.valueOf(result.getScanRecord().getServiceUuids()).replace("[", "").replace("]", ""));
@@ -246,7 +246,7 @@ public class ScanActivity extends AppCompatActivity {
 
                 //addBeacon(iBeacon);
                 Log.i("**== ADDED ***", "");
-                beacons.add(iBeacon);
+                beacons.add(beacon);
             }
 
             displayBeaconsList();
@@ -295,7 +295,7 @@ public class ScanActivity extends AppCompatActivity {
                 }
             }, 10000);
 
-        }else{
+        } else {
 
             mHandler.postDelayed(new Runnable() {
                 @Override

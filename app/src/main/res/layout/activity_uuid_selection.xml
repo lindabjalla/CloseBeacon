@@ -6,7 +6,7 @@
     android:background="@color/colorEggshell">
 
     <RelativeLayout
-        android:id="@+id/select_uuid_message"
+        android:id="@+id/select_uuid_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorEggshell"
@@ -30,7 +30,7 @@
         android:id="@+id/names_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/select_uuid_message"
+        android:layout_below="@id/select_uuid_label"
         android:scrollbars="vertical"
         tools:context="se.grouprich.closebeacon.MainActivity"
         android:clickable="true"/>

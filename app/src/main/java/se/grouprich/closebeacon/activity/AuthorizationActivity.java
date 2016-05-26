@@ -46,7 +46,7 @@ public final class AuthorizationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
 
-        preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES, MODE_PRIVATE);
+        preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES_KEY, MODE_PRIVATE);
         final String publicKeyAsString = preferences.getString(MainActivity.PUBLIC_KEY_AS_STRING_KEY, null);
 
         try {
@@ -127,7 +127,7 @@ public final class AuthorizationActivity extends AppCompatActivity {
                                                 .putString(AUTH_CODE_KEY, authenticationCode)
                                                 .apply();
 
-                                        final Intent intent = new Intent(context, ScanActivity.class);
+                                        final Intent intent = new Intent(context, MainActivity.class);
                                         startActivity(intent);
 
                                     } else {

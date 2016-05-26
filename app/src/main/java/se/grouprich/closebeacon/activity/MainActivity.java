@@ -6,23 +6,22 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
-import java.security.PublicKey;
+import android.view.View;
+import android.widget.Button;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import se.grouprich.closebeacon.service.BeaconService;
 import se.grouprich.closebeacon.R;
-import se.grouprich.closebeacon.requestresponsemanager.converter.KeyConverter;
 import se.grouprich.closebeacon.retrofit.StringConverterFactory;
+import se.grouprich.closebeacon.service.BeaconService;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String BASE_URL = "http://smartsensor.io/CBtest/";
     public static final String TAG = MainActivity.class.getSimpleName();
-    public static final String BEACON_PREFERENCES = "se.grouprich.closebeacon.BEACON_PREFERENCES";
+    public static final String BEACON_PREFERENCES_KEY = "se.grouprich.closebeacon.BEACON_PREFERENCES_KEY";
     public static final String APP_IS_ACTIVATED_KEY = "se.grouprich.closebeacon.APP_IS_ACTIVATED_KEY";
     public static final String PUBLIC_KEY_AS_STRING_KEY = "se.grouprich.closebeacon.PUBLIC_KEY_AS_STRING_KEY";
 
@@ -35,7 +34,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final SharedPreferences preferences = getSharedPreferences(BEACON_PREFERENCES, MODE_PRIVATE);
+        Button scanToActivateButton = (Button) findViewById(R.id.button_scan_to_activate);
+        Button scanActiveBeaconButton = (Button) findViewById(R.id.button_scan_active_beacon);
+
+        final SharedPreferences preferences = getSharedPreferences(BEACON_PREFERENCES_KEY, MODE_PRIVATE);
 
         if (!preferences.getBoolean(APP_IS_ACTIVATED_KEY, false)) {
 
@@ -69,8 +71,31 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
 
-            final Intent intent = new Intent(this, ScanActivity.class);
-            startActivity(intent);
+            if (scanToActivateButton != null) {
+
+                scanToActivateButton.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent intent = new Intent(context, ScanActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            if (scanActiveBeaconButton != null) {
+
+                scanActiveBeaconButton.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent intent = new Intent(context, RangingActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
         }
     }
 }

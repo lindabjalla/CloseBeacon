@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -21,7 +22,7 @@ import se.grouprich.closebeacon.service.BluetoothLeService;
 @TargetApi(Build.VERSION_CODES.M)
 public final class DeviceControlActivity extends Activity {
 
-    private final static String TAG = DeviceControlActivity.class.getSimpleName();
+    private static final String TAG = DeviceControlActivity.class.getSimpleName();
 
     private TextView dataValue;
     private TextView gattServicesDiscovered;
@@ -163,7 +164,6 @@ public final class DeviceControlActivity extends Activity {
             final String characteristicUuid = "19721006-2004-2007-2014-acc0cbeac010";
 
             mBluetoothLeService.connect(mDeviceAddress);
-
             mBluetoothLeService.writeCharacteristic(ScanActivity.SERVICE_UUID, characteristicUuid, activationCommand);
         }
     }

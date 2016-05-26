@@ -12,9 +12,7 @@ import android.widget.TextView;
 import org.altbeacon.beacon.Beacon;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -22,12 +20,12 @@ import se.grouprich.closebeacon.R;
 import se.grouprich.closebeacon.model.comparator.DistanceComparator;
 
 
-public class ActivatedBeaconAdapter extends RecyclerView.Adapter<ActivatedBeaconAdapter.DeviceViewHolder> {
+public class ActiveBeaconAdapter extends RecyclerView.Adapter<ActiveBeaconAdapter.DeviceViewHolder> {
 
     private Context context;
     private List<Beacon> beacons;
 
-    public ActivatedBeaconAdapter(Context context, Set<Beacon> beacons) {
+    public ActiveBeaconAdapter(Context context, Set<Beacon> beacons) {
         this.context = context;
         this.beacons = new ArrayList<>();
         this.beacons.addAll(beacons);
@@ -40,7 +38,7 @@ public class ActivatedBeaconAdapter extends RecyclerView.Adapter<ActivatedBeacon
 
     @Override
     public DeviceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_activated_beacons, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_active_beacons, parent, false);
         return new DeviceViewHolder(view, context, beacons);
     }
 

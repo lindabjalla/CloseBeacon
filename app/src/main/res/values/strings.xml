@@ -42,4 +42,8 @@
     <string name="unknown_characteristic">Unknown characteristic</string>
     <string name="write_char">Write Char</string>
     <string name="gatt_services_discovered">Gatt services discovered</string>
+    <string name="scan_to_activate">Scan to activate Close Beacon</string>
+    <string name="scan_active_beacon">Scan active Close Beacon</string>
+    <string name="active_close_beacons">Active Close Beacons</string>
+    <string name="stop_scan">Stop Scan</string>
 </resources>
