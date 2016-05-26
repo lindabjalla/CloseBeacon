@@ -43,7 +43,7 @@ public class RangingActivity extends Activity implements BeaconConsumer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranging);
 
-        Button stopScanButton = (Button) findViewById(R.id.button_stop_scan);
+        final Button stopScanButton = (Button) findViewById(R.id.button_stop_scan);
 
         activeBeacons = new LinkedHashSet<>();
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_ranging);
