@@ -19,7 +19,6 @@ import java.util.Set;
 import se.grouprich.closebeacon.R;
 import se.grouprich.closebeacon.model.comparator.DistanceComparator;
 
-
 public class ActiveBeaconAdapter extends RecyclerView.Adapter<ActiveBeaconAdapter.DeviceViewHolder> {
 
     private Context context;
@@ -64,7 +63,7 @@ public class ActiveBeaconAdapter extends RecyclerView.Adapter<ActiveBeaconAdapte
         return beacons.size();
     }
 
-    public static final class DeviceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static final class DeviceViewHolder extends RecyclerView.ViewHolder {
 
         public final TextView proximityUuidView;
         public final TextView majorView;
@@ -77,25 +76,9 @@ public class ActiveBeaconAdapter extends RecyclerView.Adapter<ActiveBeaconAdapte
             this.beacons = beacons;
             this.context = context;
 
-            view.setOnClickListener(this);
             this.proximityUuidView = (TextView) view.findViewById(R.id.view_proximity_uuid);
             this.majorView = (TextView) view.findViewById(R.id.view_major);
             this.minorView = (TextView) view.findViewById(R.id.view_minor);
-        }
-
-        @Override
-        public void onClick(View view) {
-
-//            int position = getAdapterPosition();
-//            Beacon beacon = this.beacons.get(position);
-//            Intent intent = new Intent(this.context, DeviceDetailsActivity.class);
-//            intent.putExtra("name", beacon.getName());
-//            intent.putExtra("macAddress", beacon.getMacAddress());
-//            intent.putExtra("rssi", beacon.getRssi());
-//            intent.putExtra("serviceUuid", beacon.getServiceUuid());
-//            intent.putExtra("serialNumber", beacon.getSerialNumber());
-//            intent.putExtra("proximityUuid", beacon.getProximityUuid());
-//            this.context.startActivity(intent);
         }
     }
 }

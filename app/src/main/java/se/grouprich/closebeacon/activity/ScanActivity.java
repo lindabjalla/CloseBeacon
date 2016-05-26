@@ -40,10 +40,12 @@ import se.grouprich.closebeacon.R;
 import se.grouprich.closebeacon.adapter.BeaconAdapter;
 import se.grouprich.closebeacon.model.Beacon;
 
-@TargetApi(23)
+@TargetApi(Build.VERSION_CODES.M)
 public class ScanActivity extends AppCompatActivity {
 
     public static final String SERVICE_UUID = "19721006-2004-2007-2014-acc0cbeac000";
+    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
+
     private BluetoothAdapter mBluetoothAdapter;
     private int REQUEST_ENABLE_BT = 1;
     private Handler mHandler;
@@ -52,14 +54,7 @@ public class ScanActivity extends AppCompatActivity {
     private ScanSettings settings;
     private List<ScanFilter> filters;
     private BluetoothGatt mGatt;
-
-    private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
-    private RecyclerView.Adapter adapter;
     private List<Beacon> beacons;
-
-    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
-    public static final String TAG = ScanActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +74,6 @@ public class ScanActivity extends AppCompatActivity {
         final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
 
-        //Validation till vertionen type marshmallow
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             if (this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -98,15 +92,13 @@ public class ScanActivity extends AppCompatActivity {
                 builder.show();
             }
         }
-
     }
 
     @Override
     protected void onResume() {
 
         super.onResume();
-        // Ensures Bluetooth is enabled on the device.  If Bluetooth is not currently enabled,
-        // fire an intent to display a dialog asking the user to grant permission to enable it.
+
         if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
 
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -120,7 +112,7 @@ public class ScanActivity extends AppCompatActivity {
                 settings = new ScanSettings.Builder()
                         .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
                         .build();
-                filters = new ArrayList<ScanFilter>();
+                filters = new ArrayList<>();
                 beacons = Collections.synchronizedList(new ArrayList<Beacon>());
             }
 
@@ -158,7 +150,6 @@ public class ScanActivity extends AppCompatActivity {
         if (requestCode == REQUEST_ENABLE_BT) {
 
             if (resultCode == Activity.RESULT_CANCELED) {
-                //Bluetooth not enabled.
                 finish();
                 return;
             }
@@ -212,15 +203,13 @@ public class ScanActivity extends AppCompatActivity {
 
         @Override
         public void onScanResult(int callbackType, ScanResult result) {
-            //Log.i("callbackType", String.valueOf(callbackType));
-            //Log.i("result", result.toString());
+            Log.i("callbackType", String.valueOf(callbackType));
+            Log.i("result", result.toString());
 
             BluetoothDevice btDevice = result.getDevice();
 
             Log.i("** RECORD *****  ", String.valueOf(result.getScanRecord()));
             Log.i("** RECORD2 *****  ", String.valueOf(result.getScanRecord().getManufacturerSpecificData()));
-
-//            String uuidFromScan = String.valueOf(result.getScanRecord().getServiceUuids());
 
             final List<ParcelUuid> serviceUuids = result.getScanRecord().getServiceUuids();
             final List<String> serviceUuidsString = new ArrayList<>();
@@ -233,18 +222,13 @@ public class ScanActivity extends AppCompatActivity {
                 }
             }
 
-            if (serviceUuidsString.contains(SERVICE_UUID) && checkMacAddress(String.valueOf(result.getDevice().getAddress()))) {
-
-//                if ((uuidFromScan != null) && (serviceUuid.equals(uuidFromScan)) &&
-//                        checkMacAddress(String.valueOf(result.getDevice().getAddress()))) {
+            if (serviceUuidsString.contains(SERVICE_UUID) && newMacAddressDetected(result.getDevice().getAddress())) {
 
                 Beacon beacon = new Beacon(String.valueOf(result.getDevice().getName()),
                         String.valueOf(result.getDevice().getAddress()),
                         String.valueOf(result.getRssi()),
-//                            String.valueOf(result.getScanRecord().getServiceUuids()).replace("[", "").replace("]", ""));
                         SERVICE_UUID);
 
-                //addBeacon(iBeacon);
                 Log.i("**== ADDED ***", "");
                 beacons.add(beacon);
             }
@@ -269,10 +253,12 @@ public class ScanActivity extends AppCompatActivity {
 
     private BluetoothAdapter.LeScanCallback mLeScanCallback =
             new BluetoothAdapter.LeScanCallback() {
+
                 @Override
-                public void onLeScan(final BluetoothDevice device, int rssi,
-                                     byte[] scanRecord) {
+                public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
+
                     runOnUiThread(new Runnable() {
+
                         @Override
                         public void run() {
                             Log.i("onLeScan", device.toString());
@@ -288,22 +274,24 @@ public class ScanActivity extends AppCompatActivity {
 
             mGatt = device.connectGatt(this, false, gattCallback);
             mHandler.postDelayed(new Runnable() {
+
                 @Override
                 public void run() {
 
-                    scanLeDevice(false);// will stop after five seconds
+                    scanLeDevice(false);
                 }
-            }, 10000);
+            }, SCAN_PERIOD);
 
         } else {
 
             mHandler.postDelayed(new Runnable() {
+
                 @Override
                 public void run() {
 
-                    scanLeDevice(false);// will stop after five seconds
+                    scanLeDevice(false);
                 }
-            }, 10000);
+            }, SCAN_PERIOD);
         }
     }
 
@@ -350,16 +338,19 @@ public class ScanActivity extends AppCompatActivity {
 
     public void displayBeaconsList() {
 
-        recyclerView = (RecyclerView) findViewById(R.id.beacons_recycler_view);
-        layoutManager = new LinearLayoutManager(this);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.beacons_recycler_view);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
-        adapter = new BeaconAdapter(this, beacons);
+        RecyclerView.Adapter adapter = new BeaconAdapter(this, beacons);
 
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        if (recyclerView != null) {
+
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
+        }
     }
 
-    public boolean checkMacAddress(String address) {
+    public boolean newMacAddressDetected(String address) {
 
         if (beacons.size() != 0) {
 
@@ -377,30 +368,6 @@ public class ScanActivity extends AppCompatActivity {
                 }
             }
         }
-
         return true;
-    }
-
-    public void addBeacon(Beacon iBeacon) {
-
-        if (beacons.size() != 0) {
-
-            Iterator<Beacon> it = beacons.iterator();
-
-            while (it.hasNext()) {
-
-                Beacon beacon = it.next();
-                String addressBeacon = String.valueOf(beacon.getMacAddress());
-                String addressIBeacon = String.valueOf(iBeacon.getMacAddress());
-                boolean bool = (addressBeacon.equals(addressIBeacon));
-
-                if (bool) {
-
-                    it.remove();
-                }
-            }
-        }
-
-        beacons.add(iBeacon);
     }
 }

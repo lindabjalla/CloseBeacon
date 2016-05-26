@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button scanToActivateButton = (Button) findViewById(R.id.button_scan_to_activate);
-        Button scanActiveBeaconButton = (Button) findViewById(R.id.button_scan_active_beacon);
+        final Button scanToActivateButton = (Button) findViewById(R.id.button_scan_to_activate);
+        final Button scanActiveBeaconButton = (Button) findViewById(R.id.button_scan_active_beacon);
 
         final SharedPreferences preferences = getSharedPreferences(BEACON_PREFERENCES_KEY, MODE_PRIVATE);
 
@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
                     publicKeyAsString = response.body().replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", "");
 
                     preferences.edit().putString(PUBLIC_KEY_AS_STRING_KEY, publicKeyAsString).apply();
-                    Intent intent = new Intent(context, AuthorizationActivity.class);
-                    startActivity(intent);
+                    final Intent intentAuth = new Intent(context, AuthorizationActivity.class);
+                    startActivity(intentAuth);
                 }
 
                 @Override
@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        Intent intent = new Intent(context, ScanActivity.class);
-                        startActivity(intent);
+                        final Intent intentScan = new Intent(context, ScanActivity.class);
+                        startActivity(intentScan);
                     }
                 });
             }
@@ -91,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        Intent intent = new Intent(context, RangingActivity.class);
-                        startActivity(intent);
+                        final Intent intentRanging = new Intent(context, RangingActivity.class);
+                        startActivity(intentRanging);
                     }
                 });
             }
