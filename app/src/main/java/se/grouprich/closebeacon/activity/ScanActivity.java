@@ -44,12 +44,14 @@ import se.grouprich.closebeacon.model.Beacon;
 public class ScanActivity extends AppCompatActivity {
 
     public static final String SERVICE_UUID = "19721006-2004-2007-2014-acc0cbeac000";
+
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
+    private static final long SCAN_PERIOD = 10000;
+
+    private int REQUEST_ENABLE_BT = 1;
 
     private BluetoothAdapter mBluetoothAdapter;
-    private int REQUEST_ENABLE_BT = 1;
     private Handler mHandler;
-    private static final long SCAN_PERIOD = 10000;
     private BluetoothLeScanner mLEScanner;
     private ScanSettings settings;
     private List<ScanFilter> filters;
@@ -101,7 +103,7 @@ public class ScanActivity extends AppCompatActivity {
 
         if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
 
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            final Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
 
         } else {
@@ -203,11 +205,11 @@ public class ScanActivity extends AppCompatActivity {
 
         @Override
         public void onScanResult(int callbackType, ScanResult result) {
+
+            final BluetoothDevice btDevice = result.getDevice();
+
             Log.i("callbackType", String.valueOf(callbackType));
             Log.i("result", result.toString());
-
-            BluetoothDevice btDevice = result.getDevice();
-
             Log.i("** RECORD *****  ", String.valueOf(result.getScanRecord()));
             Log.i("** RECORD2 *****  ", String.valueOf(result.getScanRecord().getManufacturerSpecificData()));
 
@@ -247,12 +249,12 @@ public class ScanActivity extends AppCompatActivity {
 
         @Override
         public void onScanFailed(int errorCode) {
+
             Log.e("Scan Failed", "Error Code: " + errorCode);
         }
     };
 
-    private BluetoothAdapter.LeScanCallback mLeScanCallback =
-            new BluetoothAdapter.LeScanCallback() {
+    private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
 
                 @Override
                 public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
@@ -321,9 +323,11 @@ public class ScanActivity extends AppCompatActivity {
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
 
-            List<BluetoothGattService> services = gatt.getServices();
+            final List<BluetoothGattService> services = gatt.getServices();
             Log.i("onServicesDiscovered", services.toString());
+
             if (!services.isEmpty()) {
+
                 gatt.readCharacteristic(services.get(1).getCharacteristics().get(0));
             }
         }
@@ -338,10 +342,9 @@ public class ScanActivity extends AppCompatActivity {
 
     public void displayBeaconsList() {
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.beacons_recycler_view);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-
-        RecyclerView.Adapter adapter = new BeaconAdapter(this, beacons);
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.beacons_recycler_view);
+        final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        final RecyclerView.Adapter adapter = new BeaconAdapter(this, beacons);
 
         if (recyclerView != null) {
 
@@ -354,13 +357,13 @@ public class ScanActivity extends AppCompatActivity {
 
         if (beacons.size() != 0) {
 
-            Iterator<Beacon> it = beacons.iterator();
+            final Iterator<Beacon> it = beacons.iterator();
 
             while (it.hasNext()) {
 
-                Beacon beacon = it.next();
-                String addressBeacon = String.valueOf(beacon.getMacAddress());
-                boolean bool = (addressBeacon.equals(address));
+                final Beacon beacon = it.next();
+                final String addressBeacon = String.valueOf(beacon.getMacAddress());
+                final boolean bool = (addressBeacon.equals(address));
 
                 if (bool) {
 

@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
                     publicKeyAsString = response.body().replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", "");
 
                     preferences.edit().putString(PUBLIC_KEY_AS_STRING_KEY, publicKeyAsString).apply();
-                    final Intent intentAuth = new Intent(context, AuthorizationActivity.class);
-                    startActivity(intentAuth);
+                    final Intent authIntent = new Intent(context, AuthorizationActivity.class);
+                    startActivity(authIntent);
                 }
 
                 @Override
@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        final Intent intentScan = new Intent(context, ScanActivity.class);
-                        startActivity(intentScan);
+                        final Intent scanIntent = new Intent(context, ScanActivity.class);
+                        startActivity(scanIntent);
                     }
                 });
             }
@@ -91,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        final Intent intentRanging = new Intent(context, RangingActivity.class);
-                        startActivity(intentRanging);
+                        final Intent rangingIntent = new Intent(context, RangingActivity.class);
+                        startActivity(rangingIntent);
                     }
                 });
             }
