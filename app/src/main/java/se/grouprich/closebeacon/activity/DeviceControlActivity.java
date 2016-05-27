@@ -13,8 +13,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import se.grouprich.closebeacon.R;
 import se.grouprich.closebeacon.service.BluetoothLeService;

@@ -5,8 +5,6 @@ import java.nio.ByteOrder;
 import java.util.Random;
 import java.util.UUID;
 
-import se.grouprich.closebeacon.requestresponsemanager.bytearraybuilder.ByteArrayBuilder;
-
 public class BeaconActivationRequest {
 
     private byte[] protocolVersion;
@@ -24,7 +22,7 @@ public class BeaconActivationRequest {
 
         protocolVersion = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(1).array();
         this.authCode = authCode.getBytes();
-        this.macAddress = ByteArrayBuilder.macAddressToByteArray(macAddress);
+        this.macAddress = macAddressToByteArray(macAddress);
 
         adminKey = new byte[20];
         new Random().nextBytes(adminKey);
@@ -57,7 +55,21 @@ public class BeaconActivationRequest {
         return mobileKey;
     }
 
-    public byte[] buildByteArray(){
+    public static byte[] macAddressToByteArray(String macAddress) {
+
+        String[] macAddressArray = macAddress.split(":");
+
+        byte[] macAddressAsByteArray = new byte[6];
+
+        for (int i = 0; i < macAddressArray.length; i++) {
+
+            macAddressAsByteArray[i] = Integer.decode("0x" + macAddressArray[i]).byteValue();
+        }
+
+        return macAddressAsByteArray;
+    }
+
+    public byte[] buildByteArray() {
 
         return ByteBuffer.allocate(83)
                 .put(protocolVersion)

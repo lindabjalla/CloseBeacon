@@ -46,7 +46,7 @@ public class Beacon {
         return serialNumber;
     }
 
-    public String getProximityUuid(){
+    public String getProximityUuid() {
 
         return proximityUuid;
     }

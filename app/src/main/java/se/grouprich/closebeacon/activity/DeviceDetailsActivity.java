@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,7 +20,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import se.grouprich.closebeacon.R;
 import se.grouprich.closebeacon.dialog.ActivationFailedDialog;
-import se.grouprich.closebeacon.dialog.InvalidMajorMinorDialog;
 import se.grouprich.closebeacon.model.BeaconActivationCommand;
 import se.grouprich.closebeacon.model.BeaconActivationRequest;
 import se.grouprich.closebeacon.requestresponsemanager.RequestBuilder;
@@ -133,7 +131,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                         String activationRequest = null;
 
                         try {
-                            activationRequest = RequestBuilder.buildRequest(publicKey, activationRequestAsByteArray);
+                            activationRequest = RequestBuilder.buildRequestAsString(publicKey, activationRequestAsByteArray);
 
                         } catch (Exception e) {
 

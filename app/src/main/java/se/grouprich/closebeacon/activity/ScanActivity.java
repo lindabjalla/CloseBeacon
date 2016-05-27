@@ -46,7 +46,7 @@ public class ScanActivity extends AppCompatActivity {
     public static final String SERVICE_UUID = "19721006-2004-2007-2014-acc0cbeac000";
 
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
-    private static final long SCAN_PERIOD = 10000;
+    private static final long SCAN_PERIOD = 5000;
 
     private int REQUEST_ENABLE_BT = 1;
 

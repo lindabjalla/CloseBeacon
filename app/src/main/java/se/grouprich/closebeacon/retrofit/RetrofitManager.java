@@ -20,11 +20,6 @@ public final class RetrofitManager {
         beaconService = retrofit.create(BeaconService.class);
     }
 
-    public Retrofit getRetrofit() {
-
-        return retrofit;
-    }
-
     public BeaconService getBeaconService() {
 
         return beaconService;

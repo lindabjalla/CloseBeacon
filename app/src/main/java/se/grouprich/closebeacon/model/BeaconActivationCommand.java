@@ -2,10 +2,7 @@ package se.grouprich.closebeacon.model;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.Random;
 import java.util.UUID;
-
-import se.grouprich.closebeacon.requestresponsemanager.bytearraybuilder.ByteArrayBuilder;
 
 public final class BeaconActivationCommand {
 
@@ -22,7 +19,7 @@ public final class BeaconActivationCommand {
     private byte[] proximityUuidByteArray;
     private byte power;
 
-    public BeaconActivationCommand(byte[] adminKey, byte[] mobileKey, byte[] sha1Hash, String proximityUuidString, String majorNumberString, String minorNumberString) {
+    public BeaconActivationCommand(byte[] adminKey, byte[] mobileKey, byte[] sha1Hash, String proximityUuidString, String majorNumberAsString, String minorNumberAsString) {
 
         commandCode = 80;
         this.adminKey = adminKey;
@@ -31,11 +28,11 @@ public final class BeaconActivationCommand {
         beaconType = 100;
 
         majorNumber = ByteBuffer.allocate(2).order(ByteOrder.BIG_ENDIAN)
-                .putShort(Short.parseShort(majorNumberString))
+                .putShort(Short.parseShort(majorNumberAsString))
                 .array();
 
         minorNumber = ByteBuffer.allocate(2).order(ByteOrder.BIG_ENDIAN)
-                .putShort(Short.parseShort(minorNumberString))
+                .putShort(Short.parseShort(minorNumberAsString))
                 .array();
 
         this.sha1Hash = sha1Hash;
@@ -51,14 +48,6 @@ public final class BeaconActivationCommand {
                 .array();
 
         power = (byte) 0xC5;
-    }
-
-    public byte[] getMajorNumber() {
-        return majorNumber;
-    }
-
-    public byte[] getMinorNumber() {
-        return minorNumber;
     }
 
     public byte[] buildByteArray() {

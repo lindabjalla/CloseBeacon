@@ -21,8 +21,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import se.grouprich.closebeacon.R;
 import se.grouprich.closebeacon.dialog.InvalidAuthCodeDialog;
+import se.grouprich.closebeacon.model.AuthorizationRequest;
 import se.grouprich.closebeacon.requestresponsemanager.RequestBuilder;
-import se.grouprich.closebeacon.requestresponsemanager.bytearraybuilder.AuthorizationByteArrayBuilder;
 import se.grouprich.closebeacon.requestresponsemanager.converter.KeyConverter;
 import se.grouprich.closebeacon.requestresponsemanager.converter.SHA1Converter;
 import se.grouprich.closebeacon.retrofit.RetrofitManager;
@@ -79,10 +79,10 @@ public final class AuthorizationActivity extends AppCompatActivity {
 
                         } else {
 
-                            final AuthorizationByteArrayBuilder requestBuilder = new AuthorizationByteArrayBuilder();
-                            final byte[] authRequestByteArray = requestBuilder.buildAuthRequestByteArray(authenticationCode);
-                            final byte[] authCodePlusOkByteArray = requestBuilder.buildResponseOkByteArray(authRequestByteArray);
-                            final byte[] authCodePlusUnknownByteArray = requestBuilder.buildResponseUnknownByteArray(authRequestByteArray);
+                            final AuthorizationRequest authorizationRequest = new AuthorizationRequest(authenticationCode);
+                            final byte[] authRequestByteArray = authorizationRequest.buildByteArray();
+                            final byte[] authCodePlusOkByteArray = authorizationRequest.buildResponseOkByteArray();
+                            final byte[] authCodePlusUnknownByteArray = authorizationRequest.buildResponseUnknownByteArray();
 
                             Log.d("authReq", Arrays.toString(authRequestByteArray));
 
@@ -98,19 +98,20 @@ public final class AuthorizationActivity extends AppCompatActivity {
                             Log.d("authCodePlusOk", responseOk);
                             Log.d("authCodePlusUnknown", responseUnknown);
 
-                            String authorizationRequest = null;
+                            String authRequestAsString = null;
+
                             try {
-                                authorizationRequest = RequestBuilder.buildRequest(publicKey, authRequestByteArray);
+                                authRequestAsString = RequestBuilder.buildRequestAsString(publicKey, authRequestByteArray);
 
                             } catch (Exception e) {
 
                                 e.printStackTrace();
                             }
 
-                            Log.d("authReq", authorizationRequest);
+                            Log.d("authReq", authRequestAsString);
 
                             final RetrofitManager retrofitManager = new RetrofitManager();
-                            final Call<String> result = retrofitManager.getBeaconService().getAuthorizationResponse(authorizationRequest);
+                            final Call<String> result = retrofitManager.getBeaconService().getAuthorizationResponse(authRequestAsString);
 
                             result.enqueue(new Callback<String>() {
 

@@ -22,7 +22,7 @@ public final class RequestBuilder {
         return Base64.encodeToString(encryptedRequest, Base64.DEFAULT);
     }
 
-    public static String buildRequest(PublicKey publicKey, byte[] byteArray) throws Exception {
+    public static String buildRequestAsString(PublicKey publicKey, byte[] byteArray) throws Exception {
 
         final byte[] encryptedByteArray = encryptRequest(publicKey, byteArray);
         return encodeRequest(encryptedByteArray);
