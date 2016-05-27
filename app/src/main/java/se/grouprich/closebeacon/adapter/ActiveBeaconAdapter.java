@@ -24,7 +24,8 @@ public class ActiveBeaconAdapter extends RecyclerView.Adapter<ActiveBeaconAdapte
     private Context context;
     private List<Beacon> beacons;
 
-    public ActiveBeaconAdapter(Context context, Set<Beacon> beacons) {
+    public ActiveBeaconAdapter(final Context context, final Set<Beacon> beacons) {
+
         this.context = context;
         this.beacons = new ArrayList<>();
         this.beacons.addAll(beacons);
@@ -36,13 +37,14 @@ public class ActiveBeaconAdapter extends RecyclerView.Adapter<ActiveBeaconAdapte
     }
 
     @Override
-    public DeviceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_active_beacons, parent, false);
-        return new DeviceViewHolder(view, context, beacons);
+    public DeviceViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+
+        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_active_beacons, parent, false);
+        return new DeviceViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(DeviceViewHolder holder, int position) {
+    public void onBindViewHolder(final DeviceViewHolder holder, final int position) {
 
         holder.proximityUuidView.setText(beacons.get(position).getId1().toString());
         holder.majorView.setText(beacons.get(position).getId2().toString());
@@ -60,6 +62,7 @@ public class ActiveBeaconAdapter extends RecyclerView.Adapter<ActiveBeaconAdapte
 
     @Override
     public int getItemCount() {
+
         return beacons.size();
     }
 
@@ -68,14 +71,10 @@ public class ActiveBeaconAdapter extends RecyclerView.Adapter<ActiveBeaconAdapte
         public final TextView proximityUuidView;
         public final TextView majorView;
         public final TextView minorView;
-        List<Beacon> beacons;
-        Context context;
 
-        public DeviceViewHolder(View view, Context context, List<Beacon> beacons) {
+        public DeviceViewHolder(View view) {
+
             super(view);
-            this.beacons = beacons;
-            this.context = context;
-
             this.proximityUuidView = (TextView) view.findViewById(R.id.view_proximity_uuid);
             this.majorView = (TextView) view.findViewById(R.id.view_major);
             this.minorView = (TextView) view.findViewById(R.id.view_minor);

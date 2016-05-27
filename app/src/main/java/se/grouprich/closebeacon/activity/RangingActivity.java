@@ -57,6 +57,7 @@ public class RangingActivity extends Activity implements BeaconConsumer {
         beaconManager.bind(this);
 
         stopScanButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 try {
@@ -78,6 +79,7 @@ public class RangingActivity extends Activity implements BeaconConsumer {
     public void onBeaconServiceConnect() {
 
         beaconManager.setRangeNotifier(new RangeNotifier() {
+
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
 
@@ -101,12 +103,12 @@ public class RangingActivity extends Activity implements BeaconConsumer {
                 adapter = new ActiveBeaconAdapter(context, activeBeacons);
 
                 runOnUiThread(new Runnable() {
+
                     @Override
                     public void run() {
 
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter);
-
                     }
                 });
             }
