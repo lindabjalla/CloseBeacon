@@ -37,15 +37,11 @@ public class BluetoothLeService extends Service {
 
     private final static String TAG = BluetoothLeService.class.getSimpleName();
 
-    private Queue<byte[]> bleQueue = new LinkedList<>();
-
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
     private String mBluetoothDeviceAddress;
     private BluetoothGatt mBluetoothGatt;
     private int mConnectionState = STATE_DISCONNECTED;
-
-    private BluetoothGattCharacteristic characteristic;
 
     private static final int STATE_DISCONNECTED = 0;
     private static final int STATE_CONNECTING = 1;
@@ -287,7 +283,7 @@ public class BluetoothLeService extends Service {
             return false;
         }
 
-        characteristic = service.getCharacteristic(UUID.fromString(characteristicUuid));
+        BluetoothGattCharacteristic characteristic = service.getCharacteristic(UUID.fromString(characteristicUuid));
 
         if (characteristic == null) {
 
