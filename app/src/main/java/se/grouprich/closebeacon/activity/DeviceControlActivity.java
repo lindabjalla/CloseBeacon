@@ -8,15 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import se.grouprich.closebeacon.R;
 import se.grouprich.closebeacon.service.BluetoothLeService;
@@ -86,7 +83,7 @@ public final class DeviceControlActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.button_device_control);
+        setContentView(R.layout.activity_device_control);
 
         dataValue = (TextView) findViewById(R.id.data_value);
         final TextView macAddressTextView = (TextView) findViewById(R.id.text_view_mac_address);
