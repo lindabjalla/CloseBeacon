@@ -31,14 +31,9 @@ import se.grouprich.closebeacon.retrofit.RetrofitManager;
 
 public class DeviceDetailsActivity extends AppCompatActivity {
 
-    public static final String UUID_STRING_LIST_KEY = "se.grouprich.closebeacon.UUID_LIST_KEY";
     public static final String ACTIVATION_COMMAND_KEY = "se.grouprich.closebeacon.ACTIVATION_COMMAND";
     public static final String MAC_ADDRESS_KEY = "se.grouprich.closebeacon.MAC_ADDRESS_KEY";
-    public static final String PROXIMITY_UUID_KEY = "se.grouprich.closebeacon.PROXIMITY_UUID_KEY";
-    public static final String MAJOR_KEY = "se.grouprich.closebeacon.MAJOR_KEY";
-    public static final String MINOR_KEY = "se.grouprich.closebeacon.MINOR_KEY";
 
-    private InvalidMajorMinorDialog invalidMajorMinorDialog;
     private EditText editTextMajor;
     private EditText editTextMinor;
     private Context context = this;
@@ -65,7 +60,6 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
         editTextMajor = (EditText) findViewById(R.id.edit_major);
         editTextMinor = (EditText) findViewById(R.id.edit_minor);
-        invalidMajorMinorDialog = new InvalidMajorMinorDialog(this);
 
         final Bundle bundle = getIntent().getExtras();
 
@@ -116,11 +110,6 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
                         majorNumber = editTextMajor.getText().toString();
                         minorNumber = editTextMinor.getText().toString();
-
-                        if ((majorNumber.length() != 2) || (minorNumber.length() != 2)) {
-
-                            invalidMajorMinorDialog.show();
-                        }
 
                         preferences = getSharedPreferences(MainActivity.BEACON_PREFERENCES_KEY, MODE_PRIVATE);
                         final String authCode = preferences.getString(AuthorizationActivity.AUTH_CODE_KEY, null);
@@ -173,11 +162,6 @@ public class DeviceDetailsActivity extends AppCompatActivity {
                                     final BeaconActivationCommand beaconActivationCommand = new BeaconActivationCommand(beaconActivationRequest.getAdminKey(), beaconActivationRequest.getMobileKey(), sha1, proximityUuid, majorNumber, minorNumber);
                                     final byte[] beaconActivationCommandAsByteArray = beaconActivationCommand.buildByteArray();
 
-                                    preferences.edit().putString(ACTIVATION_COMMAND_KEY, Base64.encodeToString(beaconActivationCommandAsByteArray, Base64.DEFAULT)).apply();
-                                    preferences.edit().putString(PROXIMITY_UUID_KEY, proximityUuid).apply();
-                                    preferences.edit().putString(MAJOR_KEY, Base64.encodeToString(beaconActivationCommand.getMajorNumber(), Base64.DEFAULT)).apply();
-                                    preferences.edit().putString(MINOR_KEY, Base64.encodeToString(beaconActivationCommand.getMinorNumber(), Base64.DEFAULT)).apply();
-
                                     final Intent intent = new Intent(context, DeviceControlActivity.class);
                                     intent.putExtra(ACTIVATION_COMMAND_KEY, beaconActivationCommandAsByteArray);
                                     intent.putExtra(MAC_ADDRESS_KEY, macAddress);
@@ -192,6 +176,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Call<String> call, Throwable t) {
+
                                 Log.d("failure", "failed");
                             }
                         });

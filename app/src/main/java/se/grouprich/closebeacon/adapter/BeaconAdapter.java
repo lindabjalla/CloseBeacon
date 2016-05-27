@@ -27,6 +27,7 @@ public class BeaconAdapter extends RecyclerView.Adapter<BeaconAdapter.DeviceView
 
     @Override
     public DeviceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_devices, parent, false);
         return new DeviceViewHolder(view, context, beacons);
     }
